@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Box, Button, Flex, Stack } from '@react-native-material/core'
-import Icon from "react-native-vector-icons/FontAwesome"
+
 const SignupPage = ({ navigation }) => {
     return (
         <Box w={"100%"} h={"100%"} style={styles.view1} >
@@ -16,11 +16,7 @@ const SignupPage = ({ navigation }) => {
             </Box>
             <Box w={"80%"} >
                 <Button variant="outlined" title="Enter with Google" color="black" style={{ backgroundColor: "white" }} />
-                <Icon.Button
-                    name="facebook"
-                    backgroundColor="#3b5998">
-                    Login with Facebook
-                </Icon.Button>
+
             </Box>
 
         </Box>
