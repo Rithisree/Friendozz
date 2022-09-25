@@ -15,7 +15,9 @@ const SignupPage = ({ navigation }) => {
 
             </Box>
             <Box w={"80%"} >
-                <Button variant="outlined" title="Enter with Google" color="black" style={{ backgroundColor: "white" }} />
+                <Box w={"70%"} bg={"#009DF5"}>
+
+                </Box>
 
             </Box>
 
