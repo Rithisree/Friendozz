@@ -14,13 +14,6 @@ const SignupPage = ({ navigation }) => {
                 />
 
             </Box>
-            <Box w={"80%"} >
-                <Box w={"70%"} bg={"#009DF5"}>
-
-                </Box>
-
-            </Box>
-
         </Box>
     )
 }
