@@ -3,7 +3,7 @@ import { Box } from '@react-native-material/core'
 import React, { useState } from 'react'
 import MaterialTabs from 'react-native-material-tabs';
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [selectedTab, setSelectedTab] = useState(0);
 
   const handleChange = (e) => {
@@ -75,7 +75,7 @@ const Login = () => {
         </Box>
 
         <Box style={{marginTop:280, marginLeft:230, backgroundColor:"#009DF5", height: 40, width: 140, display:"flex", alignItems:"center", justifyContent:"center", borderRadius:10}}>
-          <Text style={{color:"black", fontSize:17}}>Log In</Text>
+          <Text onPress={()=>navigation.navigate("PostScreen")} style={{color:"black", fontSize:17}}>Log In</Text>
         </Box>
     </Box>
   );
