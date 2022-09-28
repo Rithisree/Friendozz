@@ -22,12 +22,11 @@ const SignupPage = ({ navigation }) => {
                 borderWidth: 1,
                 padding: 5
             }} >
-                <Box style={{ padding: 5, display: "flex", flexDirection: "row", width: "100%", alignItems: "center" }}>
+                <Box style={{ padding: 5, display: "flex", flexDirection:"row", alignItems:"center", justifyContent:"center" , width: "100%" }}>
                     <Image
-
                         source={require("../assets/goog.png")}
                     />
-                    <Text style={{ color: "black", fontWeight: "bold", marginLeft: 30, fontSize: 18 }}>Enter With Google</Text>
+                    <Text style={{ color: "black", fontWeight: "bold", fontSize: 18, margin: 5 }}>Enter With Google</Text>
                 </Box>
             </Box>
 
@@ -37,7 +36,7 @@ const SignupPage = ({ navigation }) => {
                 borderRadius: 20,
                 borderWidth: 1, width: "80%", marginTop: 20
             }} >
-                <Box style={{ padding: 5, display: "flex", flexDirection: "row", width: "100%", alignItems: "center" }}>
+                <Box style={{ padding: 5, display: "flex", flexDirection: "row",  width: "100%", alignItems: "center", justifyContent:"center" }}>
                     <Image
                         style={{
                             width: 40,
@@ -47,7 +46,7 @@ const SignupPage = ({ navigation }) => {
                         }}
                         source={require("../assets/facebook.png")}
                     />
-                    <Text style={{ color: "black", marginLeft: 30, fontSize: 18, fontWeight: "bold" }}>Enter With Facebook</Text>
+                    <Text style={{ color: "black", fontSize: 18, fontWeight: "bold", margin:5 }}>Enter With Facebook</Text>
                 </Box>
             </Box>
             <Box style={{
@@ -58,7 +57,7 @@ const SignupPage = ({ navigation }) => {
             }} >
                 <Box style={{ padding: 5, display: "flex", flexDirection: "row", width: "100%", alignItems: "center" }}>
 
-                    <Text style={{ color: "black", marginLeft: 20, fontSize: 18, padding: 5, fontWeight: "bold", }}>Log in with Phone number/Email</Text>
+                    <Text  onPress={() => navigation.navigate("LoginScreen")} style={{ color: "black", marginLeft: 20, fontSize: 18, padding: 5, fontWeight: "bold", }}>Log in with Phone number/Email</Text>
                 </Box>
             </Box>
 
