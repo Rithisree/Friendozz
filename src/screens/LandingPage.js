@@ -13,9 +13,8 @@ const LandingPage = ({ navigation }) => {
                 />
             </Box>
             <Box w={"80%"} >
-
                 <Button title="Get Started" color="#009DF5" style={styles.view2} onPress={() => navigation.navigate("SignupScreen")} />
-                <Button variant="outlined" title="Login" color="white" />
+                <Button onPress={()=>navigation.navigate("LoginScreen")} variant="outlined" title="Login" color="white" />
             </Box>
 
         </Box>

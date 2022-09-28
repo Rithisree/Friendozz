@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import LandingPage from "../screens/LandingPage";
 import SignupPage from "../screens/SignupPage";
 import LoginPage from "../screens/LoginPage";
+import SignInPage from "../screens/SignInPage";
 
 const Home = createNativeStackNavigator();
 export function HomeStack() {
@@ -24,7 +25,11 @@ export function HomeStack() {
                 component={LoginPage}
                 options={{ headerShown: false }}
             />
-
+            <Home.Screen
+                name="SignInScreen"
+                component={SignInPage}
+                options={{ headerShown: false }}
+            />
 
         </Home.Navigator>
     )

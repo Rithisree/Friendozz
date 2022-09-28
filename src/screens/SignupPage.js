@@ -62,7 +62,7 @@ const SignupPage = ({ navigation }) => {
             </Box>
 
             <Box style={{ width: "70%", alignItems: "center" }}>
-                <Text style={{ color: "white", marginTop: 10, fontFamily: "verdana", fontSize: 18, fontWeight: "bold", }}>Don’t have an account? <Text style={{ color: "#31FB5D" }}>Log In</Text></Text>
+                <Text onPress={() => navigation.navigate("SignInScreen")} style={{ color: "white", marginTop: 10, fontFamily: "verdana", fontSize: 18, fontWeight: "bold", }}>Don’t have an account? <Text style={{ color: "#31FB5D" }}>Sign In</Text></Text>
                 <Text style={{ color: "white", marginTop: 10, fontFamily: "verdana", fontSize: 14 }}>
                     By Signing up, you agree to our terms &
                 </Text>
