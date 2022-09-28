@@ -38,14 +38,14 @@ const SignIn = ({navigation}) => {
               <Box>
                 <Text style={{color:"black", fontSize:18}}>First Name</Text>
                 <TextInput
-                    style={{ height: 40, width: 170, backgroundColor:"#B9B3B3", padding: 10, borderRadius:10 }}
+                    style={{ height: 40, width: 175, backgroundColor:"#B9B3B3", padding: 10, borderRadius:10 }}
                     placeholder="First Name"
                 />
               </Box>
               <Box>
                 <Text style={{color:"black", fontSize:18}}>Last Name</Text>
                 <TextInput
-                    style={{ height: 40, width: 170, backgroundColor:"#B9B3B3", padding: 10, borderRadius:10 }}
+                    style={{ height: 40, width: 175, backgroundColor:"#B9B3B3", padding: 10, borderRadius:10 }}
                     placeholder="Last Name"
                 />
               </Box>
@@ -74,14 +74,14 @@ const SignIn = ({navigation}) => {
               <Box>
                 <Text style={{color:"black", fontSize:18}}>First Name</Text>
                 <TextInput
-                    style={{ height: 40, width: 170, backgroundColor:"#B9B3B3", padding: 10, borderRadius:10 }}
+                    style={{ height: 40, width: 175, backgroundColor:"#B9B3B3", padding: 10, borderRadius:10 }}
                     placeholder="First Name"
                 />
               </Box>
               <Box>
                 <Text style={{color:"black", fontSize:18}}>Last Name</Text>
                 <TextInput
-                    style={{ height: 40, width: 170, backgroundColor:"#B9B3B3", padding: 10, borderRadius:10 }}
+                    style={{ height: 40, width: 175, backgroundColor:"#B9B3B3", padding: 10, borderRadius:10 }}
                     placeholder="Last Name"
                 />
               </Box>
