@@ -15,10 +15,11 @@ const Login = ({ navigation }) => {
     navigation.navigate("LandingScreen")
   }
   const [forgetPass, setIsForgetPass] = useState(false)
+  const [forgetPassPhone, setIsForgetPassPhone] = useState(false)
   return (
     <Box>
-      {forgetPass === true ? (
-        <ForgetPassword setIsForgetPass={setIsForgetPasssd} />
+      {forgetPass === true || forgetPassPhone === true ? (
+        <ForgetPassword setIsForgetPass={setIsForgetPass} setIsForgetPassPhone={setIsForgetPassPhone} forgetPassPhone={forgetPassPhone} />
       ) : (
         <Box w={"100%"} h={"100%"}>
 
@@ -67,6 +68,9 @@ const Login = ({ navigation }) => {
                     secureTextEntry={true}
                   />
                 </Box>
+                <Box style={{ marginTop: 30 }}>
+                  <Text onPress={() => { setIsForgetPassPhone(true) }} style={{ textAlign: "center", color: "black", fontWeight: "bold" }}>Forget Password?</Text>
+                </Box>
               </Box>
             ) : (
               <Box style={{ margin: 18 }}>
@@ -86,12 +90,13 @@ const Login = ({ navigation }) => {
                     secureTextEntry={true}
                   />
                 </Box>
+                <Box style={{ marginTop: 30 }}>
+                  <Text onPress={() => { setIsForgetPass(true) }} style={{ textAlign: "center", color: "black", fontWeight: "bold" }}>Forget Password?</Text>
+                </Box>
               </Box>
             )
           }
-          <Box>
-            <Text onPress={() => { setIsForgetPass(true) }} style={{ textAlign: "center", color: "black" }}>Forget Password?</Text>
-          </Box>
+
 
           <Box style={{ marginTop: 280, marginLeft: 230, backgroundColor: "#009DF5", height: 40, width: 140, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
             <Text onPress={() => navigation.navigate("PostScreen")} style={{ color: "black", fontSize: 17 }}>Log In</Text>
