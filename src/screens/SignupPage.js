@@ -22,7 +22,7 @@ const SignupPage = ({ navigation }) => {
                 borderWidth: 1,
                 padding: 5
             }} >
-                <Box style={{ padding: 5, display: "flex", flexDirection:"row", alignItems:"center", justifyContent:"center" , width: "100%" }}>
+                <Box style={{ padding: 5, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", width: "100%" }}>
                     <Image
                         source={require("../assets/goog.png")}
                     />
@@ -36,7 +36,7 @@ const SignupPage = ({ navigation }) => {
                 borderRadius: 20,
                 borderWidth: 1, width: "80%", marginTop: 20
             }} >
-                <Box style={{ padding: 5, display: "flex", flexDirection: "row",  width: "100%", alignItems: "center", justifyContent:"center" }}>
+                <Box style={{ padding: 5, display: "flex", flexDirection: "row", width: "100%", alignItems: "center", justifyContent: "center" }}>
                     <Image
                         style={{
                             width: 40,
@@ -46,7 +46,7 @@ const SignupPage = ({ navigation }) => {
                         }}
                         source={require("../assets/facebook.png")}
                     />
-                    <Text style={{ color: "black", fontSize: 18, fontWeight: "bold", margin:5 }}>Enter With Facebook</Text>
+                    <Text style={{ color: "black", fontSize: 18, fontWeight: "bold", margin: 5 }}>Enter With Facebook</Text>
                 </Box>
             </Box>
             <Box style={{
@@ -57,12 +57,12 @@ const SignupPage = ({ navigation }) => {
             }} >
                 <Box style={{ padding: 5, display: "flex", flexDirection: "row", width: "100%", alignItems: "center" }}>
 
-                    <Text  onPress={() => navigation.navigate("LoginScreen")} style={{ color: "black", marginLeft: 20, fontSize: 18, padding: 5, fontWeight: "bold", }}>Log in with Phone number/Email</Text>
+                    <Text onPress={() => navigation.navigate("LoginScreen")} style={{ color: "black", marginLeft: 20, fontSize: 18, padding: 5, fontWeight: "bold", }}>Log in with Phone number/Email</Text>
                 </Box>
             </Box>
 
             <Box style={{ width: "70%", alignItems: "center" }}>
-                <Text onPress={() => navigation.navigate("SignInScreen")} style={{ color: "white", marginTop: 10, fontFamily: "verdana", fontSize: 18, fontWeight: "bold", }}>Don’t have an account? <Text style={{ color: "#31FB5D" }}>Sign In</Text></Text>
+                <Text onPress={() => navigation.navigate("SignInScreen")} style={{ color: "white", marginTop: 10, fontFamily: "verdana", fontSize: 18, fontWeight: "bold", }}>Don’t have an account? <Text style={{ color: "#31FB5D" }}>Sign Up</Text></Text>
                 <Text style={{ color: "white", marginTop: 10, fontFamily: "verdana", fontSize: 14 }}>
                     By Signing up, you agree to our terms &
                 </Text>
