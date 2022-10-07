@@ -3,6 +3,8 @@ import React from 'react'
 import { Box, Button, Flex, Stack } from '@react-native-material/core'
 
 const SignupPage = ({ navigation }) => {
+
+
     return (
         <Box w={"100%"} h={"100%"} style={styles.view1} >
             <Box h={"60%"} w={"100%"} style={styles.view3}>

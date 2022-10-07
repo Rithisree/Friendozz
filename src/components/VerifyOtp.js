@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import MaterialTabs from 'react-native-material-tabs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const ForgetPassword = ({ setIsForgetPass, forgetPassPhone, setIsForgetPassPhone }) => {
+const VerifyOtp = ({ emailVerifyOtp }) => {
     return (
         <Box w={"100%"} h={"100%"}>
 
@@ -21,7 +21,7 @@ const ForgetPassword = ({ setIsForgetPass, forgetPassPhone, setIsForgetPassPhone
 
             </Box>
 
-            {forgetPassPhone === true ? (
+            {emailVerifyOtp === false ? (
                 <Box style={{ margin: 25 }}>
                     <Text style={{ color: "black", fontSize: 18, fontWeight: "bold" }}>Enter a valid Phone number to reset your password</Text>
                     <Box style={{ marginBottom: 25, marginTop: 40 }}>
@@ -46,10 +46,6 @@ const ForgetPassword = ({ setIsForgetPass, forgetPassPhone, setIsForgetPassPhone
             )}
 
 
-            <Box>
-                <Text style={{ textAlign: "center", color: "black" }}>Back to Login ? <Text onPress={() => { setIsForgetPass(false); setIsForgetPassPhone(false) }} style={{ textAlign: "center", color: "black", fontWeight: "bold" }} >Click Here</Text></Text>
-            </Box>
-
             <Box style={{ marginTop: 280, marginLeft: 230, backgroundColor: "#009DF5", height: 40, width: 140, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
                 <Text onPress={() => navigation.navigate("PostScreen")} style={{ color: "black", fontSize: 17 }}>Verify</Text>
             </Box>
@@ -57,6 +53,6 @@ const ForgetPassword = ({ setIsForgetPass, forgetPassPhone, setIsForgetPassPhone
     )
 }
 
-export default ForgetPassword
+export default VerifyOtp
 
 const styles = StyleSheet.create({})

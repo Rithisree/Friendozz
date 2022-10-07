@@ -3,13 +3,50 @@ import { Box } from '@react-native-material/core'
 import React, { useState } from 'react'
 import MaterialTabs from 'react-native-material-tabs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import axios from "axios"
+import { signUpRoute } from '../apiutils/apiutils';
+
 
 const SignIn = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState(0);
 
+  const [user, setUser] = useState({
+    "name":"",
+    "email":"",
+    "password":""
+})
+
+  const handleInputChange = async(e) => {
+      setUser(prev => ({
+          ...prev,
+          [e.target.name]:e.target.value
+      }))
+  }
+
   const handleChange = (e) => {
     setSelectedTab(e);
   }
+
+
+  const signUp = async() => {
+    try {
+      const {data} = await axios.post(signUpRoute,{
+        "name":user.name,
+        "email":user.email,
+        "password":user.password
+      })
+      console.log(data)
+
+      if(data.status === true){
+        ToastAndroid.show(data.data, ToastAndroid.SHORT);
+      }
+    } catch (error) {
+        if(error.response.status){
+          ToastAndroid.show(data.message, ToastAndroid.SHORT);
+        }
+    }
+  }
+
   return (
     <Box w={"100%"} h={"100%"}>
       <Box w={"100%"} h={"8%"} style={{ display: "flex", flexDirection: "row", backgroundColor: "black", alignItems: "center" }}>
@@ -79,6 +116,7 @@ const SignIn = ({ navigation }) => {
             <Box>
               <Text style={{ color: "black", fontSize: 18 }}>First Name</Text>
               <TextInput
+                onChange={(e)=>handleInputChange(e)}
                 style={{ height: 40, width: 175, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
                 placeholder="First Name"
               />
@@ -94,6 +132,7 @@ const SignIn = ({ navigation }) => {
           <Box style={{ marginBottom: 25 }}>
             <Text style={{ color: "black", fontSize: 18 }}>Email</Text>
             <TextInput
+              onChange={(e)=>handleInputChange(e)}
               style={{ height: 40, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
               placeholder="valid Email"
             />
@@ -101,6 +140,7 @@ const SignIn = ({ navigation }) => {
           <Box>
             <Text style={{ color: "black", fontSize: 18 }}>Password</Text>
             <TextInput
+              onChange={(e)=>handleInputChange(e)}
               style={{ height: 40, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
               placeholder="Minimum 6 characters"
               secureTextEntry={true}
@@ -113,7 +153,7 @@ const SignIn = ({ navigation }) => {
       </Box>
 
       <Box style={{ marginTop: 200, marginLeft: 200, backgroundColor: "#009DF5", height: 40, width: 170, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
-        <Text style={{ color: "black", fontSize: 17, fontWeight: "500" }}>Create an account</Text>
+        <Text onPress={()=>signUp()} style={{ color: "black", fontSize: 17, fontWeight: "500" }}>Create an account</Text>
       </Box>
     </Box>
   );
