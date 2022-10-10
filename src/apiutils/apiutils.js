@@ -1,3 +1,3 @@
-export const host = "http://localhost:3000"
+export const host = "http://192.168.1.8:3003"
 
 export const signUpRoute = `${host}/auth/register`

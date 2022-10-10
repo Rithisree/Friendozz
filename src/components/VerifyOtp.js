@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import MaterialTabs from 'react-native-material-tabs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const VerifyOtp = ({ emailVerifyOtp }) => {
+const VerifyOtp = ({ emailVerifyOtp, navigation }) => {
     return (
         <Box w={"100%"} h={"100%"}>
 
@@ -15,7 +15,7 @@ const VerifyOtp = ({ emailVerifyOtp }) => {
                         style={{ width: 18, height: 18, margin: 18 }}
                         source={require("../assets/leftarrow.png")}
                     />
-                    <Text onPress={() => { navigation.navigate("SignInScreen") }} style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", opacity: 0, fontSize: 24 }}>hi</Text>
+                    <Text onPress={() => { navigation.navigate("LandingScreen") }} style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", opacity: 0, fontSize: 24 }}>hi</Text>
                 </View>
                 <Text style={{ color: "white", fontSize: 20 }}>Log In</Text>
 
@@ -34,13 +34,15 @@ const VerifyOtp = ({ emailVerifyOtp }) => {
                 </Box>
             ) : (
                 <Box style={{ margin: 25 }}>
-                    <Text style={{ color: "black", fontSize: 18, fontWeight: "bold" }}>Enter a valid email to reset your password</Text>
+                    <Text style={{ color: "black", fontSize: 18, fontWeight: "bold" }}>Enter a valid OTP to verify your account</Text>
                     <Box style={{ marginBottom: 25, marginTop: 40 }}>
-                        <Text style={{ color: "black", fontSize: 18 }}>Email</Text>
+                        <Text style={{ color: "black", fontSize: 18, marginBottom:10 }}>Enter OTP</Text>
                         <TextInput
+                            keyboardType='numeric'
                             style={{ height: 40, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
-                            placeholder="Email"
+                            placeholder="OTP"
                         />
+                        <Text style={{textAlign:"right", marginTop:10, color:"black"}}>Resend OTP</Text>
                     </Box>
                 </Box>
             )}

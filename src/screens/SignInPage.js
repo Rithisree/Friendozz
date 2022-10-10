@@ -1,14 +1,17 @@
-import { StyleSheet, Text, View, Image, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, ToastAndroid } from 'react-native'
 import { Box } from '@react-native-material/core'
 import React, { useState } from 'react'
 import MaterialTabs from 'react-native-material-tabs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import axios from "axios"
+//import axios from "axios"
 import { signUpRoute } from '../apiutils/apiutils';
-
+import VerifyOtp from '../components/VerifyOtp';
+const axios = require('axios').default;
 
 const SignIn = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState(0);
+  const [emailVerifyOtp, setEmailVerifyOtp] = useState(false);
+  const [isSignup, setIsSignup] = useState(false);
 
   const [user, setUser] = useState({
     "name":"",
@@ -16,12 +19,11 @@ const SignIn = ({ navigation }) => {
     "password":""
 })
 
-  const handleInputChange = async(e) => {
-      setUser(prev => ({
-          ...prev,
-          [e.target.name]:e.target.value
-      }))
-  }
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  
 
   const handleChange = (e) => {
     setSelectedTab(e);
@@ -31,24 +33,30 @@ const SignIn = ({ navigation }) => {
   const signUp = async() => {
     try {
       const {data} = await axios.post(signUpRoute,{
-        "name":user.name,
-        "email":user.email,
-        "password":user.password
+        "name":name,
+        "email":email,
+        "password":password
       })
-      console.log(data)
+      console.log(data.status)
 
       if(data.status === true){
         ToastAndroid.show(data.data, ToastAndroid.SHORT);
+        setEmailVerifyOtp(true)
+        setIsSignup(true)
       }
     } catch (error) {
+      console.log(error.response.data.message)
         if(error.response.status){
-          ToastAndroid.show(data.message, ToastAndroid.SHORT);
+          ToastAndroid.show(error.response.data.message, ToastAndroid.LONG);
         }
     }
   }
 
   return (
     <Box w={"100%"} h={"100%"}>
+      {
+        isSignup===true ? (<VerifyOtp navigation={navigation} emailVerifyOtp={emailVerifyOtp}/>):(null)
+      }
       <Box w={"100%"} h={"8%"} style={{ display: "flex", flexDirection: "row", backgroundColor: "black", alignItems: "center" }}>
 
         <Image
@@ -116,7 +124,8 @@ const SignIn = ({ navigation }) => {
             <Box>
               <Text style={{ color: "black", fontSize: 18 }}>First Name</Text>
               <TextInput
-                onChange={(e)=>handleInputChange(e)}
+                
+                onChange={(e)=>setName(e.nativeEvent.text)}
                 style={{ height: 40, width: 175, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
                 placeholder="First Name"
               />
@@ -132,7 +141,7 @@ const SignIn = ({ navigation }) => {
           <Box style={{ marginBottom: 25 }}>
             <Text style={{ color: "black", fontSize: 18 }}>Email</Text>
             <TextInput
-              onChange={(e)=>handleInputChange(e)}
+              onChange={(e)=>setEmail(e.nativeEvent.text)}
               style={{ height: 40, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
               placeholder="valid Email"
             />
@@ -140,7 +149,7 @@ const SignIn = ({ navigation }) => {
           <Box>
             <Text style={{ color: "black", fontSize: 18 }}>Password</Text>
             <TextInput
-              onChange={(e)=>handleInputChange(e)}
+              onChange={(e)=>setPassword(e.nativeEvent.text)}
               style={{ height: 40, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
               placeholder="Minimum 6 characters"
               secureTextEntry={true}
