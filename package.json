@@ -23,6 +23,7 @@
     "expo-modules-core": "^0.11.5",
     "native-base": "^3.4.16",
     "react": "18.1.0",
+    "react-fb-image-video-grid": "^0.1.9",
     "react-native": "0.70.0",
     "react-native-asset": "^2.0.1",
     "react-native-elements": "^3.4.2",
