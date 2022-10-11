@@ -5,6 +5,7 @@ import SignupPage from "../screens/SignupPage";
 import LoginPage from "../screens/LoginPage";
 import SignInPage from "../screens/SignInPage";
 import PostPage from "../screens/PostPage";
+import MyProfilePage from "../screens/MyProfilePage";
 
 const Home = createNativeStackNavigator();
 export function HomeStack() {
@@ -34,6 +35,11 @@ export function HomeStack() {
              <Home.Screen
                 name="PostScreen"
                 component={PostPage}
+                options={{ headerShown: false }}
+            />
+            <Home.Screen
+                name="MyProfileScreen"
+                component={MyProfilePage}
                 options={{ headerShown: false }}
             />
 
