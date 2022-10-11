@@ -110,6 +110,17 @@ const MyProfilePage = () => {
                             style={{width:70, height:70, margin:2}}
                             source={require("../assets/avatar.jpg")}
                         />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Box style={{width:70, height:70, margin:2, backgroundColor:"#D9D9D9", display:"flex", alignItems:"center", justifyContent:"center"}}>
+                            <Text style={{color:"black", textAlign:"center"}}>View All Photo</Text>
+                        </Box>
                     </Box>
                 </Box>
                 <Box style={{marginLeft:10}}>
@@ -148,6 +159,17 @@ const MyProfilePage = () => {
                             style={{width:70, height:70, margin:2}}
                             source={require("../assets/avatar.jpg")}
                         />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Box style={{width:70, height:70, margin:2, backgroundColor:"#D9D9D9", display:"flex", alignItems:"center", justifyContent:"center"}}>
+                            <Text style={{color:"black", textAlign:"center"}}>View All Video</Text>
+                        </Box>
                     </Box>
                 </Box>
             </Box>
