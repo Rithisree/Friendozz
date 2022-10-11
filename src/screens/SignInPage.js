@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import MaterialTabs from 'react-native-material-tabs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 //import axios from "axios"
-import { signUpRoute } from '../apiutils/apiutils';
+import { signUpRoute, signUpViaMobileRoute } from '../apiutils/apiutils';
 import VerifyOtp from '../components/VerifyOtp';
 const axios = require('axios').default;
 
@@ -13,49 +13,63 @@ const SignIn = ({ navigation }) => {
   const [emailVerifyOtp, setEmailVerifyOtp] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
 
-  const [user, setUser] = useState({
-    "name":"",
-    "email":"",
-    "password":""
-})
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [mobileNumber, setMobileNumber] = useState(0)
 
-  
 
   const handleChange = (e) => {
     setSelectedTab(e);
   }
 
 
-  const signUp = async() => {
+  const signUp = async () => {
     try {
-      const {data} = await axios.post(signUpRoute,{
-        "name":name,
-        "email":email,
-        "password":password
+      const { data } = await axios.post(signUpRoute, {
+        "name": name,
+        "email": email,
+        "password": password
       })
       console.log(data.status)
 
-      if(data.status === true){
+      if (data.status === true) {
         ToastAndroid.show(data.data, ToastAndroid.SHORT);
         setEmailVerifyOtp(true)
         setIsSignup(true)
       }
     } catch (error) {
       console.log(error.response.data.message)
-        if(error.response.status){
-          ToastAndroid.show(error.response.data.message, ToastAndroid.LONG);
-        }
+      if (error.response.status) {
+        ToastAndroid.show(error.response.data.message, ToastAndroid.LONG);
+      }
+    }
+  }
+  const signUpViaMobile = async () => {
+    try {
+      const { data } = await axios.post(signUpViaMobileRoute, {
+        "name": name,
+        "mobileNumber": mobileNumber,
+        "password": password
+      })
+      console.log(data)
+
+      if (data.status === true) {
+        ToastAndroid.show(data.data, ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      console.log(error.response.data.message)
+      if (error.response.status) {
+        ToastAndroid.show(error.response.data.message, ToastAndroid.LONG);
+      }
     }
   }
 
   return (
     <Box w={"100%"} h={"100%"}>
       {
-        isSignup===true ? (<VerifyOtp navigation={navigation} emailVerifyOtp={emailVerifyOtp}/>):(null)
+        isSignup === true ? (<VerifyOtp navigation={navigation} emailVerifyOtp={emailVerifyOtp} email={email} />) : (null)
       }
       <Box w={"100%"} h={"8%"} style={{ display: "flex", flexDirection: "row", backgroundColor: "black", alignItems: "center" }}>
 
@@ -90,6 +104,7 @@ const SignIn = ({ navigation }) => {
               <TextInput
                 style={{ height: 40, width: 175, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
                 placeholder="First Name"
+                onChange={(e) => setName(e.nativeEvent.text)}
               />
             </Box>
             <Box>
@@ -105,6 +120,7 @@ const SignIn = ({ navigation }) => {
             <TextInput
               style={{ height: 40, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
               placeholder="Phone Number"
+              onChange={(e) => setMobileNumber(e.nativeEvent.text)}
             />
           </Box>
           <Box>
@@ -113,7 +129,15 @@ const SignIn = ({ navigation }) => {
               style={{ height: 40, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
               placeholder="Minimum 6 characters"
               secureTextEntry={true}
+              onChange={(e) => setPassword(e.nativeEvent.text)}
             />
+          </Box>
+          <Box>
+            <Text style={{ margin: 18, fontSize: 12, color: "black" }}>By Signing up, you agree to our Terms & Conditions, Privacy</Text>
+          </Box>
+
+          <Box style={{ marginTop: 200, marginLeft: 200, backgroundColor: "#009DF5", height: 40, width: 170, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
+            <Text onPress={() => signUpViaMobile()} style={{ color: "black", fontSize: 17, fontWeight: "500" }}>Create an account</Text>
           </Box>
         </Box>
       ) : (
@@ -124,8 +148,8 @@ const SignIn = ({ navigation }) => {
             <Box>
               <Text style={{ color: "black", fontSize: 18 }}>First Name</Text>
               <TextInput
-                
-                onChange={(e)=>setName(e.nativeEvent.text)}
+
+                onChange={(e) => setName(e.nativeEvent.text)}
                 style={{ height: 40, width: 175, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
                 placeholder="First Name"
               />
@@ -141,7 +165,7 @@ const SignIn = ({ navigation }) => {
           <Box style={{ marginBottom: 25 }}>
             <Text style={{ color: "black", fontSize: 18 }}>Email</Text>
             <TextInput
-              onChange={(e)=>setEmail(e.nativeEvent.text)}
+              onChange={(e) => setEmail(e.nativeEvent.text)}
               style={{ height: 40, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
               placeholder="valid Email"
             />
@@ -149,21 +173,22 @@ const SignIn = ({ navigation }) => {
           <Box>
             <Text style={{ color: "black", fontSize: 18 }}>Password</Text>
             <TextInput
-              onChange={(e)=>setPassword(e.nativeEvent.text)}
+              onChange={(e) => setPassword(e.nativeEvent.text)}
               style={{ height: 40, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
               placeholder="Minimum 6 characters"
               secureTextEntry={true}
             />
           </Box>
+          <Box>
+            <Text style={{ margin: 18, fontSize: 12, color: "black" }}>By Signing up, you agree to our Terms & Conditions, Privacy</Text>
+          </Box>
+
+          <Box style={{ marginTop: 200, marginLeft: 200, backgroundColor: "#009DF5", height: 40, width: 170, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
+            <Text onPress={() => signUp()} style={{ color: "black", fontSize: 17, fontWeight: "500" }}>Create an account</Text>
+          </Box>
         </Box>
       )}
-      <Box>
-        <Text style={{ margin: 18, fontSize: 12, color: "black" }}>By Signing up, you agree to our Terms & Conditions, Privacy</Text>
-      </Box>
 
-      <Box style={{ marginTop: 200, marginLeft: 200, backgroundColor: "#009DF5", height: 40, width: 170, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
-        <Text onPress={()=>signUp()} style={{ color: "black", fontSize: 17, fontWeight: "500" }}>Create an account</Text>
-      </Box>
     </Box>
   );
 }
