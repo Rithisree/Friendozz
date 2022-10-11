@@ -73,6 +73,84 @@ const MyProfilePage = () => {
                     <Text style={{fontSize:18, color:"black"}}>Edit Profile</Text>
                 </Box>
             </Box>
+            <Box>
+                <Box style={{marginLeft:10}}>
+                    <Box>
+                        <Image
+                            style={{ width: 25, height: 25, marginTop:10, marginBottom:10 }}
+                            source={require("../assets/image.png")}
+                        />
+                    </Box>
+                    <Box style={{display:"flex", flexDirection:"row", flexWrap:"wrap"}}>
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                    </Box>
+                </Box>
+                <Box style={{marginLeft:10}}>
+                    <Box>
+                        <Image
+                            style={{ width: 25, height: 25, marginTop:10, marginBottom:10 }}
+                            source={require("../assets/video.png")}
+                        />
+                    </Box>
+                    <Box style={{display:"flex", flexDirection:"row", flexWrap:"wrap"}}>
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                        <Image
+                            style={{width:70, height:70, margin:2}}
+                            source={require("../assets/avatar.jpg")}
+                        />
+                    </Box>
+                </Box>
+            </Box>
         </ScrollView>
 
         <Box h={"8%"} w={"100%"} style={{ borderTopWidth:1, borderTopColor:"#D9D9D9", display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-around"}}>
