@@ -3,11 +3,10 @@ import React from 'react'
 import RootNavigator from './src/navigations/RootNavigator'
 
 import "react-native-gesture-handler"
-import Firebase from './src/screens/Firebase'
 const App = () => {
   return (
     <View style={styles.container}>
-      <Firebase/>
+      <RootNavigator/>
     </View>
 
   )
