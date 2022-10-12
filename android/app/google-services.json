@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "877946016867",
+    "project_id": "friendozz",
+    "storage_bucket": "friendozz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877946016867:android:90ae66f1df278927d91456",
+        "android_client_info": {
+          "package_name": "friend_o.zz02"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "877946016867-375hluqs5b8mg3pla4os2p9m3lf2hkeb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEU-xo03wDQoRdJSMUA-aSCj9Lcrj_DRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "877946016867-375hluqs5b8mg3pla4os2p9m3lf2hkeb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
