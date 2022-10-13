@@ -32,7 +32,7 @@ const ForgetPassword = ({ setIsForgetPass, forgetPassPhone, setIsForgetPassPhone
     return (
         <Box w={"100%"} h={"100%"}>
             {passwordVerify === true ? (
-                <ResetPasswordVerify emailVerifyOtp={emailVerifyOtp} email={email} />
+                <ResetPasswordVerify setIsForgetPass={setIsForgetPass} emailVerifyOtp={emailVerifyOtp} email={email} />
             ) : (
                 <Box>
 
@@ -43,9 +43,9 @@ const ForgetPassword = ({ setIsForgetPass, forgetPassPhone, setIsForgetPassPhone
                                 style={{ width: 18, height: 18, margin: 18 }}
                                 source={require("../assets/leftarrow.png")}
                             />
-                            <Text onPress={() => { navigation.navigate("SignInScreen") }} style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", opacity: 0, fontSize: 24 }}>hi</Text>
+                            <Text onPress={() => { setIsForgetPass(false) }} style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", opacity: 0, fontSize: 24 }}>hi</Text>
                         </View>
-                        <Text style={{ color: "white", fontSize: 20 }}>Log In</Text>
+                        <Text style={{ color: "white", fontSize: 20 }}>Forget Password</Text>
 
                     </Box>
 

@@ -5,7 +5,7 @@ import { ResetpasswordRoute } from '../apiutils/apiutils';
 
 const axios = require('axios').default;
 
-const ResetPassword = ({ email, navigation }) => {
+const ResetPassword = ({ email, navigation, setIsForgetPass }) => {
     const [newPassword, setnewPassword] = useState("")
     const [confirmPassword, setconfirmPassword] = useState("")
 
@@ -21,7 +21,7 @@ const ResetPassword = ({ email, navigation }) => {
                 console.log(data)
                 if (data.status === true) {
                     ToastAndroid.show(data.data, ToastAndroid.LONG)
-                    navigation.navigate("LoginScreen")
+                    setIsForgetPass(false)
                 }
             }
         } catch (error) {

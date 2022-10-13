@@ -7,7 +7,7 @@ import { ResetpasswordverifyotpRoute } from '../apiutils/apiutils';
 import ResetPassword from './ResetPassword';
 const axios = require('axios').default;
 
-const ResetPasswordVerify = ({ navigation, email }) => {
+const ResetPasswordVerify = ({ navigation, email, setIsForgetPass }) => {
 
     const [otp, setOtp] = useState(0)
     const [isVerifyOtp, setIsVerifyOtp] = useState(false)
@@ -29,7 +29,7 @@ const ResetPasswordVerify = ({ navigation, email }) => {
     return (
         <Box w={"100%"} h={"100%"}>
             {isVerifyOtp === true ? (
-                <ResetPassword email={email} navigation={navigation} />
+                <ResetPassword setIsForgetPass={setIsForgetPass} email={email} navigation={navigation} />
             ) : (
                 <Box>
 
