@@ -1,9 +1,33 @@
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Box } from '@react-native-material/core'
 import {ImageGrid} from "react-fb-image-video-grid"
+import * as ImagePicker from "react-native-image-picker"
+import storage from '@react-native-firebase/storage'
 
 const MyProfilePage = () => {
+    const [image, setImage] = useState("")
+    const [imageUrl, setImageUrl] = useState("")
+    const [hide, setHide] = useState(true)
+    
+    const openImage = () => {
+        ImagePicker.launchImageLibrary({mediaType:'photo'}, async(resp)=>{
+            if(resp.didCancel){
+                console.log("User Cancelled")
+            }
+            setImage(resp.assets[0].uri)
+            if(resp){
+                uploadImage()
+            }
+        })
+    }
+    const uploadImage = async() => {
+        const imageRef = storage().ref(`${"images"}/${"test3.png"}`)
+        await imageRef.putFile(image, { contentType: 'image/jpg'}).catch((error) => { throw error })
+        const url = await imageRef.getDownloadURL().catch((error) => { throw error });
+        setImageUrl(url)
+    }
+    
   return (
     <Box w={"100%"} h={"100%"}>
         <Box w={"100%"} style={{position:"relative",height:90, borderBottomWidth:1, borderBottomColor:"#D9D9D9", display:"flex",flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
@@ -23,10 +47,13 @@ const MyProfilePage = () => {
                     style={{marginRight:13}}
                     source={require("../assets/settings.png")}
                 />
-                <Image
-                    style={{marginRight:10}}
-                    source={require("../assets/addMusicBig.png")}
-                />
+                <Box>
+                    <Image
+                        style={{marginRight:10}}
+                        source={require("../assets/addMusicBig.png")}
+                    />
+                    <Text onPress={()=>setHide(false)} style={{ position: "absolute", marginLeft: 5, opacity:0, fontSize: 30 }}>hi</Text>
+                </Box>
             </Box>
         </Box>
 
@@ -191,6 +218,11 @@ const MyProfilePage = () => {
             <Image
                 source={require("../assets/message.png")}
             />
+        </Box>
+
+        <Box  w={"100%"} style={{position:"absolute", bottom:0, transform: hide?[{ translateY:350 }]:[{ translateY:0 }], height:350, backgroundColor:"white", borderTopLeftRadius:25, borderTopRightRadius:25}}>
+            <Box style={{width:35, height:5, borderRadius:10, backgroundColor:"grey", marginTop:10, marginLeft:180}}><Text>  </Text></Box>
+            <Text onPress={()=>{setHide(true);openImage()}} style={{fontSize:25, color:"black", marginLeft:30, marginTop:30}}>Post</Text>
         </Box>
     </Box>
   )
