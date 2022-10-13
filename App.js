@@ -7,8 +7,8 @@ import "react-native-gesture-handler"
 const App = () => {
   return (
     <View style={styles.container}>
-      {/* <RootNavigator/> */}
-      <Test/>
+      <RootNavigator/>
+      {/* <Test/> */}
     </View>
 
   )
