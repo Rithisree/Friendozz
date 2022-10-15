@@ -6,11 +6,14 @@ const PostPage = ({navigation}) => {
   return (
     <Box w={"100%"} h={"100%"} style={{display:"flex", flexDirection:"column", justifyContent:"space-between"}}>
         <Box h={"8%"} style={{borderBottomWidth:1, borderBottomColor:"#D9D9D9", display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-between", padding:5}}>
-            <Image
-                style={{width:45, height:45, borderRadius:50}}
-                source={require("../assets/avatar.jpg")}
-            />
-            <Text onPress={()=>navigation.navigate("MyProfileScreen")} style={{fontSize:20, color:"black"}}>FriendOzz.com</Text>
+            <Box>
+                <Image
+                    style={{width:45, height:45, borderRadius:50}}
+                    source={require("../assets/avatar.jpg")}
+                />
+                <Text onPress={()=>navigation.navigate("MyProfileScreen")} style={{ position: "absolute", marginLeft: 5, opacity:0, fontSize: 30 }}>hi</Text>
+            </Box>
+            <Text style={{fontSize:20, color:"black"}}>FriendOzz.com</Text>
             <Box style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center"}}>
                 <Image
                     style={{marginRight:13}}

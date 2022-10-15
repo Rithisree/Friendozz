@@ -1,13 +1,18 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import React, { useState } from 'react'
 import { Box } from '@react-native-material/core'
 import {ImageGrid} from "react-fb-image-video-grid"
 import * as ImagePicker from "react-native-image-picker"
 import storage from '@react-native-firebase/storage'
+import { useEffect } from 'react'
+import { createPostRoute, listPostBasedOnUserRoute } from '../apiutils/apiutils';
 
-const MyProfilePage = () => {
+const axios = require("axios").default
+
+const MyProfilePage = ({navigation}) => {
     const [image, setImage] = useState("")
     const [imageUrl, setImageUrl] = useState("")
+    const [ListPost, setListPost] = useState([])
     const [hide, setHide] = useState(true)
     
     const openImage = () => {
@@ -21,20 +26,53 @@ const MyProfilePage = () => {
             }
         })
     }
+    console.log(image)
+    console.log(imageUrl)
     const uploadImage = async() => {
-        const imageRef = storage().ref(`${"images"}/${"test3.png"}`)
+        const imageRef = storage().ref(`${"images"}/${"rithi1"+"image.png"}`)
         await imageRef.putFile(image, { contentType: 'image/jpg'}).catch((error) => { throw error })
         const url = await imageRef.getDownloadURL().catch((error) => { throw error });
         setImageUrl(url)
     }
+    let createPost = async() => {
+        const {data} = await axios.post(createPostRoute, {
+            "email":"badri82301@gmail.com",
+            "postUrl":imageUrl
+        })
+        if(data.status){
+            ToastAndroid.show("Uploaded!",ToastAndroid.LONG)
+            setImageUrl("")
+        }
+    }
+    let listPost = async() => {
+        const {data} = await axios.post(listPostBasedOnUserRoute, {
+            "email":"badri82301@gmail.com"
+        })
+        if(data.status){
+            setListPost(data.data.postId)
+        }
+        console.log(data.data.postId)
+    }
+    useEffect(() => {
+      if(imageUrl!==""){
+        createPost()
+      }
+    }, [imageUrl])
+
+    useEffect(() => {
+          listPost()
+      }, [imageUrl])
     
   return (
     <Box w={"100%"} h={"100%"}>
         <Box w={"100%"} style={{position:"relative",height:90, borderBottomWidth:1, borderBottomColor:"#D9D9D9", display:"flex",flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
-            <Image
-                style={{ width: 18, height: 18, margin: 18 }}
-                source={require("../assets/blackLeftArrow.png")}
-            />
+            <Box>
+                <Image
+                    style={{ width: 18, height: 18, margin: 18 }}
+                    source={require("../assets/blackLeftArrow.png")}
+                />
+                <Text onPress={()=>{navigation.navigate("PostScreen")}} style={{ position: "absolute", marginLeft: 5, opacity:0, fontSize: 30 }}>hi</Text>
+            </Box>
             <Box style={{position:"absolute", top:25, left:150, display:"flex", alignItems:"center"}}>
                 <Text style={{color:"black", fontSize:20, marginBottom:5}}>Your Profile</Text>
                 <Image
@@ -109,42 +147,12 @@ const MyProfilePage = () => {
                         />
                     </Box>
                     <Box style={{display:"flex", flexDirection:"row", flexWrap:"wrap"}}>
-                        <Image
+                        {ListPost.length>0&&ListPost.map((list)=>(
+                            <Image
                             style={{width:70, height:70, margin:2}}
-                            source={require("../assets/avatar.jpg")}
+                            source={{"uri":list.myPostUrl}}
                         />
-                        <Image
-                            style={{width:70, height:70, margin:2}}
-                            source={require("../assets/avatar.jpg")}
-                        />
-                        <Image
-                            style={{width:70, height:70, margin:2}}
-                            source={require("../assets/avatar.jpg")}
-                        />
-                        <Image
-                            style={{width:70, height:70, margin:2}}
-                            source={require("../assets/avatar.jpg")}
-                        />
-                        <Image
-                            style={{width:70, height:70, margin:2}}
-                            source={require("../assets/avatar.jpg")}
-                        />
-                        <Image
-                            style={{width:70, height:70, margin:2}}
-                            source={require("../assets/avatar.jpg")}
-                        />
-                        <Image
-                            style={{width:70, height:70, margin:2}}
-                            source={require("../assets/avatar.jpg")}
-                        />
-                        <Image
-                            style={{width:70, height:70, margin:2}}
-                            source={require("../assets/avatar.jpg")}
-                        />
-                        <Image
-                            style={{width:70, height:70, margin:2}}
-                            source={require("../assets/avatar.jpg")}
-                        />
+                        ))}
                         <Box style={{width:70, height:70, margin:2, backgroundColor:"#D9D9D9", display:"flex", alignItems:"center", justifyContent:"center"}}>
                             <Text style={{color:"black", textAlign:"center"}}>View All Photo</Text>
                         </Box>
@@ -203,9 +211,12 @@ const MyProfilePage = () => {
         </ScrollView>
 
         <Box h={"8%"} w={"100%"} style={{ borderTopWidth:1, borderTopColor:"#D9D9D9", display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-around"}}>
-            <Image
-                source={require("../assets/home.png")}
-            />
+            <Box>
+                <Image
+                    source={require("../assets/home.png")}
+                />
+                <Text onPress={()=>{navigation.navigate("PostScreen")}} style={{ position: "absolute", marginLeft: 5, opacity:0, fontSize: 30 }}>hi</Text>
+            </Box>
             <Image
                 source={require("../assets/group.png")}
             />
