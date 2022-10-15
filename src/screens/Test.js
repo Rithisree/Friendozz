@@ -4,10 +4,10 @@ import React, { useState } from 'react'
 import * as ImagePicker from "react-native-image-picker"
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import storage from '@react-native-firebase/storage'
-// import {
-//     GoogleSignin,
-//     statusCodes,
-// } from '@react-native-google-signin/google-signin';
+import {
+    GoogleSignin,
+    statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 const test = () => {
 
@@ -44,18 +44,18 @@ const test = () => {
         setImageUrl(url)
     }
 
-    // const handleGoogleSignIn = () => {
-    //     GoogleSignin.configure({androidClientId:"575088401064-thesf1mi4s67mvd2vf856geo25341hfn.apps.googleusercontent.com"})
-    //     GoogleSignin.hasPlayServices().then((response)=>{
-    //         if(response){
-    //             GoogleSignin.signIn().then((userInfo)=>{
-    //                 console.log(JSON.stringify(userInfo))
-    //             }).catch((e)=>{
-    //                 console.log(JSON.stringify(e))
-    //             })
-    //         }
-    //     })
-    // }
+    const handleGoogleSignIn = () => {
+        GoogleSignin.configure({androidClientId:"575088401064-tg0qo7r5l3g16mbl3grppt9b13g5b11o.apps.googleusercontent.com", webClientId:"575088401064-thesf1mi4s67mvd2vf856geo25341hfn.apps.googleusercontent.com"})
+        GoogleSignin.hasPlayServices().then((response)=>{
+            if(response){
+                GoogleSignin.signIn().then((userInfo)=>{
+                    console.log(JSON.stringify(userInfo))
+                }).catch((e)=>{
+                    console.log(JSON.stringify(e))
+                })
+            }
+        })
+    }
   return (
     <Box w={"100%"} h={"100%"} style={{display:"flex", justifyContent: 'space-between'}}>
         <TouchableOpacity>
@@ -70,8 +70,8 @@ const test = () => {
             <Text onPress={()=>setHide(true)} style={{fontSize:30}}>Post</Text>
         </Box>
 
-        {/* <Button title='GoogleSignIn' onPress={()=>handleGoogleSignIn()}/>
-     */}
+        <Button title='GoogleSignIn' onPress={()=>handleGoogleSignIn()}/>
+    
     </Box>
   )
   

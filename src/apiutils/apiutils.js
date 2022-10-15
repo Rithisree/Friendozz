@@ -9,7 +9,7 @@ export const signUpViaMobileRoute = `${host}/auth/registerViaMobile`
 export const ForgetPasswordRoute = `${host}/auth/forgetpassword`
 export const ResetpasswordverifyotpRoute = `${host}/auth/resetpasswordverifyotp`
 export const ResetpasswordRoute = `${host}/auth/resetpassword`
-
+export const googleSignInRoute = `${host}/auth/googleSignIn`
 
 export const createPostRoute = `${host}/post/createPost`
 export const listPostBasedOnUserRoute = `${host}/post/listPost`

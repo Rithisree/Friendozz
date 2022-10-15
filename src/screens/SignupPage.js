@@ -1,10 +1,35 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import { Box, Button, Flex, Stack } from '@react-native-material/core'
+import {
+    GoogleSignin,
+    statusCodes,
+} from '@react-native-google-signin/google-signin';
+import { set } from 'mongoose';
+import { googleSignInRoute } from '../apiutils/apiutils';
+const axios = require('axios').default;
 
 const SignupPage = ({ navigation }) => {
+    const [idToken, setIdToken] = useState("")
 
-
+    const handleGoogleSignIn = () => {
+        GoogleSignin.configure({androidClientId:"575088401064-tg0qo7r5l3g16mbl3grppt9b13g5b11o.apps.googleusercontent.com", webClientId:"575088401064-thesf1mi4s67mvd2vf856geo25341hfn.apps.googleusercontent.com"})
+        GoogleSignin.hasPlayServices().then((response)=>{
+            if(response){
+                GoogleSignin.signIn().then(async(userInfo)=>{
+                    const {data} = await axios.post(googleSignInRoute,{
+                        "GoogleToken":userInfo.idToken
+                    })
+                    if(data.status){
+                        navigation.navigate("PostScreen")
+                    }
+                }).catch((e)=>{
+                    console.log(JSON.stringify(e))
+                })
+            }
+        })
+    }
+    console.log(idToken)
     return (
         <Box w={"100%"} h={"100%"} style={styles.view1} >
             <Box h={"60%"} w={"100%"} style={styles.view3}>
@@ -24,12 +49,14 @@ const SignupPage = ({ navigation }) => {
                 borderWidth: 1,
                 padding: 5
             }} >
-                <Box style={{ padding: 5, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", width: "100%" }}>
-                    <Image
-                        source={require("../assets/goog.png")}
-                    />
-                    <Text style={{ color: "black", fontWeight: "bold", fontSize: 18, margin: 5 }}>Enter With Google</Text>
-                </Box>
+                <TouchableOpacity onPress={()=>handleGoogleSignIn()}>
+                    <Box style={{ padding: 5, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", width: "100%" }}>
+                        <Image
+                            source={require("../assets/goog.png")}
+                        />
+                        <Text style={{ color: "black", fontWeight: "bold", fontSize: 18, margin: 5 }}>Enter With Google</Text>
+                    </Box>
+                </TouchableOpacity>
             </Box>
 
             <Box style={{
