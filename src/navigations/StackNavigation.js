@@ -6,6 +6,7 @@ import LoginPage from "../screens/LoginPage";
 import SignInPage from "../screens/SignInPage";
 import PostPage from "../screens/PostPage";
 import MyProfilePage from "../screens/MyProfilePage";
+import ChatScreen from "../screens/ChatScreen";
 
 const Home = createNativeStackNavigator();
 export function HomeStack() {
@@ -32,7 +33,7 @@ export function HomeStack() {
                 component={SignInPage}
                 options={{ headerShown: false }}
             />
-             <Home.Screen
+            <Home.Screen
                 name="PostScreen"
                 component={PostPage}
                 options={{ headerShown: false }}
@@ -42,7 +43,11 @@ export function HomeStack() {
                 component={MyProfilePage}
                 options={{ headerShown: false }}
             />
-
+            <Home.Screen
+                name="ChatScreen"
+                component={ChatScreen}
+                options={{ headerShown: false }}
+            />
         </Home.Navigator>
     )
 }

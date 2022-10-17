@@ -136,7 +136,7 @@ const SignIn = ({ navigation }) => {
             <Text style={{ margin: 18, fontSize: 12, color: "black" }}>By Signing up, you agree to our Terms & Conditions, Privacy</Text>
           </Box>
 
-          <Box style={{ marginTop: 200, marginLeft: 180, backgroundColor: "#009DF5", height: 40, width: 170, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
+          <Box style={{ marginTop: 120, marginLeft: 180, backgroundColor: "#009DF5", height: 40, width: 170, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
             <Text onPress={() => signUpViaMobile()} style={{ color: "black", fontSize: 17, fontWeight: "500" }}>Create an account</Text>
           </Box>
         </Box>
@@ -183,7 +183,7 @@ const SignIn = ({ navigation }) => {
             <Text style={{ margin: 18, fontSize: 12, color: "black" }}>By Signing up, you agree to our Terms & Conditions, Privacy</Text>
           </Box>
 
-          <Box style={{ marginTop: 200, marginLeft: 180, backgroundColor: "#009DF5", height: 40, width: 170, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
+          <Box style={{ marginTop: 120, marginLeft: 180, backgroundColor: "#009DF5", height: 40, width: 170, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
             <Text onPress={() => signUp()} style={{ color: "black", fontSize: 17, fontWeight: "500" }}>Create an account</Text>
           </Box>
         </Box>

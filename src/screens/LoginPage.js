@@ -6,6 +6,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import ForgetPassword from '../components/ForgetPassword';
 import { LoginRoute, LoginViaNumberRoute } from '../apiutils/apiutils';
 import { ToastAndroid } from 'react-native';
+import { AsyncStorage } from 'react-native';
 const axios = require("axios").default;
 const Login = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -30,6 +31,7 @@ const Login = ({ navigation }) => {
       })
       console.log(data)
       if (data.status) {
+        await AsyncStorage.setItem("x-access-token", data.token)
         navigation.navigate("PostScreen")
       }
     } catch (error) {
@@ -112,7 +114,7 @@ const Login = ({ navigation }) => {
                 <Box style={{ marginTop: 30 }}>
                   <Text onPress={() => { setIsForgetPassPhone(true) }} style={{ textAlign: "center", color: "black", fontWeight: "bold" }}>Forget Password?</Text>
                 </Box>
-                <Box style={{ marginTop: 280, marginLeft: 200, backgroundColor: "#009DF5", height: 40, width: 140, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
+                <Box style={{ marginTop: 220, marginLeft: 200, backgroundColor: "#009DF5", height: 40, width: 140, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
                   <Text onPress={() => handleLoginViaMobileNumber()} style={{ color: "black", fontSize: 17 }}>Log In</Text>
                 </Box>
               </Box>
@@ -139,7 +141,7 @@ const Login = ({ navigation }) => {
                 <Box style={{ marginTop: 30 }}>
                   <Text onPress={() => { setIsForgetPass(true) }} style={{ textAlign: "center", color: "black", fontWeight: "bold" }}>Forget Password?</Text>
                 </Box>
-                <Box style={{ marginTop: 280, marginLeft: 200, backgroundColor: "#009DF5", height: 40, width: 140, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
+                <Box style={{ marginTop: 220, marginLeft: 200, backgroundColor: "#009DF5", height: 40, width: 140, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 10 }}>
                   <Text onPress={() => handleLogin()} style={{ color: "black", fontSize: 17 }}>Log In</Text>
                 </Box>
               </Box>
