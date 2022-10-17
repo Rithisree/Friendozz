@@ -1,12 +1,15 @@
 import { Image, ScrollView, StyleSheet, Text, View, AsyncStorage } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box } from '@react-native-material/core'
 
 const PostPage = ({ navigation }) => {
+    const [userId, setUserId] = useState("")
     useEffect(() => {
         const getData = async () => {
             if (!(await AsyncStorage.getItem('x-access-token'))) {
                 navigation.navigate("LoginScreen")
+            } else {
+                setUserId(await AsyncStorage.getItem("userId"))
             }
 
         }
@@ -20,7 +23,7 @@ const PostPage = ({ navigation }) => {
                         style={{ width: 45, height: 45, borderRadius: 50 }}
                         source={require("../assets/avatar.jpg")}
                     />
-                    <Text onPress={() => navigation.navigate("MyProfileScreen")} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
+                    <Text onPress={() => navigation.navigate("MyProfileScreen", { userId: userId })} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
                 </Box>
                 <Text style={{ fontSize: 20, color: "black" }}>FriendOzz.com</Text>
                 <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>

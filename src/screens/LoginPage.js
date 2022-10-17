@@ -32,6 +32,7 @@ const Login = ({ navigation }) => {
       console.log(data)
       if (data.status) {
         await AsyncStorage.setItem("x-access-token", data.token)
+        await AsyncStorage.setItem("userId", data.userId)
         navigation.navigate("PostScreen")
       }
     } catch (error) {
