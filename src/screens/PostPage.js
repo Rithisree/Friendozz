@@ -24,10 +24,13 @@ const PostPage = ({ navigation }) => {
                 </Box>
                 <Text style={{ fontSize: 20, color: "black" }}>FriendOzz.com</Text>
                 <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                    <Image
-                        style={{ marginRight: 13 }}
-                        source={require("../assets/search.png")}
-                    />
+                    <Box>
+                        <Image
+                            style={{ marginRight: 13 }}
+                            source={require("../assets/search.png")}
+                        />
+                        <Text onPress={() => navigation.navigate("SearchUserScreen")} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
+                    </Box>
                     <Image
                         style={{ marginRight: 10 }}
                         source={require("../assets/addMusic.png")}

@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
+import { AsyncStorage, Image, ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import React, { useState } from 'react'
 import { Box } from '@react-native-material/core'
 import {ImageGrid} from "react-fb-image-video-grid"
@@ -9,12 +9,12 @@ import { createPostRoute, listPostBasedOnUserRoute } from '../apiutils/apiutils'
 
 const axios = require("axios").default
 
-const MyProfilePage = ({navigation}) => {
+const MyProfilePage = ({navigation, route}) => {
     const [image, setImage] = useState("")
     const [imageUrl, setImageUrl] = useState("")
     const [ListPost, setListPost] = useState([])
     const [hide, setHide] = useState(true)
-    
+    const {userId} = route.params
     const openImage = () => {
         ImagePicker.launchImageLibrary({mediaType:'photo'}, async(resp)=>{
             if(resp.didCancel){
@@ -27,7 +27,7 @@ const MyProfilePage = ({navigation}) => {
         })
     }
     console.log(image)
-    console.log(imageUrl)
+    console.log(userId)
     const uploadImage = async() => {
         const imageRef = storage().ref(`${"images"}/${"rithi1"+"image.png"}`)
         await imageRef.putFile(image, { contentType: 'image/jpg'}).catch((error) => { throw error })
@@ -45,8 +45,8 @@ const MyProfilePage = ({navigation}) => {
         }
     }
     let listPost = async() => {
-        const {data} = await axios.post(listPostBasedOnUserRoute, {
-            "email":"badri82301@gmail.com"
+        const {data} = await axios.get(listPostBasedOnUserRoute, {
+            headers: {"x-access-token": await AsyncStorage.getItem("x-access-token")}
         })
         if(data.status){
             setListPost(data.data.postId)
