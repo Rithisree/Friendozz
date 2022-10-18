@@ -14,5 +14,9 @@ export const googleSignInRoute = `${host}/auth/googleSignIn`
 export const createPostRoute = `${host}/post/createPost`
 export const listPostBasedOnUserRoute = `${host}/post/listPost`
 export const searchUserRoute = `${host}/post/searchUser`
+export const followRequestRoute = `${host}/post/followRequest`
+export const unfollowRequestRoute = `${host}/post/unfollowRequest`
+export const showFanPostRoute = `${host}/post/listFanPost`
 
 export const createMessageRoute = `${host}/message/createMessage`
+export const listMessageRoute = `${host}/message/listMessage`

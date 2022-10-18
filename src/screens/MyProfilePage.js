@@ -5,7 +5,7 @@ import { ImageGrid } from "react-fb-image-video-grid"
 import * as ImagePicker from "react-native-image-picker"
 import storage from '@react-native-firebase/storage'
 import { useEffect } from 'react'
-import { createPostRoute, listPostBasedOnUserRoute } from '../apiutils/apiutils';
+import { createPostRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute } from '../apiutils/apiutils';
 import { List } from 'native-base'
 import { TouchableOpacity } from 'react-native'
 
@@ -17,6 +17,7 @@ const MyProfilePage = ({ navigation, route }) => {
     const [ListPost, setListPost] = useState([])
     const [user, setUser] = useState("")
     const [hide, setHide] = useState(true)
+    const [fan, setFan] = useState(false)
     const [signinUserId, setSigninUserId] = useState("")
     const { userId } = route.params
 
@@ -78,6 +79,23 @@ const MyProfilePage = ({ navigation, route }) => {
         listPost()
     }, [imageUrl])
     console.log("xaccess", signinUserId)
+
+    const followRequest = async() => {
+        const {data} = await axios.post(followRequestRoute,{
+            receiverId:userId
+        }, {headers:{"x-access-token":await AsyncStorage.getItem("x-access-token")}})
+        if(data.status){
+            setFan(true)
+        }
+    }
+    const unfollowRequest = async() => {
+        const {data} = await axios.post(unfollowRequestRoute,{
+            receiverId:userId
+        }, {headers:{"x-access-token":await AsyncStorage.getItem("x-access-token")}})
+        if(data.status){
+            setFan(false)
+        }
+    }
     return (
         <Box w={"100%"} h={"100%"}>
             <Box w={"100%"} style={{ position: "relative", height: 90, borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -96,10 +114,13 @@ const MyProfilePage = ({ navigation, route }) => {
                     />
                 </Box>
                 <Box style={{ display: "flex", flexDirection: "row" }}>
-                    <Image
-                        style={{ marginRight: 13 }}
-                        source={require("../assets/settings.png")}
-                    />
+                    <Box>
+                        <Image
+                            style={{ marginRight: 13 }}
+                            source={require("../assets/settings.png")}
+                        />
+                        <Text onPress={() => { AsyncStorage.removeItem("userId");navigation.navigate("LoginScreen") }} style={{ position: "absolute", marginLeft: 20, marginTop: 10, fontSize: 24 }}>hi</Text>
+                    </Box>
                     {user && user._id === signinUserId && (
 
 
@@ -163,10 +184,15 @@ const MyProfilePage = ({ navigation, route }) => {
                     </Box>
                 ) : (
                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25 }}>
-
-                        <Box style={{ backgroundColor: "#0093E5", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <Text style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
-                        </Box>
+                        {fan?(
+                            <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Text onPress={()=>unfollowRequest()} style={{ fontSize: 18, color: "black" }}>Fan</Text>
+                            </Box>
+                        ):(
+                            <Box style={{ backgroundColor: "#0093E5", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Text onPress={()=>followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
+                            </Box>
+                        )}
                         <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen", {userId:user._id})}>
                             <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <Text style={{ fontSize: 18, color: "black" }}>Message</Text>

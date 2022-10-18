@@ -1,14 +1,16 @@
-import { StyleSheet, Text, View, TextInput, AsyncStorage } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TextInput, AsyncStorage, ScrollView } from 'react-native'
+import React, { useEffect } from 'react'
 import { Box } from '@react-native-material/core'
 import { Image } from 'react-native'
 const axios = require("axios").default;
-import { createMessageRoute } from '../apiutils/apiutils';
+import { createMessageRoute, listMessageRoute } from '../apiutils/apiutils';
 import { useState } from 'react';
 
 const ChatmessageScreen = ({ navigation, route }) => {
     const {userId} = route.params
     const [message, setMessage] = useState("")
+    const [listMsg, setListMsg] = useState([])
+
     const sendMessage = async() => {
         const header = await AsyncStorage.getItem("x-access-token")
         const {data} = await axios.post(createMessageRoute, {
@@ -16,93 +18,91 @@ const ChatmessageScreen = ({ navigation, route }) => {
             msg:message
         },{headers:{"x-access-token":header}})
         console.log(data.data)
-    }
-    console.log(message)
-    return (
-        <Box w={"100%"} h={"100%"} bg={"white"}>
-            <Box w={"100%"} h={"5%"} style={{ flexDirection: "row", backgroundColor: "white", alignItems: "center", justifyContent: 'space-between', position: "absolute" }}>
 
-                <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        if(data.status){
+            listMessage()
+            setMessage("")
+        }
+    }
+    
+    const listMessage = async() => {
+        const header = await AsyncStorage.getItem("x-access-token")
+        const {data} = await axios.post(listMessageRoute, {
+            receiverId:userId
+        },{headers:{"x-access-token":header}})
+        setListMsg(data.data)
+        console.log(data.data)
+    }
+
+    useEffect(() => {
+      listMessage()
+    }, [])
+    
+    return (
+        <Box w={"100%"} h={"100%"}>
+            <Box style={{borderBottomWidth:1, borderBottomColor:"#D9D9D9", height:55, display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
+                <Box style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
                     <Box>
                         <Image
-                            style={{ width: 18, height: 18, marginTop: 20, marginLeft: 20 }}
+                            style={{ width: 18, height: 18, marginLeft: 20 }}
                             source={require("../assets/blackLeftArrow.png")}
                         />
                         <Text onPress={() => { navigation.goBack() }} style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", opacity: 0, fontSize: 24 }}>hi</Text>
                     </Box>
-                    <Box style={{ display: "flex", flexDirection: "row", marginTop: 15, marginLeft: 20, alignItems: "center" }}>
+                    <Box style={{display:"flex", flexDirection:"row", alignItems:"center", marginLeft:20}}>
                         <Image
                             style={{ width: 35, height: 35, borderRadius: 20 }}
                             source={require("../assets/avatar.jpg")}
                         />
-                        <Box style={{ position: "absolute", marginLeft: 30 }}>
-                            <Text style={{ fontWeight: "bold", color: "black", fontSize: 18, marginLeft: 15 }}>Badri</Text>
-                            <Text style={{ marginLeft: 15 }}>_b_a_d_r_i</Text>
+                        <Box style={{ marginLeft: 10 }}>
+                            <Text style={{ fontWeight: "bold", color: "black", fontSize: 18}}>{listMsg.length>0 && listMsg[0].receiverId.name}</Text>
+                            <Text>_b_a_d_r_i</Text>
                         </Box>
-
                     </Box>
-
-                </View>
-                <Image
-                    style={{ marginRight: 8, marginTop: 20, color: "white" }}
-                    source={require("../assets/threeDot.png")}
-                />
-                <Text onPress={() => { navigation.navigate("SignInScreen") }} style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", fontSize: 24, right: 10, opacity: 0 }}>hi</Text>
-            </Box >
-
-            <Box style={{ marginTop: 70, marginLeft: 30, flexDirection: "row" }}>
-                <Image
-                    style={{ width: 35, height: 35, borderRadius: 20 }}
-                    source={require("../assets/avatar.jpg")}
-                />
-                <Box style={{ backgroundColor: "pink", alignSelf: 'flex-start', paddingRight: 10, paddingLeft: 10, borderRadius: 10, marginTop: 10, marginLeft: 10 }}>
-
-                    <Text>Hi</Text>
-
+                </Box>
+                <Box>
+                    <Image
+                        style={{marginRight:10}}
+                        source={require("../assets/threeDot.png")}
+                    />
+                    <Text onPress={() => { navigation.navigate("SignInScreen") }} style={{ position: "absolute", marginLeft: 14, fontSize: 20, right: 10, color:"white", opacity:0 }}>hi</Text>
                 </Box>
             </Box>
-
-            <Box style={{ marginTop: 10, marginRight: 30, flexDirection: "row", justifyContent: "flex-end" }}>
-
-                <Box style={{ backgroundColor: "pink", alignSelf: 'flex-start', paddingRight: 10, paddingLeft: 10, borderRadius: 10, marginLeft: 10 }}>
-
-                    <Text>Hi</Text>
-
-                </Box>
-            </Box>
-
-            <Box style={{ marginTop: 40, marginLeft: 30, flexDirection: "row" }}>
-                <Image
-                    style={{ width: 35, height: 35, borderRadius: 20 }}
-                    source={require("../assets/avatar.jpg")}
-                />
-                <Box style={{ backgroundColor: "pink", alignSelf: 'flex-start', paddingRight: 10, paddingLeft: 10, borderRadius: 10, marginTop: 10, marginLeft: 10 }}>
-
-                    <Text>Hi,How are You</Text>
-
-                </Box>
-            </Box>
-
-            <Box style={{ marginTop: 40, marginRight: 30, flexDirection: "row", justifyContent: "flex-end" }}>
-
-                <Box style={{ backgroundColor: "pink", alignSelf: 'flex-start', paddingRight: 10, paddingLeft: 10, borderRadius: 10, marginLeft: 10 }}>
-
-                    <Text>Im FIne,How About you</Text>
-
-                </Box>
-            </Box>
-
-
-            <Box style={{ position: "absolute", bottom: 5, width: "100%" }}>
+            <ScrollView>
+                {listMsg.length>0 && listMsg.map((msg) => (
+                    msg.messages.length>0 && msg.messages.map((msgs)=>(
+                        <Box>  
+                            {msgs.receiverId !== userId?(
+                                <Box style={{  marginLeft: 15, marginTop:5, marginBottom:5, flexDirection: "row", alignItems:"center", justifyContent:"flex-start" }}>
+                                    <Image
+                                        style={{ width: 30, height: 30, borderRadius: 20 }}
+                                        source={require("../assets/avatar.jpg")}
+                                    />
+                                    <Box style={{backgroundColor:"#0093E5", maxWidth:280, borderRadius:10, marginLeft:10}}>
+                                        <Text style={{fontSize:18, color:"white", margin:7}}>{msgs.message}</Text>
+                                    </Box>
+                                </Box>
+                            ):(
+                                <Box style={{ marginRight: 15, marginTop:5, marginBottom:5, flexDirection: "row", justifyContent: "flex-end" }}>
+                                    <Box style={{backgroundColor:"#D9D9D9", maxWidth:280, borderRadius:10}}>
+                                        <Text style={{fontSize:18, color:"black", margin:7}}>{msgs.message}</Text>
+                                    </Box>
+                                </Box>
+                            )}
+                        </Box>
+                    ))
+                ))}
+            </ScrollView>
+            <Box w={"100%"} style={{marginBottom:5}}>
                 <TextInput
-                    style={{ height: 50, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 20 }}
+                    style={{width:330, height: 50, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 20, marginLeft:10 }}
                     placeholder="Enter Message"
                     onChange={(e)=>setMessage(e.nativeEvent.text)}
+                    value={message}
                 />
-                <Text onPress={()=>sendMessage()} style={{ "position": "absolute", right: 15, marginTop: 15, fontWeight: "bold" }}>Send</Text>
+                <Text onPress={()=>sendMessage()} style={{ "position": "absolute", right: 10, marginTop: 15, fontWeight: "bold" }}>Send</Text>
             </Box>
-        </Box >
-
+        </Box>
     )
 }
 
