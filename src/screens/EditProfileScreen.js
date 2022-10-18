@@ -5,11 +5,13 @@ import { TextInput } from 'react-native-gesture-handler'
 import * as ImagePicker from "react-native-image-picker"
 import { listPostBasedOnUserRoute, listValidUsernameRoute, updateProfileRoute, uploadImageRoute } from '../apiutils/apiutils'
 const axios = require("axios").default
+import storage from '@react-native-firebase/storage'
+import uuid from 'react-native-uuid';
 const EditProfileScreen = ({ navigation, route }) => {
     const { userId } = route.params
     const [name, setName] = useState("")
     const [bio, setBio] = useState("")
-    const [user, setUser] = useState("")
+    const [user, setUser] = useState("b")
     const [username, setUsername] = useState("")
     const [userNameError, setUsernameError] = useState("")
     const [image, setImage] = useState("")
@@ -27,10 +29,12 @@ const EditProfileScreen = ({ navigation, route }) => {
         })
     }
     const uploadImage = async () => {
-        const imageRef = storage().ref(`${"images"}/${"rithi1" + "image.png"}`)
+        let randomString = (Math.random() + 1).toString(36).substring(7);
+        const imageRef = storage().ref(`${"images"}/${randomString}`)
         await imageRef.putFile(image, { contentType: 'image/jpg' }).catch((error) => { throw error })
         const url = await imageRef.getDownloadURL().catch((error) => { throw error });
         setImageUrl(url)
+        listPost()
     }
     let listPost = async () => {
         const { data } = await axios.get(`${listPostBasedOnUserRoute}/${userId}`, {
@@ -137,7 +141,7 @@ const EditProfileScreen = ({ navigation, route }) => {
                 <Box style={{ alignItems: "center" }}>
                     <Image
                         style={{ width: 80, height: 80, borderRadius: 50 }}
-                        source={require("../assets/avatar.jpg")}
+                        source={{ "uri": user && user.image && user.image.length > 1 && user.image }}
                     />
                     <Text onPress={() => openImage()} style={{ "fontWeight": "bold", color: "#0093E5", fontSize: 16, marginTop: 10 }}>Change Profile Photo</Text>
                 </Box>
@@ -147,18 +151,18 @@ const EditProfileScreen = ({ navigation, route }) => {
 
             <Box>
                 <Box style={{ marginLeft: 15, marginRight: 15, marginTop: 15 }}>
-                    <Text>Name</Text>
+                    <Text style={{ color: "gray" }}>Name</Text>
                     <TextInput
-                        style={{ borderBottomWidth: 1, height: 40 }}
+                        style={{ borderBottomWidth: 1, height: 40, color: "black" }}
                         onChange={(e) => setName(e.nativeEvent.text)}
                         defaultValue={user && user.name}
                     />
                 </Box>
 
                 <Box style={{ marginLeft: 15, marginRight: 15, marginTop: 15 }}>
-                    <Text>Username</Text>
+                    <Text style={{ color: "gray" }}>Username</Text>
                     <TextInput
-                        style={{ borderBottomWidth: 1, height: 40 }}
+                        style={{ borderBottomWidth: 1, height: 40, color: "black" }}
                         defaultValue={user && user.username}
                         onChange={(e) => setUsername(e.nativeEvent.text)}
                     />
@@ -168,34 +172,34 @@ const EditProfileScreen = ({ navigation, route }) => {
                 </Box>
 
                 <Box style={{ marginLeft: 15, marginRight: 15, marginTop: 15 }}>
-                    <Text>Bio</Text>
+                    <Text style={{ color: "gray" }}>Bio</Text>
                     <TextInput
-                        style={{ borderBottomWidth: 1, height: 40 }}
+                        style={{ borderBottomWidth: 1, height: 40, color: "black" }}
                         defaultValue={user && user.bio}
                         onChange={(e) => setBio(e.nativeEvent.text)}
                     />
                 </Box>
 
                 <Box style={{ marginLeft: 15, marginRight: 15, marginTop: 15 }}>
-                    <Text>Mobile Number</Text>
+                    <Text style={{ color: "gray" }}>Mobile Number</Text>
                     <TextInput
                         defaultValue={user && user.mobileNumber}
-                        style={{ borderBottomWidth: 1, height: 40 }}
+                        style={{ borderBottomWidth: 1, height: 40, color: "black" }}
                     />
                 </Box>
 
                 <Box style={{ marginLeft: 15, marginRight: 15, marginTop: 15 }}>
-                    <Text>Email</Text>
+                    <Text style={{ color: "gray" }}>Email</Text>
                     <TextInput
                         defaultValue={user && user.email}
                         editable={false}
-                        style={{ borderBottomWidth: 1, height: 40 }}
+                        style={{ borderBottomWidth: 1, height: 40, color: "black" }}
                     />
                 </Box>
 
                 <Box style={{ marginLeft: 15, marginRight: 15, marginTop: 15, flexDirection: "row", justifyContent: "space-between" }}>
-                    <Text>Links</Text>
-                    <Text>1</Text>
+                    <Text style={{ color: "gray" }}>Links</Text>
+                    <Text style={{ color: "gray" }}>1</Text>
                 </Box>
             </Box>
         </Box>

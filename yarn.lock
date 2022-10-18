@@ -8054,6 +8054,11 @@
     "unimodules-app-loader" "~2.2.0"
     "unimodules-task-manager-interface" "~6.2.0"
 
+"react-native-uuid@^2.0.1":
+  "integrity" "sha512-cptnoIbL53GTCrWlb/+jrDC6tvb7ypIyzbXNJcpR3Vab0mkeaaVd5qnB3f0whXYzS+SMoSQLcUUB0gEWqkPC0g=="
+  "resolved" "https://registry.npmjs.org/react-native-uuid/-/react-native-uuid-2.0.1.tgz"
+  "version" "2.0.1"
+
 "react-native@0.70.0":
   "integrity" "sha512-QjXLbrK9f+/B2eCzn6kAvglLV/8nwPuFGaFv7ggPpAzFRyx5bVN1dwQLHL3MrP7iXR/M7Jc6Nnid7tmRSic6vA=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.70.0.tgz"

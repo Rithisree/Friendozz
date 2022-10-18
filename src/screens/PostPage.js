@@ -19,22 +19,22 @@ const PostPage = ({ navigation }) => {
         getData()
     }, [])
 
-    const showPost = async() => {
-        const {data} = await axios.get(showFanPostRoute, {headers:{"x-access-token":await AsyncStorage.getItem("x-access-token")}})
+    const showPost = async () => {
+        const { data } = await axios.get(showFanPostRoute, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
         console.log(data.data)
         setFanPost(data.data)
     }
     useEffect(() => {
-      showPost()
+        showPost()
     }, [])
-    
+
     return (
         <Box w={"100%"} h={"100%"} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
             <Box h={"8%"} style={{ borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", padding: 5 }}>
                 <Box>
                     <Image
                         style={{ width: 45, height: 45, borderRadius: 50 }}
-                        source={require("../assets/avatar.jpg")}
+                        source={{ uri: fanPost && fanPost.image }}
                     />
                     <Text onPress={() => navigation.navigate("MyProfileScreen", { userId: userId })} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
                 </Box>
@@ -55,7 +55,7 @@ const PostPage = ({ navigation }) => {
             </Box>
 
             <ScrollView w={"100%"} style={{ display: "flex" }}>
-                {fanPost&&fanPost.fanPost.length>0 && fanPost.fanPost.map((post) => (
+                {fanPost && fanPost.fanPost.length > 0 && fanPost.fanPost.map((post) => (
                     <Box w={"100%"} style={{ height: 450, display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                         <Box w={"88%"} style={{ marginLeft: 3 }}>
                             <Box w={"100%"} h={"90%"}>
@@ -66,8 +66,8 @@ const PostPage = ({ navigation }) => {
                                     />
                                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                                         <Box style={{ marginRight: 5 }}>
-                                            <Text style={{ textAlign: "right" }}>{post.userId.name}</Text>
-                                            <Text style={{ textAlign: "right" }}>Dance Gang</Text>
+                                            <Text style={{ textAlign: "right", color: "gray" }}>{post.userId.name}</Text>
+                                            <Text style={{ textAlign: "right", color: "gray" }}>Dance Gang</Text>
                                         </Box>
                                         <Box>
                                             <Image
@@ -79,8 +79,8 @@ const PostPage = ({ navigation }) => {
                                 </Box>
                                 <Box h={"85%"} style={{ backgroundColor: "grey" }}>
                                     <Image
-                                        style={{width:"100%", height:"100%"}}
-                                        source={{uri:post.myPostUrl}}
+                                        style={{ width: "100%", height: "100%" }}
+                                        source={{ uri: post.myPostUrl }}
                                     />
                                 </Box>
                             </Box>

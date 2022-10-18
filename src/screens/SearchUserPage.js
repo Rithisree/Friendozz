@@ -87,7 +87,7 @@ const SearchUserPage = ({ navigation }) => {
                                         style={{ width: 33, height: 33, borderRadius: 50, marginLeft: 20 }}
                                         source={require("../assets/avatar.jpg")}
                                     />
-                                    <Text style={{ marginLeft: 15 }}>{ele.name}</Text>
+                                    <Text style={{ marginLeft: 15, color: "gray" }}>{ele.name}</Text>
                                 </Box>
                             </TouchableOpacity>
                         ))}

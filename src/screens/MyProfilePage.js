@@ -44,16 +44,19 @@ const MyProfilePage = ({ navigation, route }) => {
     console.log(image)
     console.log(userId)
     const uploadImage = async () => {
-        const imageRef = storage().ref(`${"images"}/${"rithi1" + "image.png"}`)
+        let randomString = (Math.random() + 1).toString(36).substring(7);
+        const imageRef = storage().ref(`${"images"}/${randomString}`)
         await imageRef.putFile(image, { contentType: 'image/jpg' }).catch((error) => { throw error })
         const url = await imageRef.getDownloadURL().catch((error) => { throw error });
         setImageUrl(url)
     }
     let createPost = async () => {
         const { data } = await axios.post(createPostRoute, {
-            "email": "badri82301@gmail.com",
             "postUrl": imageUrl
+        }, {
+            headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
         })
+        console.log(data.data)
         if (data.status) {
             ToastAndroid.show("Uploaded!", ToastAndroid.LONG)
             setImageUrl("")
@@ -112,7 +115,7 @@ const MyProfilePage = ({ navigation, route }) => {
                     <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}>Your Profile</Text>
                     <Image
                         style={{ width: 75, height: 75, borderRadius: 50 }}
-                        source={require("../assets/avatar.jpg")}
+                        source={{ "uri": user.image }}
                     />
                 </Box>
                 <Box style={{ display: "flex", flexDirection: "row" }}>
@@ -158,19 +161,19 @@ const MyProfilePage = ({ navigation, route }) => {
                 <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 20 }}>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>245</Text>
-                        <Text style={{ fontSize: 16, }}>Posts</Text>
+                        <Text style={{ fontSize: 16, color: "gray" }}>Posts</Text>
                     </Box>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>24k</Text>
-                        <Text style={{ fontSize: 16 }}>Fans</Text>
+                        <Text style={{ fontSize: 16, color: "gray" }}>Fans</Text>
                     </Box>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>25k</Text>
-                        <Text style={{ fontSize: 16 }}>Likes</Text>
+                        <Text style={{ fontSize: 16, color: "gray" }}>Likes</Text>
                     </Box>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>10k</Text>
-                        <Text style={{ fontSize: 16, }}>Dislikes</Text>
+                        <Text style={{ fontSize: 16, color: "gray" }}>Dislikes</Text>
                     </Box>
                 </Box>
                 {user && user._id === signinUserId ? (
