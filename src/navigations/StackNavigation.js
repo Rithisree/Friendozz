@@ -9,6 +9,7 @@ import MyProfilePage from "../screens/MyProfilePage";
 import ChatScreen from "../screens/ChatScreen";
 import SearchUserPage from "../screens/SearchUserPage";
 import ChatmessageScreen from "../screens/ChatmessageScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
 
 const Home = createNativeStackNavigator();
 export function HomeStack() {
@@ -59,6 +60,11 @@ export function HomeStack() {
             <Home.Screen
                 name="ChatmessageScreen"
                 component={ChatmessageScreen}
+                options={{ headerShown: false }}
+            />
+            <Home.Screen
+                name="EditProfileScreen"
+                component={EditProfileScreen}
                 options={{ headerShown: false }}
             />
         </Home.Navigator>

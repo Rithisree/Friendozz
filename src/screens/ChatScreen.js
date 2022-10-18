@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Box } from '@react-native-material/core'
 import { Image } from 'react-native'
@@ -123,9 +123,12 @@ const ChatScreen = ({ navigation }) => {
 
             <Box h={"8%"} w={"100%"} style={{ borderTopWidth: 1, borderTopColor: "#D9D9D9", backgroundColor: "white", position: "absolute", bottom: 0 }}>
                 <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 10 }}>
-                    <Image
-                        source={require("../assets/home.png")}
-                    />
+                    <TouchableOpacity onPress={() => navigation.navigate("PostScreen")}>
+                        <Image
+                            source={require("../assets/home.png")}
+                        />
+                    </TouchableOpacity>
+
                     <Image
                         source={require("../assets/group.png")}
                     />

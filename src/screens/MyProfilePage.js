@@ -20,7 +20,6 @@ const MyProfilePage = ({ navigation, route }) => {
     const [fan, setFan] = useState(false)
     const [signinUserId, setSigninUserId] = useState("")
     const { userId } = route.params
-
     useEffect(() => {
         const getAccess = async () => {
             if (await AsyncStorage.getItem("userId") !== "") {
@@ -28,7 +27,9 @@ const MyProfilePage = ({ navigation, route }) => {
             }
         }
         getAccess()
+
     }, [])
+
     const openImage = () => {
         ImagePicker.launchImageLibrary({ mediaType: 'photo' }, async (resp) => {
             if (resp.didCancel) {
@@ -68,6 +69,7 @@ const MyProfilePage = ({ navigation, route }) => {
         }
         console.log(data.data.postId)
     }
+
     useEffect(() => {
         if (imageUrl !== "") {
             createPost()
@@ -80,24 +82,24 @@ const MyProfilePage = ({ navigation, route }) => {
     }, [imageUrl])
     console.log("xaccess", signinUserId)
 
-    const followRequest = async() => {
-        const {data} = await axios.post(followRequestRoute,{
-            receiverId:userId
-        }, {headers:{"x-access-token":await AsyncStorage.getItem("x-access-token")}})
-        if(data.status){
+    const followRequest = async () => {
+        const { data } = await axios.post(followRequestRoute, {
+            receiverId: userId
+        }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
+        if (data.status) {
             setFan(true)
         }
     }
-    const unfollowRequest = async() => {
-        const {data} = await axios.post(unfollowRequestRoute,{
-            receiverId:userId
-        }, {headers:{"x-access-token":await AsyncStorage.getItem("x-access-token")}})
-        if(data.status){
+    const unfollowRequest = async () => {
+        const { data } = await axios.post(unfollowRequestRoute, {
+            receiverId: userId
+        }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
+        if (data.status) {
             setFan(false)
         }
     }
     return (
-        <Box w={"100%"} h={"100%"}>
+        <Box w={"100%"} h={"100%"} bg={"white"}>
             <Box w={"100%"} style={{ position: "relative", height: 90, borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                 <Box>
                     <Image
@@ -107,20 +109,21 @@ const MyProfilePage = ({ navigation, route }) => {
                     <Text onPress={() => { navigation.goBack() }} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
                 </Box>
                 <Box style={{ position: "absolute", top: 25, left: 150, display: "flex", alignItems: "center" }}>
-                    <Text style={{ color: "black", fontSize: 20, marginBottom: 5 }}>Your Profile</Text>
+                    <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}>Your Profile</Text>
                     <Image
                         style={{ width: 75, height: 75, borderRadius: 50 }}
                         source={require("../assets/avatar.jpg")}
                     />
                 </Box>
                 <Box style={{ display: "flex", flexDirection: "row" }}>
-                    <Box>
-                        <Image
-                            style={{ marginRight: 13 }}
-                            source={require("../assets/settings.png")}
-                        />
-                        <Text onPress={() => { AsyncStorage.removeItem("userId");navigation.navigate("LoginScreen") }} style={{ position: "absolute", marginLeft: 20, marginTop: 10, fontSize: 24 }}>hi</Text>
-                    </Box>
+                    <TouchableOpacity onPress={() => { AsyncStorage.removeItem("userId"); navigation.navigate("LoginScreen") }} >
+                        <Box>
+                            <Image
+                                style={{ marginRight: 13 }}
+                                source={require("../assets/settings.png")}
+                            />
+                        </Box>
+                    </TouchableOpacity>
                     {user && user._id === signinUserId && (
 
 
@@ -141,8 +144,8 @@ const MyProfilePage = ({ navigation, route }) => {
                         source={require("../assets/group.png")}
                     />
                     <Text style={{ color: "black", fontSize: 18, marginTop: 5 }}>{user && user.name}</Text>
-                    <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>@_.Rithi__</Text>
-                    <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>Forever is a Myth</Text>
+                    <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>{user && user.username}</Text>
+                    <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>{user && user.bio}</Text>
                     <Text style={{ color: "black", fontSize: 15, fontWeight: "bold", marginTop: 2 }}>...More</Text>
                     <Box style={{ displa: "flex", flexDirection: "row" }}>
                         <Image
@@ -154,20 +157,20 @@ const MyProfilePage = ({ navigation, route }) => {
                 </Box>
                 <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 20 }}>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 20, color: "black" }}>245</Text>
-                        <Text style={{ fontSize: 20 }}>Posts</Text>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>245</Text>
+                        <Text style={{ fontSize: 16, }}>Posts</Text>
                     </Box>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 20, color: "black" }}>24k</Text>
-                        <Text style={{ fontSize: 20 }}>Fans</Text>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>24k</Text>
+                        <Text style={{ fontSize: 16 }}>Fans</Text>
                     </Box>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 20, color: "black" }}>25k</Text>
-                        <Text style={{ fontSize: 20 }}>Likes</Text>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>25k</Text>
+                        <Text style={{ fontSize: 16 }}>Likes</Text>
                     </Box>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 20, color: "black" }}>10k</Text>
-                        <Text style={{ fontSize: 20 }}>Dislikes</Text>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>10k</Text>
+                        <Text style={{ fontSize: 16, }}>Dislikes</Text>
                     </Box>
                 </Box>
                 {user && user._id === signinUserId ? (
@@ -175,25 +178,27 @@ const MyProfilePage = ({ navigation, route }) => {
 
                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25 }}>
 
-                        <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <Text style={{ fontSize: 18, color: "black" }}>View Gangs</Text>
+                        <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>View Gangs</Text>
                         </Box>
-                        <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <Text style={{ fontSize: 18, color: "black" }}>Edit Profile</Text>
-                        </Box>
+                        <TouchableOpacity onPress={() => { navigation.navigate("EditProfileScreen", { userId: userId }) }}>
+                            <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>Edit Profile</Text>
+                            </Box>
+                        </TouchableOpacity>
                     </Box>
                 ) : (
                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25 }}>
-                        {fan?(
+                        {fan ? (
                             <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text onPress={()=>unfollowRequest()} style={{ fontSize: 18, color: "black" }}>Fan</Text>
+                                <Text onPress={() => unfollowRequest()} style={{ fontSize: 18, color: "black" }}>Fan</Text>
                             </Box>
-                        ):(
+                        ) : (
                             <Box style={{ backgroundColor: "#0093E5", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text onPress={()=>followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
+                                <Text onPress={() => followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
                             </Box>
                         )}
-                        <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen", {userId:user._id})}>
+                        <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen", { userId: user._id })}>
                             <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <Text style={{ fontSize: 18, color: "black" }}>Message</Text>
                             </Box>
@@ -215,8 +220,8 @@ const MyProfilePage = ({ navigation, route }) => {
                                     source={{ "uri": list && list.myPostUrl }}
                                 />
                             ))}
-                            <Box style={{ width: 70, height: 70, margin: 2, backgroundColor: "#D9D9D9", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text style={{ color: "black", textAlign: "center" }}>View All Photo</Text>
+                            <Box style={{ width: 70, height: 70, margin: 2, backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Text style={{ color: "black", textAlign: "center", fontWeight: "bold" }}>View All Photo</Text>
                             </Box>
                         </Box>
                     </Box>
@@ -282,9 +287,12 @@ const MyProfilePage = ({ navigation, route }) => {
                 <Image
                     source={require("../assets/group.png")}
                 />
-                <Image
-                    source={require("../assets/members.png")}
-                />
+                <TouchableOpacity onPress={() => navigation.navigate("ChatScreen")}>
+                    <Image
+                        source={require("../assets/members.png")}
+                    />
+                </TouchableOpacity>
+
                 <Image
                     source={require("../assets/notify.png")}
                 />
