@@ -164,10 +164,10 @@ const MyProfilePage = ({ navigation, route }) => {
                 ) : (
                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25 }}>
 
-                        <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <Text style={{ fontSize: 18, color: "black" }}>Be a Fan</Text>
+                        <Box style={{ backgroundColor: "#0093E5", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Text style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
                         </Box>
-                        <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen")}>
+                        <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen", {userId:user._id})}>
                             <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <Text style={{ fontSize: 18, color: "black" }}>Message</Text>
                             </Box>

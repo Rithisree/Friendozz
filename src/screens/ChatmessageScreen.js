@@ -1,10 +1,23 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native'
+import { StyleSheet, Text, View, TextInput, AsyncStorage } from 'react-native'
 import React from 'react'
 import { Box } from '@react-native-material/core'
 import { Image } from 'react-native'
+const axios = require("axios").default;
+import { createMessageRoute } from '../apiutils/apiutils';
+import { useState } from 'react';
 
-
-const ChatmessageScreen = ({ navigation }) => {
+const ChatmessageScreen = ({ navigation, route }) => {
+    const {userId} = route.params
+    const [message, setMessage] = useState("")
+    const sendMessage = async() => {
+        const header = await AsyncStorage.getItem("x-access-token")
+        const {data} = await axios.post(createMessageRoute, {
+            receiverId:userId,
+            msg:message
+        },{headers:{"x-access-token":header}})
+        console.log(data.data)
+    }
+    console.log(message)
     return (
         <Box w={"100%"} h={"100%"} bg={"white"}>
             <Box w={"100%"} h={"5%"} style={{ flexDirection: "row", backgroundColor: "white", alignItems: "center", justifyContent: 'space-between' }}>
@@ -84,9 +97,9 @@ const ChatmessageScreen = ({ navigation }) => {
                 <TextInput
                     style={{ height: 50, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 20 }}
                     placeholder="Enter Message"
-
+                    onChange={(e)=>setMessage(e.nativeEvent.text)}
                 />
-                <Text style={{ "position": "absolute", right: 15, marginTop: 15, fontWeight: "bold" }}>Send</Text>
+                <Text onPress={()=>sendMessage()} style={{ "position": "absolute", right: 15, marginTop: 15, fontWeight: "bold" }}>Send</Text>
             </Box>
         </Box>
 
