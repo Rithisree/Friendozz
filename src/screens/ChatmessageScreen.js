@@ -20,7 +20,7 @@ const ChatmessageScreen = ({ navigation, route }) => {
     console.log(message)
     return (
         <Box w={"100%"} h={"100%"} bg={"white"}>
-            <Box w={"100%"} h={"5%"} style={{ flexDirection: "row", backgroundColor: "white", alignItems: "center", justifyContent: 'space-between' }}>
+            <Box w={"100%"} h={"5%"} style={{ flexDirection: "row", backgroundColor: "white", alignItems: "center", justifyContent: 'space-between', position: "absolute" }}>
 
                 <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                     <Box>
@@ -35,7 +35,7 @@ const ChatmessageScreen = ({ navigation, route }) => {
                             style={{ width: 35, height: 35, borderRadius: 20 }}
                             source={require("../assets/avatar.jpg")}
                         />
-                        <Box>
+                        <Box style={{ position: "absolute", marginLeft: 30 }}>
                             <Text style={{ fontWeight: "bold", color: "black", fontSize: 18, marginLeft: 15 }}>Badri</Text>
                             <Text style={{ marginLeft: 15 }}>_b_a_d_r_i</Text>
                         </Box>
@@ -48,9 +48,9 @@ const ChatmessageScreen = ({ navigation, route }) => {
                     source={require("../assets/threeDot.png")}
                 />
                 <Text onPress={() => { navigation.navigate("SignInScreen") }} style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", fontSize: 24, right: 10, opacity: 0 }}>hi</Text>
-            </Box>
+            </Box >
 
-            <Box style={{ marginTop: 40, marginLeft: 30, flexDirection: "row" }}>
+            <Box style={{ marginTop: 70, marginLeft: 30, flexDirection: "row" }}>
                 <Image
                     style={{ width: 35, height: 35, borderRadius: 20 }}
                     source={require("../assets/avatar.jpg")}
@@ -101,7 +101,7 @@ const ChatmessageScreen = ({ navigation, route }) => {
                 />
                 <Text onPress={()=>sendMessage()} style={{ "position": "absolute", right: 15, marginTop: 15, fontWeight: "bold" }}>Send</Text>
             </Box>
-        </Box>
+        </Box >
 
     )
 }
