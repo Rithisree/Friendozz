@@ -1,12 +1,17 @@
-import { Image, ScrollView, StyleSheet, Text, View, AsyncStorage } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View, AsyncStorage, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Box } from '@react-native-material/core'
-import { showFanPostRoute } from '../apiutils/apiutils'
+import { showFanPostRoute, updateCountRoute } from '../apiutils/apiutils'
 const axios = require("axios").default
 
 const PostPage = ({ navigation }) => {
     const [userId, setUserId] = useState("")
     const [fanPost, setFanPost] = useState("")
+    const [likePostId, setLikePostId] = useState("")
+    const [disLikePostId, setDisLikePostId] = useState("")
+    const [likeStatus, setLikeStatus] = useState("")
+    const [disLikeStatus, setDisLikeStatus] = useState("")
+
     useEffect(() => {
         const getData = async () => {
             if (!(await AsyncStorage.getItem('x-access-token'))) {
@@ -27,6 +32,43 @@ const PostPage = ({ navigation }) => {
     useEffect(() => {
         showPost()
     }, [])
+
+    const updateLikeCount = async() => {
+        const {data} = await axios.post(updateCountRoute, {
+            "postId":likePostId,
+            "status":likeStatus
+        },{ headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
+        if(data.status){
+            showPost()
+            setLikePostId("")
+        }
+    }
+
+    const updateDisLikeCount = async() => {
+        console.log("dislikefunc")
+        const {data} = await axios.post(updateCountRoute, {
+            "postId":disLikePostId,
+            "status":disLikeStatus
+        },{ headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
+        if(data.status){
+            showPost()
+            setDisLikePostId("")
+        }
+    }
+ 
+
+    useEffect(()=>{
+        if(likePostId!==""){
+            updateLikeCount()
+        }
+    },[likePostId])
+
+    useEffect(()=>{
+        if(disLikePostId!==""){
+            console.log("useeffect")
+            updateDisLikeCount()
+        }
+    },[disLikePostId])
 
     return (
         <Box w={"100%"} h={"100%"} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
@@ -98,16 +140,44 @@ const PostPage = ({ navigation }) => {
                                 />
                             </Box>
                             <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 48 }}>
-                                <Image
-                                    source={require("../assets/like.png")}
-                                />
-                                <Text style={{ fontSize: 12 }}>224k</Text>
+                                <TouchableOpacity onPress={()=>{setLikePostId(post._id);setLikeStatus("like");}}>
+                                    {post.likes.length>0 ? post.likes.map((like)=>(
+                                        like===fanPost._id?(
+                                            <Image
+                                                source={require("../assets/like.png")}
+                                            />
+                                        ):(
+                                            <Image 
+                                                source={require("../assets/likeEmpty.png")}
+                                            />
+                                        )
+                                    )):(
+                                        <Image 
+                                            source={require("../assets/likeEmpty.png")}
+                                        />
+                                    )}
+                                </TouchableOpacity>
+                                <Text style={{ fontSize: 12, color:"black" }}>{post.likes.length}</Text>
                             </Box>
                             <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 48 }}>
-                                <Image
-                                    source={require("../assets/dislike.png")}
-                                />
-                                <Text style={{ fontSize: 12 }}>224k</Text>
+                                <TouchableOpacity onPress={()=>{setDisLikePostId(post._id);setDisLikeStatus("dislike");}}>
+                                    {post.dislikes.length>0 ? post.dislikes.map((dislike)=>(
+                                        dislike===fanPost._id?(
+                                            <Image
+                                                source={require("../assets/filledDislike.png")}
+                                            />
+                                        ):(
+                                            <Image 
+                                                source={require("../assets/dislike.png")}
+                                            />
+                                        )
+                                    )):(
+                                        <Image 
+                                            source={require("../assets/dislike.png")}
+                                        />
+                                    )}
+                                </TouchableOpacity>
+                                <Text style={{ fontSize: 12, color:"black" }}>{post.dislikes.length}</Text>
                             </Box>
                             <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 48 }}>
                                 <Image
