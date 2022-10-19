@@ -5,7 +5,7 @@ import { ImageGrid } from "react-fb-image-video-grid"
 import * as ImagePicker from "react-native-image-picker"
 import storage from '@react-native-firebase/storage'
 import { useEffect } from 'react'
-import { createPostRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute } from '../apiutils/apiutils';
+import { createPostRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute, checkFanRoute } from '../apiutils/apiutils';
 import { List } from 'native-base'
 import { TouchableOpacity } from 'react-native'
 
@@ -41,8 +41,18 @@ const MyProfilePage = ({ navigation, route }) => {
             }
         })
     }
-    console.log(image)
     console.log(userId)
+    useEffect(() => {
+        const checkFan = async () => {
+            const { data } = await axios.post(checkFanRoute, {
+                "receiverId": userId
+            }, {
+                headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
+            })
+
+        }
+        checkFan()
+    }, [])
     const uploadImage = async () => {
         let randomString = (Math.random() + 1).toString(36).substring(7);
         const imageRef = storage().ref(`${"images"}/${randomString}`)
@@ -70,7 +80,7 @@ const MyProfilePage = ({ navigation, route }) => {
             setListPost(data.data.postId)
             setUser(data.data)
         }
-        console.log(data.data.postId)
+        console.log(data.data)
     }
 
     useEffect(() => {
@@ -83,22 +93,25 @@ const MyProfilePage = ({ navigation, route }) => {
     useEffect(() => {
         listPost()
     }, [imageUrl])
-    console.log("xaccess", signinUserId)
 
     const followRequest = async () => {
         const { data } = await axios.post(followRequestRoute, {
             receiverId: userId
         }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
+        console.log(data.data)
         if (data.status) {
             setFan(true)
+            listPost()
         }
     }
     const unfollowRequest = async () => {
+        console.log("hi")
         const { data } = await axios.post(unfollowRequestRoute, {
             receiverId: userId
         }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
         if (data.status) {
-            setFan(false)
+            console.log(data.data)
+            listPost()
         }
     }
     return (
@@ -192,14 +205,22 @@ const MyProfilePage = ({ navigation, route }) => {
                     </Box>
                 ) : (
                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25 }}>
-                        {fan ? (
-                            <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text onPress={() => unfollowRequest()} style={{ fontSize: 18, color: "black" }}>Fan</Text>
-                            </Box>
-                        ) : (
+                        {user && user.followers.length > 0 ? user.followers.map((id) => (
+                            id === signinUserId ? (
+                                <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <Text onPress={() => unfollowRequest()} style={{ fontSize: 18, color: "black" }}>Fan</Text>
+                                </Box>
+                            ) : (
+
+                                <Box style={{ backgroundColor: "#0093E5", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <Text onPress={() => followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
+                                </Box>
+                            )
+                        )) : (
                             <Box style={{ backgroundColor: "#0093E5", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <Text onPress={() => followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
                             </Box>
+
                         )}
                         <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen", { userId: user._id })}>
                             <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -207,7 +228,8 @@ const MyProfilePage = ({ navigation, route }) => {
                             </Box>
                         </TouchableOpacity>
                     </Box>
-                )}
+                )
+                }
                 <Box>
                     <Box style={{ marginLeft: 10 }}>
                         <Box>
@@ -278,7 +300,7 @@ const MyProfilePage = ({ navigation, route }) => {
                         </Box>
                     </Box>
                 </Box>
-            </ScrollView>
+            </ScrollView >
 
             <Box h={"8%"} w={"100%"} style={{ borderTopWidth: 1, borderTopColor: "#D9D9D9", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" }}>
                 <Box>
@@ -308,7 +330,7 @@ const MyProfilePage = ({ navigation, route }) => {
                 <Box style={{ width: 35, height: 5, borderRadius: 10, backgroundColor: "grey", marginTop: 10, marginLeft: 180 }}><Text>  </Text></Box>
                 <Text onPress={() => { setHide(true); openImage() }} style={{ fontSize: 25, color: "black", marginLeft: 30, marginTop: 30 }}>Post</Text>
             </Box>
-        </Box>
+        </Box >
     )
 }
 

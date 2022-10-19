@@ -22,6 +22,7 @@ export const followRequestRoute = `${host}/post/followRequest`
 export const unfollowRequestRoute = `${host}/post/unfollowRequest`
 export const showFanPostRoute = `${host}/post/listFanPost`
 export const updateCountRoute = `${host}/post/updateCount`
+export const checkFanRoute = `${host}/post/checkfan`
 
 export const createMessageRoute = `${host}/message/createMessage`
 export const listMessageRoute = `${host}/message/listMessage`
