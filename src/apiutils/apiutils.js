@@ -25,3 +25,5 @@ export const updateCountRoute = `${host}/post/updateCount`
 
 export const createMessageRoute = `${host}/message/createMessage`
 export const listMessageRoute = `${host}/message/listMessage`
+
+export const listNotificationRoute = `${host}/notification/listNotification`

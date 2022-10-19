@@ -295,10 +295,13 @@ const MyProfilePage = ({ navigation, route }) => {
                         source={require("../assets/members.png")}
                     />
                 </TouchableOpacity>
-
-                <Image
-                    source={require("../assets/notify.png")}
-                />
+                
+                <TouchableOpacity onPress={() => navigation.navigate("NotificationScreen")}>
+                    <Image
+                        source={require("../assets/notify.png")}
+                    />
+                </TouchableOpacity>
+                
                 <Image
                     source={require("../assets/message.png")}
                 />

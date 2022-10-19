@@ -211,9 +211,12 @@ const PostPage = ({ navigation }) => {
                     <Text onPress={() => { navigation.navigate("ChatScreen") }} style={{ position: "absolute", color: "white", opacity: 0, fontSize: 25, bottom: -10 }}>hi</Text>
                 </Box>
 
-                <Image
-                    source={require("../assets/notify.png")}
-                />
+                <TouchableOpacity onPress={() => navigation.navigate("NotificationScreen")}>
+                    <Image
+                        source={require("../assets/notify.png")}
+                    />
+                </TouchableOpacity>
+                
                 <Image
                     source={require("../assets/message.png")}
                 />
