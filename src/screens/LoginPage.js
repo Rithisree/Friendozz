@@ -126,7 +126,7 @@ const Login = ({ navigation }) => {
                   <Text style={{ color: "black", fontSize: 18 }}>E-Mail</Text>
                   <TextInput
                     style={{ height: 40, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
-                    placeholder="email"
+                    placeholder="Email or User Name"
                     onChange={(e) => setEmail(e.nativeEvent.text)}
                   />
                 </Box>
