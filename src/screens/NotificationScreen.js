@@ -22,6 +22,34 @@ const NotificationScreen = () => {
             />
             <Text style={{color:"black", fontSize:18, marginLeft:90}}>159 Comments</Text>
         </Box>
+        <Box w={"100%"} style={{height:120, display:"flex", flexDirection:"row", alignItems:"center",  justifyContent:"space-around"}}>
+            <Box style={{display:"flex", alignItems:"center"}}>
+                <Box style={{height:70, backgroundColor:"#D9D9D9", width:70, display:"flex", alignItems:"center", justifyContent:"center"}}>
+                    <Image
+                        source={require("../assets/add.png")}
+                    />
+                </Box>
+                <Text style={{color:"black"}}>Gang's Notification</Text>
+            </Box>
+
+            <Box style={{display:"flex", alignItems:"center"}}>
+                <Box style={{height:70, backgroundColor:"#D9D9D9", width:70, display:"flex", alignItems:"center", justifyContent:"center"}}>
+                    <Image
+                        source={require("../assets/mention.png")}
+                    />
+                </Box>
+                <Text style={{color:"black"}}>Mentioned</Text>
+            </Box>
+
+            <Box style={{display:"flex", alignItems:"center"}}>
+                <Box style={{height:70, backgroundColor:"#D9D9D9", width:70, display:"flex", alignItems:"center", justifyContent:"center"}}>
+                    <Image
+                        source={require("../assets/partnership.png")}
+                    />
+                </Box>
+                <Text style={{color:"black"}}>Partner's Notification</Text>
+            </Box>
+        </Box>
         <ScrollView>
             {notify.length>0 && notify.map((ele) => (
                 <Box w={"100%"} style={{ margin:10, display:"flex", flexDirection:"row", alignItems:"center"}}>

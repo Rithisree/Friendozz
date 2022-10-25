@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, Image, TextInput, ToastAndroid } from 'react-native'
 import { Box } from '@react-native-material/core'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MaterialTabs from 'react-native-material-tabs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 //import axios from "axios"
-import { signUpRoute, signUpViaMobileRoute } from '../apiutils/apiutils';
+import { signUpRoute, signUpViaMobileRoute, listValidUsernameSignInRoute } from '../apiutils/apiutils';
 import VerifyOtp from '../components/VerifyOtp';
 const axios = require('axios').default;
 
@@ -18,6 +18,8 @@ const SignIn = ({ navigation }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [mobileNumber, setMobileNumber] = useState(0)
+  const [username, setUsername] = useState("")
+  const [userNameError, setUsernameError] = useState("")
 
 
   const handleChange = (e) => {
@@ -32,7 +34,6 @@ const SignIn = ({ navigation }) => {
         "email": email,
         "password": password
       })
-      console.log(data.status)
 
       if (data.status === true) {
         ToastAndroid.show(data.data, ToastAndroid.SHORT);
@@ -40,7 +41,7 @@ const SignIn = ({ navigation }) => {
         setIsSignup(true)
       }
     } catch (error) {
-      console.log(error.response.data.message)
+     
       if (error.response.status) {
         ToastAndroid.show(error.response.data.message, ToastAndroid.LONG);
       }
@@ -53,18 +54,41 @@ const SignIn = ({ navigation }) => {
         "mobileNumber": mobileNumber,
         "password": password
       })
-      console.log(data)
+
 
       if (data.status === true) {
         ToastAndroid.show(data.data, ToastAndroid.SHORT);
       }
     } catch (error) {
-      console.log(error.response.data.message)
+      
       if (error.response.status) {
         ToastAndroid.show(error.response.data.message, ToastAndroid.LONG);
       }
     }
   }
+
+  const ValidateUserName = async () => {
+    try {
+        const { data } = await axios.post(listValidUsernameSignInRoute, {
+            "username": username
+        })
+        if (data.status) {
+            setUsernameError("")
+        }
+        
+    } catch (error) {
+        if (error.response) {
+            setUsernameError(error.response.data.message)
+        }
+    }
+}
+useEffect(() => {
+  if (username !== "") {
+      ValidateUserName()
+  }
+
+}, [username]);
+
 
   return (
     <Box w={"100%"} h={"100%"}>
@@ -98,7 +122,7 @@ const SignIn = ({ navigation }) => {
         <Box style={{ margin: 18 }}>
           <Text style={{ color: "black", fontFamily: "verdana" }}>Enter a valid Phone number and password to set your account</Text>
           <Text style={{ color: "black" }}>If You have an account ? <Text onPress={() => navigation.navigate("LoginScreen")} style={{ color: "black", fontWeight: "bold" }}>Login</Text></Text>
-          <Box style={{ marginBottom: 25, marginTop: 40, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+          <Box style={{  marginBottom:userNameError.length > 0 ? 0 : 25, marginTop: 40, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <Box>
               <Text style={{ color: "black", fontSize: 18 }}>First Name</Text>
               <TextInput
@@ -108,13 +132,17 @@ const SignIn = ({ navigation }) => {
               />
             </Box>
             <Box>
-              <Text style={{ color: "black", fontSize: 18 }}>Last Name</Text>
+              <Text style={{ color: "black", fontSize: 18 }}>User Name</Text>
               <TextInput
-                style={{ height: 40, width: 175, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
-                placeholder="Last Name"
+                style={{  height: 40, width: 175, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
+                placeholder="User Name"
+                onChange={(e) => setUsername(e.nativeEvent.text)}
               />
             </Box>
           </Box>
+          {userNameError.length > 0 && (
+                        <Text style={{marginBottom:20, marginLeft:185}}>{userNameError}</Text>
+          )}
           <Box style={{ marginBottom: 25 }}>
             <Text style={{ color: "black", fontSize: 18 }}>Phone Number</Text>
             <TextInput
@@ -144,7 +172,7 @@ const SignIn = ({ navigation }) => {
         <Box style={{ margin: 18 }}>
           <Text style={{ color: "black" }}>Enter a valid E-Mail Id and password to set your account</Text>
           <Text style={{ color: "black" }}>If You have an account ? <Text onPress={() => navigation.navigate("LoginScreen")} style={{ color: "black", fontWeight: "bold" }}>Login</Text></Text>
-          <Box style={{ marginBottom: 25, marginTop: 40, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+          <Box style={{  marginBottom:userNameError.length > 0 ? 0 : 25, marginTop: 40, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <Box>
               <Text style={{ color: "black", fontSize: 18 }}>First Name</Text>
               <TextInput
@@ -155,19 +183,23 @@ const SignIn = ({ navigation }) => {
               />
             </Box>
             <Box>
-              <Text style={{ color: "black", fontSize: 18 }}>Last Name</Text>
+              <Text style={{ color: "black", fontSize: 18 }}>User Name</Text>
               <TextInput
                 style={{ height: 40, width: 175, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
-                placeholder="Last Name"
+                placeholder="User Name"
+                onChange={(e) => setUsername(e.nativeEvent.text)}
               />
             </Box>
           </Box>
+          {userNameError.length > 0 && (
+                        <Text style={{marginBottom:20, marginLeft:185}}>{userNameError}</Text>
+          )}
           <Box style={{ marginBottom: 25 }}>
             <Text style={{ color: "black", fontSize: 18 }}>Email</Text>
             <TextInput
               onChange={(e) => setEmail(e.nativeEvent.text)}
               style={{ height: 40, backgroundColor: "#B9B3B3", padding: 10, borderRadius: 10 }}
-              placeholder="valid Email"
+              placeholder="Valid Email"
             />
           </Box>
           <Box>

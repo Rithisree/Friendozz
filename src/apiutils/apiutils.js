@@ -12,6 +12,7 @@ export const ResetpasswordRoute = `${host}/auth/resetpassword`
 export const googleSignInRoute = `${host}/auth/googleSignIn`
 export const updateProfileRoute = `${host}/auth/updateProfile`
 export const listValidUsernameRoute = `${host}/auth/listValidUsername`
+export const listValidUsernameSignInRoute = `${host}/auth/listValidUsernameSignIn`
 export const uploadImageRoute = `${host}/auth/uploadImage`
 
 
