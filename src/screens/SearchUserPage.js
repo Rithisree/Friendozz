@@ -7,24 +7,25 @@ const axios = require("axios").default
 const SearchUserPage = ({ navigation }) => {
     const [search, setSearch] = useState("")
     const [user, setUser] = useState([])
-    console.log(search)
+
 
     const handleSearch = async () => {
-        // try {
-        const { data } = await axios.post(searchUserRoute, {
-            "email": search
-        })
-        setUser(data.data)
-        console.log(data.data)
-        //   if (data.status) {
-        //     navigation.navigate("PostScreen")
-        //   }
+        try {
+            const { data } = await axios.post(searchUserRoute, {
+                "email": search
+            })
 
-        // } catch (error) {
-        // //   if (error.response.status) {
-        // //     ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
-        // //   }
-        // }
+
+            if (data.status) {
+                console.log(data.data)
+                setUser(data.data)
+            }
+
+        } catch (error) {
+            if (error.response.status) {
+                ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
+            }
+        }
     }
     useEffect(() => {
         if (search.length > 0) {
@@ -83,10 +84,18 @@ const SearchUserPage = ({ navigation }) => {
                                 userId: ele._id
                             })}>
                                 <Box w={"100%"} style={{ height: 45, borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
-                                    <Image
-                                        style={{ width: 33, height: 33, borderRadius: 50, marginLeft: 20 }}
-                                        source={require("../assets/avatar.jpg")}
-                                    />
+                                    {ele.image ? (
+                                        <Image
+                                            style={{ width: 33, height: 33, borderRadius: 50, marginLeft: 20 }}
+                                            source={{ uri: ele.image }}
+                                        />
+                                    ) : (
+                                        <Image
+                                            style={{ width: 33, height: 33, borderRadius: 50, marginLeft: 20 }}
+                                            source={require("../assets/hacker.png")}
+                                        />
+                                    )}
+
                                     <Text style={{ marginLeft: 15, color: "gray" }}>{ele.name}</Text>
                                 </Box>
                             </TouchableOpacity>

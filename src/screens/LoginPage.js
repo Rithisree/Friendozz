@@ -29,7 +29,7 @@ const Login = ({ navigation }) => {
         "email": email,
         "password": password
       })
-      console.log(data)
+
       if (data.status) {
         await AsyncStorage.setItem("x-access-token", data.token)
         await AsyncStorage.setItem("userId", data.userId)

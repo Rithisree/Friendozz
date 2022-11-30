@@ -1,10 +1,28 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { AsyncStorage, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect } from 'react'
 import { Box } from '@react-native-material/core'
 import { Image } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
+import { listContactseRoute } from '../apiutils/apiutils'
+const axios = require("axios").default;
 
 const ChatScreen = ({ navigation }) => {
+    const getData = async () => {
+        console.log("hi")
+        try {
+            const { data } = await axios.get(listContactseRoute, {
+                headers: {
+                    headers: {
+                        "x-access-token": await AsyncStorage.getItem("x-access-token")
+                    }
+                }
+            })
+            console.log(data)
+        } catch (error) {
+
+        }
+    }
+
     return (
         <Box w={"100%"} h={"100%"} bg={"white"}>
             <Box w={"100%"} h={"5%"} style={{ flexDirection: "row", backgroundColor: "white", alignItems: "center", justifyContent: 'space-between' }}>
@@ -31,8 +49,8 @@ const ChatScreen = ({ navigation }) => {
                             style={{ width: 55, height: 55, margin: 20 }}
                             source={require("../assets/Gang.png")}
                         />
-                        <Text onPress={() => { navigation.navigate("SignInScreen") }} style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", opacity: 0, fontSize: 24 }}>hi</Text>
-                        <Text style={{ fontWeight: "bold", color: "black", marginTop: -5 }}>Gangs-Box</Text>
+                        <Text style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", opacity: 0, fontSize: 24 }}>hi</Text>
+                        <Text onPress={() => { console.log("hi") }} style={{ fontWeight: "bold", color: "black", marginTop: -5 }}>Gangs-Box</Text>
                     </View>
                     <View>
                         <Image
@@ -138,10 +156,12 @@ const ChatScreen = ({ navigation }) => {
                         />
                         <Text onPress={() => { navigation.navigate("ChatScreen") }} style={{ position: "absolute", color: "white", opacity: 0, fontSize: 25, bottom: -10 }}>hi</Text>
                     </Box>
+                    <TouchableOpacity onPress={() => navigation.navigate("NotificationScreen")}>
+                        <Image
+                            source={require("../assets/notify.png")}
+                        />
+                    </TouchableOpacity>
 
-                    <Image
-                        source={require("../assets/notify.png")}
-                    />
                     <Image
                         source={require("../assets/message.png")}
                     />

@@ -1,12 +1,10 @@
 import { AsyncStorage, Image, ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import React, { useState } from 'react'
 import { Box } from '@react-native-material/core'
-import { ImageGrid } from "react-fb-image-video-grid"
 import * as ImagePicker from "react-native-image-picker"
 import storage from '@react-native-firebase/storage'
 import { useEffect } from 'react'
 import { createPostRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute, checkFanRoute } from '../apiutils/apiutils';
-import { List } from 'native-base'
 import { TouchableOpacity } from 'react-native'
 
 const axios = require("axios").default
@@ -18,6 +16,10 @@ const MyProfilePage = ({ navigation, route }) => {
     const [user, setUser] = useState("")
     const [hide, setHide] = useState(true)
     const [fan, setFan] = useState(false)
+    const [postCount, setPostCount] = useState(0)
+    const [followingCount, setfollowingCount] = useState(0)
+    const [likesCount, setlikesCount] = useState(0)
+    const [dislikesCount, setdislikesCount] = useState(0)
     const [signinUserId, setSigninUserId] = useState("")
     const { userId } = route.params
     useEffect(() => {
@@ -41,18 +43,18 @@ const MyProfilePage = ({ navigation, route }) => {
             }
         })
     }
-    console.log(userId)
-    useEffect(() => {
-        const checkFan = async () => {
-            const { data } = await axios.post(checkFanRoute, {
-                "receiverId": userId
-            }, {
-                headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
-            })
 
-        }
-        checkFan()
-    }, [])
+    // useEffect(() => {
+    //     const checkFan = async () => {
+    //         const { data } = await axios.post(checkFanRoute, {
+    //             "receiverId": userId
+    //         }, {
+    //             headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
+    //         })
+
+    //     }
+    //     checkFan()
+    // }, [])
     const uploadImage = async () => {
         let randomString = (Math.random() + 1).toString(36).substring(7);
         const imageRef = storage().ref(`${"images"}/${randomString}`)
@@ -61,26 +63,44 @@ const MyProfilePage = ({ navigation, route }) => {
         setImageUrl(url)
     }
     let createPost = async () => {
-        const { data } = await axios.post(createPostRoute, {
-            "postUrl": imageUrl
-        }, {
-            headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
-        })
-        console.log(data.data)
-        if (data.status) {
-            ToastAndroid.show("Uploaded!", ToastAndroid.LONG)
-            setImageUrl("")
+        try {
+
+
+            const { data } = await axios.post(createPostRoute, {
+                "postUrl": imageUrl
+            }, {
+                headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
+            })
+
+            if (data.status) {
+                ToastAndroid.show("Uploaded!", ToastAndroid.LONG)
+                setImageUrl("")
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
     let listPost = async () => {
-        const { data } = await axios.get(`${listPostBasedOnUserRoute}/${userId}`, {
-            headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
-        })
-        if (data.status) {
-            setListPost(data.data.postId)
-            setUser(data.data)
+        try {
+
+
+            const { data } = await axios.get(`${listPostBasedOnUserRoute}/${userId}`, {
+                headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
+            })
+            if (data.status) {
+                setListPost(data.data.postId)
+                setUser(data.data)
+                setPostCount(data.data.postId.length)
+                setfollowingCount(data.data.followers.length)
+
+                setlikesCount(data.likesCount)
+                setdislikesCount(data.dislikeCount)
+                console.log(data.likesCount)
+            }
+        } catch (error) {
+            console.log(error)
         }
-        console.log(data.data)
+
     }
 
     useEffect(() => {
@@ -173,19 +193,19 @@ const MyProfilePage = ({ navigation, route }) => {
                 </Box>
                 <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 20 }}>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>245</Text>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{postCount && postCount}</Text>
                         <Text style={{ fontSize: 16, color: "gray" }}>Posts</Text>
                     </Box>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>24k</Text>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{followingCount && followingCount}</Text>
                         <Text style={{ fontSize: 16, color: "gray" }}>Fans</Text>
                     </Box>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>25k</Text>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{likesCount}</Text>
                         <Text style={{ fontSize: 16, color: "gray" }}>Likes</Text>
                     </Box>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>10k</Text>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{dislikesCount && dislikesCount}</Text>
                         <Text style={{ fontSize: 16, color: "gray" }}>Dislikes</Text>
                     </Box>
                 </Box>
@@ -243,6 +263,7 @@ const MyProfilePage = ({ navigation, route }) => {
                                 <Image
                                     style={{ width: 70, height: 70, margin: 2 }}
                                     source={{ "uri": list && list.myPostUrl }}
+
                                 />
                             ))}
                             <Box style={{ width: 70, height: 70, margin: 2, backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -317,13 +338,13 @@ const MyProfilePage = ({ navigation, route }) => {
                         source={require("../assets/members.png")}
                     />
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity onPress={() => navigation.navigate("NotificationScreen")}>
                     <Image
                         source={require("../assets/notify.png")}
                     />
                 </TouchableOpacity>
-                
+
                 <Image
                     source={require("../assets/message.png")}
                 />

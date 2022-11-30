@@ -26,59 +26,66 @@ const PostPage = ({ navigation }) => {
 
     const showPost = async () => {
         const { data } = await axios.get(showFanPostRoute, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
-        console.log(data.data)
+
         setFanPost(data.data)
     }
     useEffect(() => {
         showPost()
     }, [])
 
-    const updateLikeCount = async() => {
-        const {data} = await axios.post(updateCountRoute, {
-            "postId":likePostId,
-            "status":likeStatus
-        },{ headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
-        if(data.status){
+    const updateLikeCount = async () => {
+        const { data } = await axios.post(updateCountRoute, {
+            "postId": likePostId,
+            "status": likeStatus
+        }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
+        if (data.status) {
             showPost()
             setLikePostId("")
         }
     }
 
-    const updateDisLikeCount = async() => {
+    const updateDisLikeCount = async () => {
         console.log("dislikefunc")
-        const {data} = await axios.post(updateCountRoute, {
-            "postId":disLikePostId,
-            "status":disLikeStatus
-        },{ headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
-        if(data.status){
+        const { data } = await axios.post(updateCountRoute, {
+            "postId": disLikePostId,
+            "status": disLikeStatus
+        }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
+        if (data.status) {
             showPost()
             setDisLikePostId("")
         }
     }
- 
 
-    useEffect(()=>{
-        if(likePostId!==""){
+
+    useEffect(() => {
+        if (likePostId !== "") {
             updateLikeCount()
         }
-    },[likePostId])
+    }, [likePostId])
 
-    useEffect(()=>{
-        if(disLikePostId!==""){
+    useEffect(() => {
+        if (disLikePostId !== "") {
             console.log("useeffect")
             updateDisLikeCount()
         }
-    },[disLikePostId])
+    }, [disLikePostId])
 
     return (
         <Box w={"100%"} h={"100%"} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
             <Box h={"8%"} style={{ borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", padding: 5 }}>
                 <Box>
-                    <Image
-                        style={{ width: 45, height: 45, borderRadius: 50 }}
-                        source={{ uri: fanPost && fanPost.image }}
-                    />
-                    <Text onPress={() => navigation.navigate("MyProfileScreen", { userId: userId })} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
+                    {fanPost.image ? (
+                        <TouchableOpacity onPress={() => navigation.navigate("MyProfileScreen", { userId: userId })}>
+
+
+                            <Image
+                                style={{ width: 45, height: 45, borderRadius: 50 }}
+                                source={{ uri: fanPost && fanPost.image }}
+                            />
+                        </TouchableOpacity>
+                    ) : (
+                        null
+                    )}
                 </Box>
                 <Text style={{ fontSize: 20, color: "black" }}>FriendOzz.com</Text>
                 <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
@@ -107,16 +114,33 @@ const PostPage = ({ navigation }) => {
                                         source={require("../assets/threeDot.png")}
                                     />
                                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                        <Box style={{ marginRight: 5 }}>
-                                            <Text style={{ textAlign: "right", color: "gray" }}>{post.userId.name}</Text>
-                                            <Text style={{ textAlign: "right", color: "gray" }}>Dance Gang</Text>
-                                        </Box>
+
+
+                                        <TouchableOpacity onPress={() => {
+                                            navigation.navigate("MyProfileScreen", {
+                                                userId: post.userId._id
+                                            })
+                                        }}>
+                                            <Box style={{ marginRight: 5 }}>
+                                                <Text style={{ textAlign: "right", color: "gray" }}>{post.userId.name}</Text>
+                                                <Text style={{ textAlign: "right", color: "gray" }}>Dance Gang</Text>
+                                            </Box>
+                                        </TouchableOpacity>
                                         <Box>
-                                            <Image
-                                                style={{ width: 35, height: 35, borderRadius: 50, marginRight: 8 }}
-                                                source={require("../assets/avatar.jpg")}
-                                            />
+                                            {post.userId.image ? (
+                                                <Image
+                                                    style={{ width: 35, height: 35, borderRadius: 50, marginRight: 8 }}
+                                                    source={{ uri: post.userId.image }}
+                                                />
+                                            ) : (
+                                                <Image
+                                                    style={{ width: 35, height: 35, borderRadius: 50, marginRight: 8 }}
+                                                    source={require("../assets/hacker.png")}
+                                                />
+                                            )}
+
                                         </Box>
+
                                     </Box>
                                 </Box>
                                 <Box h={"85%"} style={{ backgroundColor: "grey" }}>
@@ -140,44 +164,44 @@ const PostPage = ({ navigation }) => {
                                 />
                             </Box>
                             <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 48 }}>
-                                <TouchableOpacity onPress={()=>{setLikePostId(post._id);setLikeStatus("like");}}>
-                                    {post.likes.length>0 ? post.likes.map((like)=>(
-                                        like===fanPost._id?(
+                                <TouchableOpacity onPress={() => { setLikePostId(post._id); setLikeStatus("like"); }}>
+                                    {post.likes.length > 0 ? post.likes.map((like) => (
+                                        like === fanPost._id ? (
                                             <Image
                                                 source={require("../assets/like.png")}
                                             />
-                                        ):(
-                                            <Image 
+                                        ) : (
+                                            <Image
                                                 source={require("../assets/likeEmpty.png")}
                                             />
                                         )
-                                    )):(
-                                        <Image 
+                                    )) : (
+                                        <Image
                                             source={require("../assets/likeEmpty.png")}
                                         />
                                     )}
                                 </TouchableOpacity>
-                                <Text style={{ fontSize: 12, color:"black" }}>{post.likes.length}</Text>
+                                <Text style={{ fontSize: 12, color: "black" }}>{post.likes.length}</Text>
                             </Box>
                             <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 48 }}>
-                                <TouchableOpacity onPress={()=>{setDisLikePostId(post._id);setDisLikeStatus("dislike");}}>
-                                    {post.dislikes.length>0 ? post.dislikes.map((dislike)=>(
-                                        dislike===fanPost._id?(
+                                <TouchableOpacity onPress={() => { setDisLikePostId(post._id); setDisLikeStatus("dislike"); }}>
+                                    {post.dislikes.length > 0 ? post.dislikes.map((dislike) => (
+                                        dislike === fanPost._id ? (
                                             <Image
                                                 source={require("../assets/filledDislike.png")}
                                             />
-                                        ):(
-                                            <Image 
+                                        ) : (
+                                            <Image
                                                 source={require("../assets/dislike.png")}
                                             />
                                         )
-                                    )):(
-                                        <Image 
+                                    )) : (
+                                        <Image
                                             source={require("../assets/dislike.png")}
                                         />
                                     )}
                                 </TouchableOpacity>
-                                <Text style={{ fontSize: 12, color:"black" }}>{post.dislikes.length}</Text>
+                                <Text style={{ fontSize: 12, color: "black" }}>{post.dislikes.length}</Text>
                             </Box>
                             <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 48 }}>
                                 <Image
@@ -193,8 +217,9 @@ const PostPage = ({ navigation }) => {
                             </Box>
                         </Box>
                     </Box>
-                ))}
-            </ScrollView>
+                ))
+                }
+            </ScrollView >
 
 
             <Box h={"8%"} w={"100%"} style={{ borderTopWidth: 1, borderTopColor: "#D9D9D9", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" }}>
@@ -216,12 +241,12 @@ const PostPage = ({ navigation }) => {
                         source={require("../assets/notify.png")}
                     />
                 </TouchableOpacity>
-                
+
                 <Image
                     source={require("../assets/message.png")}
                 />
             </Box>
-        </Box>
+        </Box >
     )
 }
 
