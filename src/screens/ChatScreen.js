@@ -147,15 +147,17 @@ const ChatScreen = ({ navigation }) => {
                         />
                     </TouchableOpacity>
 
-                    <Image
-                        source={require("../assets/group.png")}
-                    />
-                    <Box>
+                    <TouchableOpacity onPress={() => { navigation.navigate("GroupProfileScreen") }}>
+                        <Image
+                            source={require("../assets/group.png")}
+                        />
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity onPress={() => { navigation.navigate("PartnerProfileScreen") }}>
                         <Image
                             source={require("../assets/members.png")}
                         />
-                        <Text onPress={() => { navigation.navigate("ChatScreen") }} style={{ position: "absolute", color: "white", opacity: 0, fontSize: 25, bottom: -10 }}>hi</Text>
-                    </Box>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate("NotificationScreen")}>
                         <Image
                             source={require("../assets/notify.png")}

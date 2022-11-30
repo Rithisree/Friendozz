@@ -11,6 +11,8 @@ import SearchUserPage from "../screens/SearchUserPage";
 import ChatmessageScreen from "../screens/ChatmessageScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import NotificationScreen from "../screens/NotificationScreen";
+import PartnerProfileScreen from "../screens/PartnerProfileScreen";
+import GroupProfileScreen from "../screens/GroupProfileScreen";
 
 const Home = createNativeStackNavigator();
 export function HomeStack() {
@@ -71,6 +73,16 @@ export function HomeStack() {
             <Home.Screen
                 name="NotificationScreen"
                 component={NotificationScreen}
+                options={{ headerShown: false }}
+            />
+            <Home.Screen
+                name="PartnerProfileScreen"
+                component={PartnerProfileScreen}
+                options={{ headerShown: false }}
+            />
+            <Home.Screen
+                name="GroupProfileScreen"
+                component={GroupProfileScreen}
                 options={{ headerShown: false }}
             />
         </Home.Navigator>

@@ -226,15 +226,17 @@ const PostPage = ({ navigation }) => {
                 <Image
                     source={require("../assets/home.png")}
                 />
-                <Image
-                    source={require("../assets/group.png")}
-                />
-                <Box>
+                <TouchableOpacity onPress={() => { navigation.navigate("GroupProfileScreen") }}>
+                    <Image
+                        source={require("../assets/group.png")}
+                    />
+                </TouchableOpacity>
+    
+                <TouchableOpacity onPress={() => { navigation.navigate("PartnerProfileScreen") }}>
                     <Image
                         source={require("../assets/members.png")}
                     />
-                    <Text onPress={() => { navigation.navigate("ChatScreen") }} style={{ position: "absolute", color: "white", opacity: 0, fontSize: 25, bottom: -10 }}>hi</Text>
-                </Box>
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => navigation.navigate("NotificationScreen")}>
                     <Image
@@ -242,9 +244,12 @@ const PostPage = ({ navigation }) => {
                     />
                 </TouchableOpacity>
 
-                <Image
-                    source={require("../assets/message.png")}
-                />
+                <TouchableOpacity onPress={() => { navigation.navigate("ChatScreen") }}>
+                    <Image
+                        source={require("../assets/message.png")}
+                    />
+                </TouchableOpacity>
+                
             </Box>
         </Box >
     )

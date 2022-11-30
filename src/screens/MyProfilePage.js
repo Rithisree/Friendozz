@@ -330,10 +330,12 @@ const MyProfilePage = ({ navigation, route }) => {
                     />
                     <Text onPress={() => { navigation.navigate("PostScreen") }} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
                 </Box>
-                <Image
-                    source={require("../assets/group.png")}
-                />
-                <TouchableOpacity onPress={() => navigation.navigate("ChatScreen")}>
+                <TouchableOpacity onPress={() => { navigation.navigate("GroupProfileScreen") }}>
+                    <Image
+                        source={require("../assets/group.png")}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { navigation.navigate("PartnerProfileScreen") }}>
                     <Image
                         source={require("../assets/members.png")}
                     />
@@ -345,9 +347,11 @@ const MyProfilePage = ({ navigation, route }) => {
                     />
                 </TouchableOpacity>
 
-                <Image
-                    source={require("../assets/message.png")}
-                />
+                <TouchableOpacity onPress={() => { navigation.navigate("ChatScreen") }}>
+                    <Image
+                        source={require("../assets/message.png")}
+                    />
+                </TouchableOpacity>
             </Box>
 
             <Box w={"100%"} style={{ position: "absolute", bottom: 0, transform: hide ? [{ translateY: 350 }] : [{ translateY: 0 }], height: 350, backgroundColor: "white", borderTopLeftRadius: 25, borderTopRightRadius: 25 }}>
