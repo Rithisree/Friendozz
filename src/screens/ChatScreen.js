@@ -1,5 +1,5 @@
 import { AsyncStorage, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box } from '@react-native-material/core'
 import { Image } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
@@ -7,21 +7,29 @@ import { listContactseRoute } from '../apiutils/apiutils'
 const axios = require("axios").default;
 
 const ChatScreen = ({ navigation }) => {
+
+    const [users, setUsers] = useState([])
+
     const getData = async () => {
         console.log("hi")
         try {
+            console.log("try")
             const { data } = await axios.get(listContactseRoute, {
                 headers: {
-                    headers: {
-                        "x-access-token": await AsyncStorage.getItem("x-access-token")
-                    }
+                    "x-access-token": await AsyncStorage.getItem("x-access-token")
                 }
             })
-            console.log(data)
+            console.log(data.data)
+            setUsers(data.data)
         } catch (error) {
 
         }
     }
+
+    useEffect(() => {
+      getData()
+    }, [])
+    
 
     return (
         <Box w={"100%"} h={"100%"} bg={"white"}>
@@ -75,66 +83,35 @@ const ChatScreen = ({ navigation }) => {
                         <Text style={{ fontWeight: "bold", color: "black", marginTop: 10, marginLeft: 15 }}>All Messages</Text>
                     </Box>
 
-                    <Box style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                        <Box style={{ flexDirection: "row" }}>
-                            <Image
-                                style={{ width: 35, height: 35, borderRadius: 50, marginLeft: 10 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Box style={{ marginLeft: 10 }}>
-                                <Text style={{ textAlign: "left", fontWeight: "bold", color: "black" }}>Rithi</Text>
-                                <Text style={{ textAlign: "left" }}>Topper</Text>
+                    {users.addContacts && users.addContacts.map((user) => (
+                        <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen", { userId: user._id })}>
+                        <Box style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop:15 }}>
+                            <Box style={{ flexDirection: "row" }}>
+
+                                {user.image ? (
+                                    <Image
+                                        style={{ width: 35, height: 35, borderRadius: 50, marginLeft: 10 }}
+                                        source={{uri: user.image}}
+                                    />
+                                ) : (
+                                    <Image
+                                        style={{ width: 35, height: 35, borderRadius: 50, marginLeft: 10 }}
+                                        source={require("../assets/avatar.jpg")}
+                                    />
+                                )}  
+                                <Box style={{ marginLeft: 10 }}>
+                                    <Text style={{ textAlign: "left", fontWeight: "bold", color: "black" }}>{user.name}</Text>
+                                    <Text style={{ textAlign: "left" }}>{user.email? user.email : user.mobileNumber}</Text>
+                                </Box>
+                            </Box>
+
+                            <Box style={{ marginRight: 20 }}>
+                                <Text style={{ textAlign: "right" }}>Feb,18</Text>
+                                <Text style={{ textAlign: "right" }}>18:23</Text>
                             </Box>
                         </Box>
-
-                        <Box style={{ marginRight: 20 }}>
-                            <Text style={{ textAlign: "right" }}>Feb,18</Text>
-                            <Text style={{ textAlign: "right" }}>18:23</Text>
-                        </Box>
-
-
-                    </Box>
-
-                    <Box style={{ display: "flex", flexDirection: "row", marginTop: 15, justifyContent: "space-between" }}>
-                        <Box style={{ flexDirection: "row" }}>
-                            <Image
-                                style={{ width: 35, height: 35, borderRadius: 50, marginLeft: 10 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Box style={{ marginLeft: 10 }}>
-                                <Text style={{ textAlign: "left", fontWeight: "bold", color: "black" }}>Rithi</Text>
-                                <Text style={{ textAlign: "left" }}>Topper</Text>
-                            </Box>
-                        </Box>
-
-                        <Box style={{ marginRight: 20 }}>
-                            <Text style={{ textAlign: "right" }}>Feb,18</Text>
-                            <Text style={{ textAlign: "right" }}>18:23</Text>
-                        </Box>
-
-
-                    </Box>
-
-                    <Box style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 15 }}>
-                        <Box style={{ flexDirection: "row" }}>
-                            <Image
-                                style={{ width: 35, height: 35, borderRadius: 50, marginLeft: 10 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Box style={{ marginLeft: 10 }}>
-                                <Text style={{ textAlign: "left", fontWeight: "bold", color: "black" }}>Rithi</Text>
-                                <Text style={{ textAlign: "left" }}>Topper</Text>
-                            </Box>
-                        </Box>
-
-                        <Box style={{ marginRight: 20 }}>
-                            <Text style={{ textAlign: "right" }}>Feb,18</Text>
-                            <Text style={{ textAlign: "right" }}>18:23</Text>
-                        </Box>
-
-
-                    </Box>
-
+                        </TouchableOpacity>
+                    ))}
                 </Box>
 
             </Box>

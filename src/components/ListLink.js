@@ -56,10 +56,10 @@ const ListLink = ({ setLinkPage }) => {
                     </Box>
 
                     {data && data.map((item) => (
-                        <Box style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "90%", borderBottomColor: "gray", borderBottomWidth: 1, paddingBottom: 30, paddingTop: 30 }}>
-                            <Box style={{ flexDirection: "row", marginTop: 10 }}>
-                                <Image style={{ width: 40, height: 40 }} source={require("../assets/avatar.jpg")} />
-                                <Box style={{ marginLeft: 25, }}>
+                        <Box style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-between", borderBottomColor:"grey", borderBottomWidth:1 }}>
+                            <Box style={{ display:"flex", alignItems:"center", flexDirection:"row", margin:10  }}>
+                                <Image style={{ width: 30, height: 30 }} source={require("../assets/link1.png")} />
+                                <Box style={{ marginLeft: 15 }}>
                                     <Text>{item && item.title}</Text>
                                     <Text>{item && item.url}</Text>
                                 </Box>
@@ -68,7 +68,7 @@ const ListLink = ({ setLinkPage }) => {
                                 setupdateData(true)
                             }}>
 
-                                <Image style={{ width: 30, height: 30, tintColor: "gray", marginRight: 20 }} source={require("../assets/next.png")} />
+                                <Image style={{ width: 30, height: 30, tintColor: "gray" }} source={require("../assets/next.png")} />
                             </TouchableOpacity>
                         </Box>
                     ))}

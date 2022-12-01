@@ -30,6 +30,7 @@ export const checkFanRoute = `${host}/post/checkfan`
 export const createMessageRoute = `${host}/message/createMessage`
 export const listMessageRoute = `${host}/message/listMessage`
 export const listContactseRoute = `${host}/message/listContacts`
+export const listUsersRoute = `${host}/message/listUsers`
 
 
 export const listNotificationRoute = `${host}/notification/listNotification`

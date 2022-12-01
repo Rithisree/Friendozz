@@ -6,6 +6,7 @@ import storage from '@react-native-firebase/storage'
 import { useEffect } from 'react'
 import { createPostRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute, checkFanRoute } from '../apiutils/apiutils';
 import { TouchableOpacity } from 'react-native'
+import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 
 const axios = require("axios").default
 
@@ -21,7 +22,16 @@ const MyProfilePage = ({ navigation, route }) => {
     const [likesCount, setlikesCount] = useState(0)
     const [dislikesCount, setdislikesCount] = useState(0)
     const [signinUserId, setSigninUserId] = useState("")
+    const [toggle, setToggle] = useState("View Partner")
     const { userId } = route.params
+
+    const [visible, setVisible] = useState(false);
+
+    const hideMenu = () => setVisible(false);
+
+    const showMenu = () => setVisible(true);
+
+
     useEffect(() => {
         const getAccess = async () => {
             if (await AsyncStorage.getItem("userId") !== "") {
@@ -145,7 +155,11 @@ const MyProfilePage = ({ navigation, route }) => {
                     <Text onPress={() => { navigation.goBack() }} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
                 </Box>
                 <Box style={{ position: "absolute", top: 25, left: 150, display: "flex", alignItems: "center" }}>
-                    <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}>Your Profile</Text>
+                    {user && user._id === signinUserId ? (
+                        <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}>Your Profile</Text>
+                    ):(
+                        <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}></Text>
+                    )}
                     <Image
                         style={{ width: 75, height: 75, borderRadius: 50 }}
                         source={{ "uri": user.image }}
@@ -191,24 +205,7 @@ const MyProfilePage = ({ navigation, route }) => {
                         <Text>bit.ly/43484</Text>
                     </Box>
                 </Box>
-                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 20 }}>
-                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{postCount && postCount}</Text>
-                        <Text style={{ fontSize: 16, color: "gray" }}>Posts</Text>
-                    </Box>
-                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{followingCount && followingCount}</Text>
-                        <Text style={{ fontSize: 16, color: "gray" }}>Fans</Text>
-                    </Box>
-                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{likesCount}</Text>
-                        <Text style={{ fontSize: 16, color: "gray" }}>Likes</Text>
-                    </Box>
-                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{dislikesCount && dislikesCount}</Text>
-                        <Text style={{ fontSize: 16, color: "gray" }}>Dislikes</Text>
-                    </Box>
-                </Box>
+                
                 {user && user._id === signinUserId ? (
 
 
@@ -250,6 +247,79 @@ const MyProfilePage = ({ navigation, route }) => {
                     </Box>
                 )
                 }
+
+                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 20 }}>
+                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{postCount && postCount}</Text>
+                        <Text style={{ fontSize: 16, color: "gray" }}>Posts</Text>
+                    </Box>
+                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{followingCount && followingCount}</Text>
+                        <Text style={{ fontSize: 16, color: "gray" }}>Fans</Text>
+                    </Box>
+                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{likesCount}</Text>
+                        <Text style={{ fontSize: 16, color: "gray" }}>Likes</Text>
+                    </Box>
+                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{dislikesCount && dislikesCount}</Text>
+                        <Text style={{ fontSize: 16, color: "gray" }}>Dislikes</Text>
+                    </Box>
+                </Box>
+
+                {user && user._id === signinUserId ? (null):(
+                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25, marginBottom: 15 }}>
+                    {toggle==="View Partner"?(
+                        <Box style={{ flexDirection:"row", backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Text style={{ fontSize: 16, color: "black" }}>View Partner</Text>
+                            <Menu
+                                style={{height:50, marginLeft:-125, marginTop:25, width:175}}
+                                visible={visible}
+                                anchor={
+                                    <TouchableOpacity onPress={showMenu}>
+                                        <Image
+                                            style={{ width: 20, height: 20, marginLeft:10,  marginTop:2, transform: [{ rotate: '90deg'}] }}
+                                            source={require("../assets/next.png")}
+                                        />
+                                    </TouchableOpacity>
+                                }
+                                onRequestClose={hideMenu}
+                            >
+                                <MenuItem style={{height:20, marginTop:12}} onPress={()=>{setToggle("View Gang");hideMenu()}}>View Gang</MenuItem>
+                            </Menu>
+                        </Box>
+                    ):(
+                        <Box style={{ flexDirection:"row", backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Text style={{ fontSize: 16, color: "black" }}>View Gang</Text>
+                            <Menu
+                                style={{height:50, marginLeft:-125, marginTop:25, width:175}}
+                                visible={visible}
+                                anchor={
+                                    <TouchableOpacity onPress={showMenu}>
+                                        <Image
+                                            style={{ width: 20, height: 20, marginLeft:10,  marginTop:2, transform: [{ rotate: '90deg'}] }}
+                                            source={require("../assets/next.png")}
+                                        />
+                                    </TouchableOpacity>
+                                }
+                                onRequestClose={hideMenu}
+                            >
+                                <MenuItem style={{height:20, marginTop:12}} onPress={()=>{setToggle("View Partner");hideMenu()}}>View Partner</MenuItem>
+                            </Menu>
+                        </Box>
+                    )}
+
+                    {toggle==="View Partner"?(
+                        <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Text style={{ fontSize: 16, color: "black" }}>Request to Partner</Text>
+                        </Box>
+                    ):(
+                        <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Text style={{ fontSize: 16, color: "black" }}>Request to Gang</Text>
+                        </Box>
+                    )}
+                </Box>
+                )}
                 <Box>
                     <Box style={{ marginLeft: 10 }}>
                         <Box>
