@@ -54,17 +54,24 @@ const MyProfilePage = ({ navigation, route }) => {
         })
     }
 
-    // useEffect(() => {
-    //     const checkFan = async () => {
-    //         const { data } = await axios.post(checkFanRoute, {
-    //             "receiverId": userId
-    //         }, {
-    //             headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
-    //         })
+    useEffect(() => {
+        const checkFan = async () => {
+            const { data } = await axios.post(checkFanRoute, {
+                "receiverId": userId
+            }, {
+                headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
+            })
 
-    //     }
-    //     checkFan()
-    // }, [])
+            if (data.status) {
+                setFan(true)
+            }
+
+        }
+        checkFan()
+    }, [])
+
+    
+
     const uploadImage = async () => {
         let randomString = (Math.random() + 1).toString(36).substring(7);
         const imageRef = storage().ref(`${"images"}/${randomString}`)
@@ -142,6 +149,7 @@ const MyProfilePage = ({ navigation, route }) => {
         if (data.status) {
             console.log(data.data)
             listPost()
+            setFan(false)
         }
     }
     const handlePartnerRequest = async () => {
@@ -235,8 +243,8 @@ const MyProfilePage = ({ navigation, route }) => {
                     </Box>
                 ) : (
                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25 }}>
-                        {user && user.followers.length > 0 ? user.followers.map((id) => (
-                            id === signinUserId ? (
+                        {
+                            fan ? (
                                 <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                                     <Text onPress={() => unfollowRequest()} style={{ fontSize: 18, color: "black" }}>Fan</Text>
                                 </Box>
@@ -246,12 +254,7 @@ const MyProfilePage = ({ navigation, route }) => {
                                     <Text onPress={() => followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
                                 </Box>
                             )
-                        )) : (
-                            <Box style={{ backgroundColor: "#0093E5", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text onPress={() => followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
-                            </Box>
-
-                        )}
+                        }
                         <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen", { userId: user._id })}>
                             <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <Text style={{ fontSize: 18, color: "black" }}>Message</Text>

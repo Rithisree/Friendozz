@@ -1,5 +1,5 @@
-export const host = "http://192.168.29.139:3003"
-//export const host = "http://192.168.1.8:3003"
+//export const host = "http://192.168.29.139:3003"
+export const host = "http://192.168.1.8:3003"
 export const signUpRoute = `${host}/auth/register`
 export const VerifyOtpRoute = `${host}/auth/verify`
 export const ResendVerifyOtpRoute = `${host}/auth/resend`
@@ -25,7 +25,7 @@ export const followRequestRoute = `${host}/post/followRequest`
 export const unfollowRequestRoute = `${host}/post/unfollowRequest`
 export const showFanPostRoute = `${host}/post/listFanPost`
 export const updateCountRoute = `${host}/post/updateCount`
-export const checkFanRoute = `${host}/post/checkfan`
+export const checkFanRoute = `${host}/post/checkFan`
 
 export const createMessageRoute = `${host}/message/createMessage`
 export const listMessageRoute = `${host}/message/listMessage`
