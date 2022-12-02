@@ -284,7 +284,7 @@ const MyProfilePage = ({ navigation, route }) => {
                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25, marginBottom: 15 }}>
                         {toggle === "View Partner" ? (
                             <Box style={{ flexDirection: "row", backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text style={{ fontSize: 16, color: "black" }}>View Partner</Text>
+                                <Text onPress={() => navigation.navigate("PartnerProfileScreen", { userId: userId })} style={{ fontSize: 16, color: "black" }}>View Partner</Text>
                                 <Menu
                                     style={{ height: 50, marginLeft: -125, marginTop: 25, width: 175 }}
                                     visible={visible}
@@ -323,9 +323,16 @@ const MyProfilePage = ({ navigation, route }) => {
                         )}
 
                         {toggle === "View Partner" ? (
-                            <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text onPress={() => handlePartnerRequest()} style={{ fontSize: 16, color: "black" }}>Request to Partner</Text>
-                            </Box>
+                            user.partner === signinUserId ? (
+                                <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <Text style={{ fontSize: 16, color: "black" }}> Partner</Text>
+                                </Box>
+                            ) : (
+                                <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <Text onPress={() => handlePartnerRequest()} style={{ fontSize: 16, color: "black" }}>Request to Partner</Text>
+                                </Box>
+                            )
+
                         ) : (
                             <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <Text style={{ fontSize: 16, color: "black" }}>Request to Gang</Text>

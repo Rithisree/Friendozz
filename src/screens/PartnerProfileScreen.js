@@ -4,7 +4,7 @@ import { Box } from '@react-native-material/core'
 import * as ImagePicker from "react-native-image-picker"
 import storage from '@react-native-firebase/storage'
 import { useEffect } from 'react'
-import { createPostRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute, checkFanRoute } from '../apiutils/apiutils';
+import { createPostRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute, checkFanRoute, listPartnerRoute } from '../apiutils/apiutils';
 import { TouchableOpacity } from 'react-native'
 
 const axios = require("axios").default
@@ -20,8 +20,30 @@ const PartnerProfileScreen = ({ navigation, route }) => {
     const [followingCount, setfollowingCount] = useState(0)
     const [likesCount, setlikesCount] = useState(0)
     const [dislikesCount, setdislikesCount] = useState(0)
-    const [signinUserId, setSigninUserId] = useState("")
-    
+    const [partnerData, setPartnerData] = useState()
+    const { userId } = route.params
+
+    useEffect(() => {
+        const getPartner = async () => {
+            try {
+                const { data } = await axios.post(listPartnerRoute, {
+                    "userId": userId
+                }, {
+                    headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
+                })
+
+                if (data.status) {
+                    console.log(data.data)
+                    setPartnerData(data.data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        if (userId !== "" || userId !== undefined) {
+            getPartner()
+        }
+    }, [userId])
     return (
         <Box w={"100%"} h={"100%"} bg={"white"}>
             <Box w={"100%"} style={{ position: "relative", height: 60, borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -32,42 +54,42 @@ const PartnerProfileScreen = ({ navigation, route }) => {
                     />
                     <Text onPress={() => { navigation.goBack() }} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
                 </Box>
-               
-               
-                    <TouchableOpacity> 
-                        <Image
-                            style={{ marginRight: 13 }}
-                            source={require("../assets/threeDot.png")}
-                        />
-                    </TouchableOpacity>
+
+
+                <TouchableOpacity>
+                    <Image
+                        style={{ marginRight: 13 }}
+                        source={require("../assets/threeDot.png")}
+                    />
+                </TouchableOpacity>
             </Box>
 
             <ScrollView>
-                <Box style={{ marginTop: 20, marginLeft: 18, marginRight:18, display:"flex", flexDirection:"row",justifyContent:"space-between" }}>
+                <Box style={{ marginTop: 20, marginLeft: 18, marginRight: 18, display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <Image
                         source={require("../assets/members.png")}
                     />
                     <Box>
                         <Image
-                            style={{ width: 60, height: 60, borderRadius: 50, backgroundColor:"pink" }}
-                            source={{  }}
+                            style={{ width: 60, height: 60, borderRadius: 50, backgroundColor: "pink" }}
+                            source={{ uri: partnerData && partnerData.image }}
                         />
                         <Image
-                            style={{ width: 60, height: 60, borderRadius: 50, marginLeft:20, marginTop:-28, backgroundColor:"green" }}
-                            source={{  }}
+                            style={{ width: 60, height: 60, borderRadius: 50, marginLeft: 20, marginTop: -28, backgroundColor: "green" }}
+                            source={{ uri: partnerData && partnerData.partner.image }}
                         />
                     </Box>
                     <Image
                         source={require("../assets/notify.png")}
                     />
                 </Box>
-                <Box style={{ marginTop:10, display:"flex", alignItems:"center", justifyContent:"center"}}>
+                <Box style={{ marginTop: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Text>Partner since 2022 July</Text>
-                    <Box style={{ marginTop:15, backgroundColor: "#0093E5", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Box style={{ marginTop: 15, backgroundColor: "#0093E5", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <Text onPress={() => followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
                     </Box>
                 </Box>
-                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 20, marginLeft:40, marginRight: 40, marginBottom:15 }}>
+                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 20, marginLeft: 40, marginRight: 40, marginBottom: 15 }}>
                     <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{followingCount && followingCount}</Text>
                         <Text style={{ fontSize: 16, color: "gray" }}>Fans</Text>
@@ -83,50 +105,50 @@ const PartnerProfileScreen = ({ navigation, route }) => {
                 </Box>
 
                 <Box>
-                    <Box style={{display:"flex", flexDirection:"row", justifyContent:"space-between", margin:10}}>
-                        <Box style={{display:"flex", flexDirection:"row"}}>
+                    <Box style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: 10 }}>
+                        <Box style={{ display: "flex", flexDirection: "row" }}>
                             <Image
-                                style={{ width: 45, height: 45, borderRadius: 50, backgroundColor:"pink" }}
-                                source={{  }}
+                                style={{ width: 45, height: 45, borderRadius: 50, backgroundColor: "pink" }}
+                                source={{ uri: partnerData && partnerData.image }}
                             />
-                            <Box style={{marginLeft:15}}>
-                                <Text style={{fontWeight:"bold"}}>Rithi</Text>
-                                <Text>@Rithi</Text>
+                            <Box style={{ marginLeft: 15 }}>
+                                <Text style={{ fontWeight: "bold" }}>{partnerData && partnerData.name}</Text>
+                                <Text>{partnerData && partnerData.username}</Text>
                             </Box>
                         </Box>
-                        <Box style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center"}}>
-                            <Box style={{ backgroundColor: "#0093E5", width: 100, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", marginRight:15 }}>
+                        <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                            <Box style={{ backgroundColor: "#0093E5", width: 100, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", marginRight: 15 }}>
                                 <Text onPress={() => followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
                             </Box>
                             <Image
-                                style={{ }}
+                                style={{}}
                                 source={require("../assets/threeDot.png")}
                             />
                         </Box>
                     </Box>
-                    <Box style={{display:"flex", flexDirection:"row", justifyContent:"space-between", margin:10}}>
-                        <Box style={{display:"flex", flexDirection:"row"}}>
+                    <Box style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: 10 }}>
+                        <Box style={{ display: "flex", flexDirection: "row" }}>
                             <Image
-                                style={{ width: 45, height: 45, borderRadius: 50, backgroundColor:"green" }}
-                                source={{  }}
+                                style={{ width: 45, height: 45, borderRadius: 50, backgroundColor: "green" }}
+                                source={{ uri: partnerData && partnerData.partner.image }}
                             />
-                            <Box style={{marginLeft:15}}>
-                                <Text style={{fontWeight:"bold"}}>Rithi</Text>
-                                <Text>@Rithi</Text>
+                            <Box style={{ marginLeft: 15 }}>
+                                <Text style={{ fontWeight: "bold" }}>{partnerData && partnerData.partner.name}</Text>
+                                <Text>{partnerData && partnerData.partner.username}</Text>
                             </Box>
                         </Box>
-                        <Box style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center"}}>
-                            <Box style={{ backgroundColor: "#0093E5", width: 100, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", marginRight:15 }}>
+                        <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                            <Box style={{ backgroundColor: "#0093E5", width: 100, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", marginRight: 15 }}>
                                 <Text onPress={() => followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
                             </Box>
                             <Image
-                                style={{ }}
+                                style={{}}
                                 source={require("../assets/threeDot.png")}
                             />
                         </Box>
                     </Box>
                 </Box>
-               
+
                 <Box>
                     <Box style={{ marginLeft: 10 }}>
                         <Box>
@@ -136,11 +158,11 @@ const PartnerProfileScreen = ({ navigation, route }) => {
                             />
                         </Box>
                         <Box style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-                                <Image
-                                    style={{ width: 70, height: 70, margin: 2 }}
-                                    source={require("../assets/avatar.jpg")}
+                            <Image
+                                style={{ width: 70, height: 70, margin: 2 }}
+                                source={require("../assets/avatar.jpg")}
 
-                                />
+                            />
                             <Box style={{ width: 70, height: 70, margin: 2, backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <Text style={{ color: "black", textAlign: "center", fontWeight: "bold" }}>View All Photo</Text>
                             </Box>
@@ -191,7 +213,7 @@ const PartnerProfileScreen = ({ navigation, route }) => {
                                 source={require("../assets/avatar.jpg")}
                             />
                             <Box style={{ width: 70, height: 70, margin: 2, backgroundColor: "#D9D9D9", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text style={{ color: "black", textAlign: "center", fontWeight:"bold" }}>View All Video</Text>
+                                <Text style={{ color: "black", textAlign: "center", fontWeight: "bold" }}>View All Video</Text>
                             </Box>
                         </Box>
                     </Box>
