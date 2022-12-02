@@ -32,5 +32,8 @@ export const listMessageRoute = `${host}/message/listMessage`
 export const listContactseRoute = `${host}/message/listContacts`
 export const listUsersRoute = `${host}/message/listUsers`
 
+export const partnerRequestRoute = `${host}/auth/partnerRequest`
+export const partnerAcceptRoute = `${host}/auth/partnerAccept`
+export const partnerDeclineRoute = `${host}/auth/partnerDecline`
 
 export const listNotificationRoute = `${host}/notification/listNotification`

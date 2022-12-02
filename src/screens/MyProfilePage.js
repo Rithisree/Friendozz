@@ -144,6 +144,19 @@ const MyProfilePage = ({ navigation, route }) => {
             listPost()
         }
     }
+    const handlePartnerRequest = async () => {
+        try {
+            const { data } = await axios.post(partnerRequestRoute, {
+                receiverId: userId
+            }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
+            if (data.status) {
+                console.log(data.data)
+
+            }
+        } catch (err) {
+
+        }
+    }
     return (
         <Box w={"100%"} h={"100%"} bg={"white"}>
             <Box w={"100%"} style={{ position: "relative", height: 90, borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -157,7 +170,7 @@ const MyProfilePage = ({ navigation, route }) => {
                 <Box style={{ position: "absolute", top: 25, left: 150, display: "flex", alignItems: "center" }}>
                     {user && user._id === signinUserId ? (
                         <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}>Your Profile</Text>
-                    ):(
+                    ) : (
                         <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}></Text>
                     )}
                     <Image
@@ -205,7 +218,7 @@ const MyProfilePage = ({ navigation, route }) => {
                         <Text>bit.ly/43484</Text>
                     </Box>
                 </Box>
-                
+
                 {user && user._id === signinUserId ? (
 
 
@@ -267,58 +280,58 @@ const MyProfilePage = ({ navigation, route }) => {
                     </Box>
                 </Box>
 
-                {user && user._id === signinUserId ? (null):(
-                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25, marginBottom: 15 }}>
-                    {toggle==="View Partner"?(
-                        <Box style={{ flexDirection:"row", backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <Text style={{ fontSize: 16, color: "black" }}>View Partner</Text>
-                            <Menu
-                                style={{height:50, marginLeft:-125, marginTop:25, width:175}}
-                                visible={visible}
-                                anchor={
-                                    <TouchableOpacity onPress={showMenu}>
-                                        <Image
-                                            style={{ width: 20, height: 20, marginLeft:10,  marginTop:2, transform: [{ rotate: '90deg'}] }}
-                                            source={require("../assets/next.png")}
-                                        />
-                                    </TouchableOpacity>
-                                }
-                                onRequestClose={hideMenu}
-                            >
-                                <MenuItem style={{height:20, marginTop:12}} onPress={()=>{setToggle("View Gang");hideMenu()}}>View Gang</MenuItem>
-                            </Menu>
-                        </Box>
-                    ):(
-                        <Box style={{ flexDirection:"row", backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <Text style={{ fontSize: 16, color: "black" }}>View Gang</Text>
-                            <Menu
-                                style={{height:50, marginLeft:-125, marginTop:25, width:175}}
-                                visible={visible}
-                                anchor={
-                                    <TouchableOpacity onPress={showMenu}>
-                                        <Image
-                                            style={{ width: 20, height: 20, marginLeft:10,  marginTop:2, transform: [{ rotate: '90deg'}] }}
-                                            source={require("../assets/next.png")}
-                                        />
-                                    </TouchableOpacity>
-                                }
-                                onRequestClose={hideMenu}
-                            >
-                                <MenuItem style={{height:20, marginTop:12}} onPress={()=>{setToggle("View Partner");hideMenu()}}>View Partner</MenuItem>
-                            </Menu>
-                        </Box>
-                    )}
+                {user && user._id === signinUserId ? (null) : (
+                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25, marginBottom: 15 }}>
+                        {toggle === "View Partner" ? (
+                            <Box style={{ flexDirection: "row", backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Text style={{ fontSize: 16, color: "black" }}>View Partner</Text>
+                                <Menu
+                                    style={{ height: 50, marginLeft: -125, marginTop: 25, width: 175 }}
+                                    visible={visible}
+                                    anchor={
+                                        <TouchableOpacity onPress={showMenu}>
+                                            <Image
+                                                style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2, transform: [{ rotate: '90deg' }] }}
+                                                source={require("../assets/next.png")}
+                                            />
+                                        </TouchableOpacity>
+                                    }
+                                    onRequestClose={hideMenu}
+                                >
+                                    <MenuItem style={{ height: 20, marginTop: 12 }} onPress={() => { setToggle("View Gang"); hideMenu() }}>View Gang</MenuItem>
+                                </Menu>
+                            </Box>
+                        ) : (
+                            <Box style={{ flexDirection: "row", backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Text style={{ fontSize: 16, color: "black" }}>View Gang</Text>
+                                <Menu
+                                    style={{ height: 50, marginLeft: -125, marginTop: 25, width: 175 }}
+                                    visible={visible}
+                                    anchor={
+                                        <TouchableOpacity onPress={showMenu}>
+                                            <Image
+                                                style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2, transform: [{ rotate: '90deg' }] }}
+                                                source={require("../assets/next.png")}
+                                            />
+                                        </TouchableOpacity>
+                                    }
+                                    onRequestClose={hideMenu}
+                                >
+                                    <MenuItem style={{ height: 20, marginTop: 12 }} onPress={() => { setToggle("View Partner"); hideMenu() }}>View Partner</MenuItem>
+                                </Menu>
+                            </Box>
+                        )}
 
-                    {toggle==="View Partner"?(
-                        <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <Text style={{ fontSize: 16, color: "black" }}>Request to Partner</Text>
-                        </Box>
-                    ):(
-                        <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <Text style={{ fontSize: 16, color: "black" }}>Request to Gang</Text>
-                        </Box>
-                    )}
-                </Box>
+                        {toggle === "View Partner" ? (
+                            <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Text onPress={() => handlePartnerRequest()} style={{ fontSize: 16, color: "black" }}>Request to Partner</Text>
+                            </Box>
+                        ) : (
+                            <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Text style={{ fontSize: 16, color: "black" }}>Request to Gang</Text>
+                            </Box>
+                        )}
+                    </Box>
                 )}
                 <Box>
                     <Box style={{ marginLeft: 10 }}>

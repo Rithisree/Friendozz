@@ -56,41 +56,69 @@ const NotificationScreen = ({ navigation }) => {
             </Box>
             <ScrollView>
                 {notify.length > 0 && notify.map((ele) => (
-                    <Box w={"100%"} style={{ margin: 10, display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        <Image
-                            style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
-                            source={require("../assets/avatar.jpg")}
-                        />
-                        <Box>
-                            <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                <Text style={{ fontWeight: "bold", color: "black", fontSize: 18 }}>{ele.senderId.name}: </Text>
-                                <Text style={{ color: "black", fontSize: 16 }}>{ele.message}</Text>
+                    ele.type === "partnerRequest" ? (
+                        <Box w={"100%"} style={{ margin: 10, display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <Image
+                                style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
+                                source={require("../assets/avatar.jpg")}
+                            />
+                            <Box>
+                                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                                    <Text style={{ fontWeight: "bold", color: "black", fontSize: 18 }}>{ele.senderId.name}: </Text>
+                                    <Text style={{ color: "black", fontSize: 16 }}>{ele.message}</Text>
+                                </Box>
                             </Box>
-                            <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <Box style={{ marginLeft: 80 }}>
                                 <Image
-                                    style={{ width: 25, height: 25 }}
-                                    source={require("../assets/share1.png")}
+                                    style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
+                                    source={require("../assets/tick.png")}
                                 />
-                                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", marginLeft: 20 }}>
-                                    <Image
-                                        style={{ width: 25, height: 25 }}
-                                        source={require("../assets/likeEmpty.png")}
-                                    />
-                                    <Text>12</Text>
-                                </Box>
-                                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", marginLeft: 20 }}>
-                                    <Image
-                                        style={{ width: 19, height: 19 }}
-                                        source={require("../assets/dislike.png")}
-                                    />
-                                    <Text>12</Text>
-                                </Box>
+                                <Image
+                                    style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
+                                    source={require("../assets/close.png")}
+                                />
                             </Box>
                         </Box>
-                        <Box style={{ marginLeft: 80 }}>
-                            <Text>5D ago</Text>
-                        </Box>
-                    </Box>
+                    ) : (
+                        <>
+                            <Box w={"100%"} style={{ margin: 10, display: "flex", flexDirection: "row", alignItems: "center" }}>
+                                <Image
+                                    style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
+                                    source={require("../assets/avatar.jpg")}
+                                />
+                                <Box>
+                                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                                        <Text style={{ fontWeight: "bold", color: "black", fontSize: 18 }}>{ele.senderId.name}: </Text>
+                                        <Text style={{ color: "black", fontSize: 16 }}>{ele.message}</Text>
+                                    </Box>
+                                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                                        <Image
+                                            style={{ width: 25, height: 25 }}
+                                            source={require("../assets/share1.png")}
+                                        />
+                                        <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", marginLeft: 20 }}>
+                                            <Image
+                                                style={{ width: 25, height: 25 }}
+                                                source={require("../assets/likeEmpty.png")}
+                                            />
+                                            <Text>12</Text>
+                                        </Box>
+                                        <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", marginLeft: 20 }}>
+                                            <Image
+                                                style={{ width: 19, height: 19 }}
+                                                source={require("../assets/dislike.png")}
+                                            />
+                                            <Text>12</Text>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                                <Box style={{ marginLeft: 80 }}>
+                                    <Text>5D ago</Text>
+                                </Box>
+                            </Box>
+                        </>
+                    )
+
                 ))}
             </ScrollView>
         </Box>
