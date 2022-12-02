@@ -1,12 +1,13 @@
 import { AsyncStorage, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Box } from '@react-native-material/core'
-import { listNotificationRoute } from "../apiutils/apiutils"
+import { listNotificationRoute, partnerAcceptRoute, partnerDeclineRoute } from "../apiutils/apiutils"
 import { TouchableOpacity } from 'react-native'
 const axios = require("axios").default
 
 const NotificationScreen = ({ navigation }) => {
     const [notify, setNotify] = useState([])
+
     const listNotification = async () => {
         const { data } = await axios.get(listNotificationRoute, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
         setNotify(data.data)
@@ -14,6 +15,28 @@ const NotificationScreen = ({ navigation }) => {
     useEffect(() => {
         listNotification()
     }, [])
+
+    const handlePartnerAccept = async (id) => {
+        const { data } = await axios.post(partnerAcceptRoute,{
+            notificationId:id
+        }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
+        
+        if(data.status){
+            console.log(data.data)
+        }
+    }
+
+    const handlePartnerDecline = async (id) => {
+        const { data } = await axios.post(partnerDeclineRoute,{
+            notificationId:id
+        }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
+        
+        if(data.status){
+            console.log(data.data)
+        }
+    }
+
+
     return (
         <Box w={"100%"} h={"100%"} bg={"white"}>
             <Box w={"100%"} style={{ height: 60, borderBottomWidth: 1, borderBottomColor: "gray", display: "flex", flexDirection: "row", alignItems: "center" }}>
@@ -56,7 +79,7 @@ const NotificationScreen = ({ navigation }) => {
             </Box>
             <ScrollView>
                 {notify.length > 0 && notify.map((ele) => (
-                    ele.type === "partnerRequest" ? (
+                    ele.type === "partnerRequest" && ele.status===1 ? (
                         <Box w={"100%"} style={{ margin: 10, display: "flex", flexDirection: "row", alignItems: "center" }}>
                             <Image
                                 style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
@@ -68,15 +91,19 @@ const NotificationScreen = ({ navigation }) => {
                                     <Text style={{ color: "black", fontSize: 16 }}>{ele.message}</Text>
                                 </Box>
                             </Box>
-                            <Box style={{ marginLeft: 80 }}>
-                                <Image
-                                    style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
-                                    source={require("../assets/tick.png")}
-                                />
-                                <Image
-                                    style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
-                                    source={require("../assets/close.png")}
-                                />
+                            <Box style={{ flexDirection:"row", marginLeft:20, alignItems:"center" }}>
+                                <TouchableOpacity onPress={()=>handlePartnerAccept(ele._id)}>
+                                    <Image
+                                        style={{ width: 20, height: 20 }}
+                                        source={require("../assets/tick.png")}
+                                    />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={()=>handlePartnerDecline(ele._id)}>
+                                    <Image
+                                        style={{ width: 15, height: 15, marginLeft:10 }}
+                                        source={require("../assets/close.png")}
+                                    />
+                                </TouchableOpacity>
                             </Box>
                         </Box>
                     ) : (

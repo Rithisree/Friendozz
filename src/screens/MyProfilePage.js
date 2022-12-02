@@ -4,7 +4,7 @@ import { Box } from '@react-native-material/core'
 import * as ImagePicker from "react-native-image-picker"
 import storage from '@react-native-firebase/storage'
 import { useEffect } from 'react'
-import { createPostRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute, checkFanRoute } from '../apiutils/apiutils';
+import { createPostRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute, checkFanRoute, partnerRequestRoute } from '../apiutils/apiutils';
 import { TouchableOpacity } from 'react-native'
 import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 
@@ -154,7 +154,7 @@ const MyProfilePage = ({ navigation, route }) => {
 
             }
         } catch (err) {
-
+            console.log(err)
         }
     }
     return (
