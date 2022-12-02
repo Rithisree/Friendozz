@@ -1,6 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { Box, Button, Flex, Stack } from '@react-native-material/core'
+import { AsyncStorage } from 'react-native';
 import {
     GoogleSignin,
     statusCodes,
@@ -21,6 +22,9 @@ const SignupPage = ({ navigation }) => {
                         "GoogleToken":userInfo.idToken
                     })
                     if(data.status){
+                        console.log(data.userId)
+                        await AsyncStorage.setItem("x-access-token", data.data)
+                        await AsyncStorage.setItem("userId", data.userId)
                         navigation.navigate("PostScreen")
                     }
                 }).catch((e)=>{

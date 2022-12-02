@@ -84,7 +84,12 @@ const PostPage = ({ navigation }) => {
                             />
                         </TouchableOpacity>
                     ) : (
-                        null
+                        <TouchableOpacity onPress={() => navigation.navigate("MyProfileScreen", { userId: userId })}>
+                        <Image
+                                style={{ width: 45, height: 45, borderRadius: 50 }}
+                                source={require("../assets/hacker.png")}
+                        />
+                        </TouchableOpacity>
                     )}
                 </Box>
                 <Text style={{ fontSize: 20, color: "black" }}>FriendOzz.com</Text>

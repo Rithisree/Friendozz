@@ -70,7 +70,7 @@ const MyProfilePage = ({ navigation, route }) => {
         checkFan()
     }, [])
 
-    
+
 
     const uploadImage = async () => {
         let randomString = (Math.random() + 1).toString(36).substring(7);
@@ -181,10 +181,17 @@ const MyProfilePage = ({ navigation, route }) => {
                     ) : (
                         <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}></Text>
                     )}
-                    <Image
-                        style={{ width: 75, height: 75, borderRadius: 50 }}
-                        source={{ "uri": user.image }}
-                    />
+                    {user.image ?(
+                        <Image
+                            style={{ width: 75, height: 75, borderRadius: 50 }}
+                            source={{ "uri": user.image }}
+                        />
+                    ):(
+                        <Image
+                            style={{ width: 75, height: 75, borderRadius: 50 }}
+                            source={require("../assets/hacker.png")}
+                        />
+                    )}
                 </Box>
                 <Box style={{ display: "flex", flexDirection: "row" }}>
                     <TouchableOpacity onPress={() => { AsyncStorage.removeItem("userId"); navigation.navigate("LoginScreen") }} >
