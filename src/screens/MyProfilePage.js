@@ -218,9 +218,11 @@ const MyProfilePage = ({ navigation, route }) => {
 
             <ScrollView>
                 <Box style={{ marginTop: 25, marginLeft: 18 }}>
-                    <Image
-                        source={require("../assets/group.png")}
-                    />
+                    <TouchableOpacity onPress={()=>navigation.navigate("PersonalViewScreen")}>
+                        <Image
+                            source={require("../assets/group.png")}
+                        />
+                    </TouchableOpacity>
                     <Text style={{ color: "black", fontSize: 18, marginTop: 5 }}>{user && user.name}</Text>
                     <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>{user && user.username}</Text>
                     <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>{user && user.bio}</Text>

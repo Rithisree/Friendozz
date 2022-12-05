@@ -13,6 +13,7 @@ import EditProfileScreen from "../screens/EditProfileScreen";
 import NotificationScreen from "../screens/NotificationScreen";
 import PartnerProfileScreen from "../screens/PartnerProfileScreen";
 import GroupProfileScreen from "../screens/GroupProfileScreen";
+import PersonalViewScreen from "../screens/PersonalViewScreen";
 
 const Home = createNativeStackNavigator();
 export function HomeStack() {
@@ -83,6 +84,11 @@ export function HomeStack() {
             <Home.Screen
                 name="GroupProfileScreen"
                 component={GroupProfileScreen}
+                options={{ headerShown: false }}
+            />
+            <Home.Screen
+                name="PersonalViewScreen"
+                component={PersonalViewScreen}
                 options={{ headerShown: false }}
             />
         </Home.Navigator>
