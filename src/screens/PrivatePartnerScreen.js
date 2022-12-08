@@ -6,20 +6,20 @@ import { TextInput } from 'react-native-gesture-handler'
 import { listContactseRoute } from '../apiutils/apiutils'
 const axios = require("axios").default;
 
-const ChatScreen = ({ navigation }) => {
+const PrivatePartnerScreen = ({ navigation }) => {
 
     const [users, setUsers] = useState([])
 
     const getData = async () => {
-        console.log("hi")
+
         try {
-            console.log("try")
+
             const { data } = await axios.get(listContactseRoute, {
                 headers: {
                     "x-access-token": await AsyncStorage.getItem("x-access-token")
                 }
             })
-            console.log(data.data)
+
             setUsers(data.data)
         } catch (error) {
 
@@ -58,18 +58,8 @@ const ChatScreen = ({ navigation }) => {
                             source={require("../assets/Gang.png")}
                         />
                         <Text style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", opacity: 0, fontSize: 24 }}>hi</Text>
-                        <Text onPress={() => { navigation.navigate("GangsChatScreen") }} style={{ fontWeight: "bold", color: "black", marginTop: -5 }}>Gangs-Box</Text>
+                        <Text onPress={() => { console.log("hi") }} style={{ fontWeight: "bold", color: "black", marginTop: -5 }}>Gangs-Box</Text>
                     </View>
-
-                    <View>
-                        <Image
-                            style={{ width: 55, height: 55, margin: 20 }}
-                            source={require("../assets/Partner-Box.png")}
-                        />
-
-                        <Text onPress={() => { navigation.navigate("PrivatePartnerScreen") }} style={{ fontWeight: "bold", color: "black", marginTop: -5 }}>Partners-Inbox</Text>
-                    </View>
-
 
                 </Box>
 
@@ -86,35 +76,34 @@ const ChatScreen = ({ navigation }) => {
                         <Text style={{ fontWeight: "bold", color: "black", marginTop: 10, marginLeft: 15 }}>All Messages</Text>
                     </Box>
 
-                    {users.addContacts && users.addContacts.map((user) => (
-                        <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen", { userId: user._id })}>
-                            <Box style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 15 }}>
-                                <Box style={{ flexDirection: "row" }}>
-
-                                    {user.image ? (
-                                        <Image
-                                            style={{ width: 35, height: 35, borderRadius: 50, marginLeft: 10 }}
-                                            source={{ uri: user.image }}
-                                        />
-                                    ) : (
-                                        <Image
-                                            style={{ width: 35, height: 35, borderRadius: 50, marginLeft: 10 }}
-                                            source={require("../assets/avatar.jpg")}
-                                        />
-                                    )}
-                                    <Box style={{ marginLeft: 10 }}>
-                                        <Text style={{ textAlign: "left", fontWeight: "bold", color: "black" }}>{user.name}</Text>
-                                        <Text style={{ textAlign: "left" }}>{user.email ? user.email : user.mobileNumber}</Text>
-                                    </Box>
-                                </Box>
-
-                                <Box style={{ marginRight: 20 }}>
-                                    <Text style={{ textAlign: "right" }}>Feb,18</Text>
-                                    <Text style={{ textAlign: "right" }}>18:23</Text>
-                                </Box>
+                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                        <Box style={{ marginLeft: 30 }}>
+                            <Image
+                                style={{ width: 45, height: 45, borderRadius: 50, backgroundColor: "pink", marginLeft: 6 }}
+                                source={{}}
+                            />
+                            <Image
+                                style={{ width: 45, height: 45, borderRadius: 50, marginLeft: 20, marginTop: -17, backgroundColor: "green" }}
+                                source={{}}
+                            />
+                            <Image
+                                style={{ width: 45, height: 45, borderRadius: 50, marginLeft: -13, marginTop: -46, backgroundColor: "grey" }}
+                                source={{}}
+                            />
+                        </Box>
+                        <Box style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "70%" }}>
+                            <Box style={{ marginLeft: 5 }}>
+                                <Text style={{ fontWeight: "bold", fontSize: 14, color: "black" }}>Dance_Gang</Text>
+                                <Text style={{ fontSize: 12, }}>Hello</Text>
                             </Box>
-                        </TouchableOpacity>
-                    ))}
+                            <Box style={{ marginLeft: 5 }}>
+                                <Text style={{ fontSize: 12 }}>Jan 15</Text>
+                                <Text style={{ fontSize: 12, }}>14:52</Text>
+                            </Box>
+
+                        </Box>
+
+                    </Box>
                 </Box>
 
             </Box>
@@ -153,6 +142,6 @@ const ChatScreen = ({ navigation }) => {
     )
 }
 
-export default ChatScreen
+export default PrivatePartnerScreen
 
 const styles = StyleSheet.create({})

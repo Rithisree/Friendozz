@@ -24,7 +24,9 @@ const Login = ({ navigation }) => {
   const [forgetPassPhone, setIsForgetPassPhone] = useState(false)
 
   const handleLogin = async () => {
+
     try {
+      console.log("hi")
       const { data } = await axios.post(LoginRoute, {
         "email": email,
         "password": password
@@ -36,6 +38,7 @@ const Login = ({ navigation }) => {
         navigation.navigate("PostScreen")
       }
     } catch (error) {
+      console.log(error)
       if (error.response.status) {
         ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
       }
