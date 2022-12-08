@@ -196,11 +196,19 @@ const MyProfilePage = ({ navigation, route }) => {
                         />
                     )}
                 </Box>
-                <Box style={{ display: "flex", flexDirection: "row" }}>
+                <Box style={{ display: "flex", flexDirection: "row", alignItems:"center" }}>
 
 
                     {user && user._id === signinUserId && (
                         <>
+                            <Box>
+                                <Image
+                                    style={{ marginRight: 10, width:27, height:27 }}
+                                    source={require("../assets/addPost.png")}
+                                />
+                                <Text onPress={() => setHide(false)} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
+                            </Box>
+
                             <TouchableOpacity onPress={() => { AsyncStorage.removeItem("userId"); navigation.navigate("LoginScreen") }} >
                                 <Box>
                                     <Image
@@ -209,14 +217,6 @@ const MyProfilePage = ({ navigation, route }) => {
                                     />
                                 </Box>
                             </TouchableOpacity>
-
-                            <Box>
-                                <Image
-                                    style={{ marginRight: 10 }}
-                                    source={require("../assets/addMusicBig.png")}
-                                />
-                                <Text onPress={() => setHide(false)} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
-                            </Box>
                         </>
                     )}
                 </Box>
@@ -462,9 +462,22 @@ const MyProfilePage = ({ navigation, route }) => {
                 </TouchableOpacity>
             </Box>
 
-            <Box w={"100%"} style={{ position: "absolute", bottom: 0, transform: hide ? [{ translateY: 350 }] : [{ translateY: 0 }], height: 350, backgroundColor: "white", borderTopLeftRadius: 25, borderTopRightRadius: 25 }}>
+            <Box w={"100%"} style={{ position: "absolute", bottom: 0, transform: hide ? [{ translateY: 250 }] : [{ translateY: 0 }], height: 250, backgroundColor: "white", borderTopLeftRadius: 25, borderTopRightRadius: 25 }}>
                 <Box style={{ width: 35, height: 5, borderRadius: 10, backgroundColor: "grey", marginTop: 10, marginLeft: 180 }}><Text>  </Text></Box>
-                <Text onPress={() => { setHide(true); openImage() }} style={{ fontSize: 25, color: "black", marginLeft: 30, marginTop: 30 }}>Post</Text>
+                <Box style={{ marginTop: 30, height:40, display:"flex", flexDirection:"row", alignItems:"center"}}>
+                    <Image
+                        style={{marginLeft:20, width:22, height:22}}
+                        source={require("../assets/addImage.png")}
+                    />
+                    <Text onPress={() => { setHide(true); openImage() }} style={{ fontSize: 18, color: "black", marginLeft:10 }}>Upload Image</Text>
+                </Box>
+                <Box style={{ marginTop: 5, height:40, display:"flex", flexDirection:"row", alignItems:"center"}}>
+                    <Image
+                        style={{marginLeft:20, width:22, height:22}}
+                        source={require("../assets/addVideo.png")}
+                    />
+                    <Text onPress={() => { setHide(true); openImage() }} style={{ fontSize: 18, color: "black", marginLeft:10 }}>Upload Image</Text>
+                </Box>
             </Box>
         </Box >
     )
