@@ -55,9 +55,9 @@ const ListLink = ({ setLinkPage }) => {
                         </Box>
                     </Box>
 
-                    {data && data.map((item) => (
-                        <Box style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-between", borderBottomColor:"grey", borderBottomWidth:1 }}>
-                            <Box style={{ display:"flex", alignItems:"center", flexDirection:"row", margin:10  }}>
+                    {data && data.map((item, i) => (
+                        <Box key={i} style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderBottomColor: "grey", borderBottomWidth: 1 }}>
+                            <Box style={{ display: "flex", alignItems: "center", flexDirection: "row", margin: 10 }}>
                                 <Image style={{ width: 30, height: 30 }} source={require("../assets/link1.png")} />
                                 <Box style={{ marginLeft: 15 }}>
                                     <Text>{item && item.title}</Text>

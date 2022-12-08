@@ -37,11 +37,11 @@ const PartnerProfileScreen = ({ navigation, route }) => {
     }, [])
 
     const followRequest = async (id) => {
-        console.log(id)
+
         const { data } = await axios.post(followRequestRoute, {
             receiverId: id
         }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
-        console.log(data.data)
+
         if (data.status) {
             setFan(true)
         }
@@ -131,10 +131,10 @@ const PartnerProfileScreen = ({ navigation, route }) => {
             }
 
         }
-        if(partnerData){
+        if (partnerData) {
             checkFan()
         }
-      
+
     }, [])
 
     return (
@@ -145,7 +145,7 @@ const PartnerProfileScreen = ({ navigation, route }) => {
                         style={{ width: 18, height: 18, margin: 18 }}
                         source={require("../assets/blackLeftArrow.png")}
                     />
-                    <Text onPress={() => { navigation.push("MyProfileScreen", {userId:userId}) }} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
+                    <Text onPress={() => { navigation.push("MyProfileScreen", { userId: userId }) }} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
                 </Box>
 
 
@@ -210,13 +210,13 @@ const PartnerProfileScreen = ({ navigation, route }) => {
                             </Box>
                         </Box>
                         <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                        {/* {partnerData && partnerData._id===signinUserId ?(null):(
+                            {/* {partnerData && partnerData._id===signinUserId ?(null):(
                             <> */}
-                            {fan?(
-                                <Box style={{ backgroundColor: "#D9D9D9", width: 100, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", marginRight: 15  }}>
+                            {fan ? (
+                                <Box style={{ backgroundColor: "#D9D9D9", width: 100, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", marginRight: 15 }}>
                                     <Text onPress={() => unfollowRequest(partnerData._id)} style={{ fontSize: 18, color: "black" }}>Fan</Text>
                                 </Box>
-                            ):(
+                            ) : (
                                 <Box style={{ backgroundColor: "#0093E5", width: 100, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", marginRight: 15 }}>
                                     <Text onPress={() => followRequest(partnerData._id)} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
                                 </Box>
@@ -224,7 +224,7 @@ const PartnerProfileScreen = ({ navigation, route }) => {
                                 style={{}}
                                 source={require("../assets/threeDot.png")}
                             />
-                            
+
                             {/* </>
                             )} */}
                         </Box>
@@ -241,33 +241,33 @@ const PartnerProfileScreen = ({ navigation, route }) => {
                             </Box>
                         </Box>
                         <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                            {partnerData && partnerData.partner._id===signinUserId ?(null):(
-                          
-                            fan1?(
-                                <>
-                                <Box style={{ backgroundColor: "#D9D9D9", width: 100, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", marginRight: 15  }}>
-                                    <Text onPress={() => unfollowRequest1(partnerId)} style={{ fontSize: 18, color: "black" }}>Fan</Text>
-                                </Box>
-                                 <Image
-                                    style={{}}
-                                    source={require("../assets/threeDot.png")}
-                                />
-                                </>
-                            ):(
-                                <>
-                                <Box style={{ backgroundColor: "#0093E5", width: 100, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", marginRight: 15 }}>
-                                    <Text onPress={() => followRequest1(partnerId)} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
-                                </Box>
-                                 <Image
-                                    style={{}}
-                                    source={require("../assets/threeDot.png")}
-                                />
-                                </>
-                            )
-                        
+                            {partnerData && partnerData.partner._id === signinUserId ? (null) : (
+
+                                fan1 ? (
+                                    <>
+                                        <Box style={{ backgroundColor: "#D9D9D9", width: 100, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", marginRight: 15 }}>
+                                            <Text onPress={() => unfollowRequest1(partnerId)} style={{ fontSize: 18, color: "black" }}>Fan</Text>
+                                        </Box>
+                                        <Image
+                                            style={{}}
+                                            source={require("../assets/threeDot.png")}
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+                                        <Box style={{ backgroundColor: "#0093E5", width: 100, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", marginRight: 15 }}>
+                                            <Text onPress={() => followRequest1(partnerId)} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
+                                        </Box>
+                                        <Image
+                                            style={{}}
+                                            source={require("../assets/threeDot.png")}
+                                        />
+                                    </>
+                                )
+
                             )}
-                           
-            
+
+
                         </Box>
                     </Box>
                 </Box>

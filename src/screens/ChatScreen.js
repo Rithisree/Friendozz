@@ -86,8 +86,8 @@ const ChatScreen = ({ navigation }) => {
                         <Text style={{ fontWeight: "bold", color: "black", marginTop: 10, marginLeft: 15 }}>All Messages</Text>
                     </Box>
 
-                    {users.addContacts && users.addContacts.map((user) => (
-                        <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen", { userId: user._id })}>
+                    {users.addContacts && users.addContacts.map((user, i) => (
+                        <TouchableOpacity key={i} onPress={() => navigation.navigate("ChatmessageScreen", { userId: user._id })}>
                             <Box style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 15 }}>
                                 <Box style={{ flexDirection: "row" }}>
 

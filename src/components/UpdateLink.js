@@ -2,7 +2,7 @@ import { AsyncStorage, Image, StyleSheet, Text, TextInput, TouchableOpacity, Vie
 import React, { useEffect, useState } from 'react'
 import { Box } from '@react-native-material/core'
 import { addLinkRoute, listLinkRoute, updateLinkRoute } from '../apiutils/apiutils'
-import ListLink from './ListLink'
+
 const axios = require("axios").default
 export default function UpdateLink({ data, setupdateData, setLinkPage }) {
 

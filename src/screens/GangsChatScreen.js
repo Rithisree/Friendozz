@@ -36,11 +36,15 @@ const GangsChatScreen = ({ navigation }) => {
             <Box w={"100%"} h={"5%"} style={{ flexDirection: "row", backgroundColor: "white", alignItems: "center", justifyContent: 'space-between' }}>
 
                 <View>
-                    <Image
-                        style={{ width: 18, height: 18, margin: 20 }}
-                        source={require("../assets/blackLeftArrow.png")}
-                    />
-                    <Text onPress={() => { navigation.navigate("PostScreen") }} style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", opacity: 0, fontSize: 24 }}>hi</Text>
+                    <TouchableOpacity onPress={() => { navigation.navigate("ChatScreen") }}>
+
+                        <Image
+                            style={{ width: 18, height: 18, margin: 20 }}
+                            source={require("../assets/blackLeftArrow.png")}
+                        />
+                    </TouchableOpacity>
+
+
                 </View>
                 <Image
                     style={{ marginRight: 8, color: "white" }}
@@ -58,7 +62,7 @@ const GangsChatScreen = ({ navigation }) => {
                             source={require("../assets/Gang.png")}
                         />
                         <Text style={{ position: "absolute", marginLeft: 20, marginTop: 10, color: "white", opacity: 0, fontSize: 24 }}>hi</Text>
-                        <Text onPress={() => { console.log("hi") }} style={{ fontWeight: "bold", color: "black", marginTop: -5 }}>Gangs-Box</Text>
+                        <Text style={{ fontWeight: "bold", color: "black", textAlign: "center", marginTop: -15 }}>Gangs-Box</Text>
                     </View>
 
                 </Box>

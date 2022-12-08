@@ -85,10 +85,10 @@ const PostPage = ({ navigation }) => {
                         </TouchableOpacity>
                     ) : (
                         <TouchableOpacity onPress={() => navigation.navigate("MyProfileScreen", { userId: userId })}>
-                        <Image
+                            <Image
                                 style={{ width: 45, height: 45, borderRadius: 50 }}
                                 source={require("../assets/hacker.png")}
-                        />
+                            />
                         </TouchableOpacity>
                     )}
                 </Box>
@@ -109,8 +109,8 @@ const PostPage = ({ navigation }) => {
             </Box>
 
             <ScrollView w={"100%"} style={{ display: "flex" }}>
-                {fanPost && fanPost.fanPost.length > 0 && fanPost.fanPost.map((post) => (
-                    <Box w={"100%"} style={{ height: 450, display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                {fanPost && fanPost.fanPost.length > 0 && fanPost.fanPost.map((post, i) => (
+                    <Box key={i} w={"100%"} style={{ height: 450, display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                         <Box w={"88%"} style={{ marginLeft: 3 }}>
                             <Box w={"100%"} h={"90%"}>
                                 <Box h={"13%"} style={{ backgroundColor: "white", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
@@ -170,18 +170,21 @@ const PostPage = ({ navigation }) => {
                             </Box>
                             <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 48 }}>
                                 <TouchableOpacity onPress={() => { setLikePostId(post._id); setLikeStatus("like"); }}>
-                                    {post.likes.length > 0 ? post.likes.map((like) => (
+                                    {post.likes.length > 0 ? post.likes.map((like, i) => (
                                         like === fanPost._id ? (
                                             <Image
+                                                key={i}
                                                 source={require("../assets/like.png")}
                                             />
                                         ) : (
                                             <Image
+                                                key={i}
                                                 source={require("../assets/likeEmpty.png")}
                                             />
                                         )
                                     )) : (
                                         <Image
+                                            key={i}
                                             source={require("../assets/likeEmpty.png")}
                                         />
                                     )}
@@ -190,18 +193,21 @@ const PostPage = ({ navigation }) => {
                             </Box>
                             <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 48 }}>
                                 <TouchableOpacity onPress={() => { setDisLikePostId(post._id); setDisLikeStatus("dislike"); }}>
-                                    {post.dislikes.length > 0 ? post.dislikes.map((dislike) => (
+                                    {post.dislikes.length > 0 ? post.dislikes.map((dislike, i) => (
                                         dislike === fanPost._id ? (
                                             <Image
+                                                key={i}
                                                 source={require("../assets/filledDislike.png")}
                                             />
                                         ) : (
                                             <Image
+                                                key={i}
                                                 source={require("../assets/dislike.png")}
                                             />
                                         )
                                     )) : (
                                         <Image
+                                            key={i}
                                             source={require("../assets/dislike.png")}
                                         />
                                     )}
@@ -236,7 +242,7 @@ const PostPage = ({ navigation }) => {
                         source={require("../assets/group.png")}
                     />
                 </TouchableOpacity>
-    
+
                 <TouchableOpacity onPress={() => { navigation.navigate("PartnerProfileScreen") }}>
                     <Image
                         source={require("../assets/members.png")}
@@ -254,7 +260,7 @@ const PostPage = ({ navigation }) => {
                         source={require("../assets/message.png")}
                     />
                 </TouchableOpacity>
-                
+
             </Box>
         </Box >
     )

@@ -17,21 +17,21 @@ const NotificationScreen = ({ navigation }) => {
     }, [])
 
     const handlePartnerAccept = async (id) => {
-        const { data } = await axios.post(partnerAcceptRoute,{
-            notificationId:id
+        const { data } = await axios.post(partnerAcceptRoute, {
+            notificationId: id
         }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
-        
-        if(data.status){
+
+        if (data.status) {
             console.log(data.data)
         }
     }
 
     const handlePartnerDecline = async (id) => {
-        const { data } = await axios.post(partnerDeclineRoute,{
-            notificationId:id
+        const { data } = await axios.post(partnerDeclineRoute, {
+            notificationId: id
         }, { headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") } })
-        
-        if(data.status){
+
+        if (data.status) {
             console.log(data.data)
         }
     }
@@ -78,9 +78,9 @@ const NotificationScreen = ({ navigation }) => {
                 </Box>
             </Box>
             <ScrollView>
-                {notify.length > 0 && notify.map((ele) => (
-                    ele.type === "partnerRequest" && ele.status===1 ? (
-                        <Box w={"100%"} style={{ margin: 10, display: "flex", flexDirection: "row", alignItems: "center" }}>
+                {notify.length > 0 && notify.map((ele, i) => (
+                    ele.type === "partnerRequest" && ele.status === 1 ? (
+                        <Box key={i} w={"100%"} style={{ margin: 10, display: "flex", flexDirection: "row", alignItems: "center" }}>
                             <Image
                                 style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
                                 source={require("../assets/avatar.jpg")}
@@ -91,16 +91,16 @@ const NotificationScreen = ({ navigation }) => {
                                     <Text style={{ color: "black", fontSize: 16 }}>{ele.message}</Text>
                                 </Box>
                             </Box>
-                            <Box style={{ flexDirection:"row", marginLeft:20, alignItems:"center" }}>
-                                <TouchableOpacity onPress={()=>handlePartnerAccept(ele._id)}>
+                            <Box style={{ flexDirection: "row", marginLeft: 20, alignItems: "center" }}>
+                                <TouchableOpacity onPress={() => handlePartnerAccept(ele._id)}>
                                     <Image
                                         style={{ width: 20, height: 20 }}
                                         source={require("../assets/tick.png")}
                                     />
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={()=>handlePartnerDecline(ele._id)}>
+                                <TouchableOpacity onPress={() => handlePartnerDecline(ele._id)}>
                                     <Image
-                                        style={{ width: 15, height: 15, marginLeft:10 }}
+                                        style={{ width: 15, height: 15, marginLeft: 10 }}
                                         source={require("../assets/close.png")}
                                     />
                                 </TouchableOpacity>

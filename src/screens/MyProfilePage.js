@@ -169,11 +169,14 @@ const MyProfilePage = ({ navigation, route }) => {
         <Box w={"100%"} h={"100%"} bg={"white"}>
             <Box w={"100%"} style={{ position: "relative", height: 90, borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                 <Box>
-                    <Image
-                        style={{ width: 18, height: 18, margin: 18 }}
-                        source={require("../assets/blackLeftArrow.png")}
-                    />
-                    <Text onPress={() => { navigation.goBack() }} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
+                    <TouchableOpacity onPress={() => { navigation.navigate("PostScreen") }}>
+                        <Image
+                            style={{ width: 18, height: 18, margin: 18 }}
+                            source={require("../assets/blackLeftArrow.png")}
+                        />
+                    </TouchableOpacity>
+
+
                 </Box>
                 <Box style={{ position: "absolute", top: 25, left: 150, display: "flex", alignItems: "center" }}>
                     {user && user._id === signinUserId ? (
@@ -181,12 +184,12 @@ const MyProfilePage = ({ navigation, route }) => {
                     ) : (
                         <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}></Text>
                     )}
-                    {user.image ?(
+                    {user.image ? (
                         <Image
                             style={{ width: 75, height: 75, borderRadius: 50 }}
                             source={{ "uri": user.image }}
                         />
-                    ):(
+                    ) : (
                         <Image
                             style={{ width: 75, height: 75, borderRadius: 50 }}
                             source={require("../assets/hacker.png")}
@@ -194,35 +197,35 @@ const MyProfilePage = ({ navigation, route }) => {
                     )}
                 </Box>
                 <Box style={{ display: "flex", flexDirection: "row" }}>
-                    <TouchableOpacity onPress={() => { AsyncStorage.removeItem("userId"); navigation.navigate("LoginScreen") }} >
-                        <Box>
-                            <Image
-                                style={{ marginRight: 13 }}
-                                source={require("../assets/settings.png")}
-                            />
-                        </Box>
-                    </TouchableOpacity>
+
+
                     {user && user._id === signinUserId && (
+                        <>
+                            <TouchableOpacity onPress={() => { AsyncStorage.removeItem("userId"); navigation.navigate("LoginScreen") }} >
+                                <Box>
+                                    <Image
+                                        style={{ marginRight: 13 }}
+                                        source={require("../assets/settings.png")}
+                                    />
+                                </Box>
+                            </TouchableOpacity>
 
-
-                        <Box>
-                            <Image
-                                style={{ marginRight: 10 }}
-                                source={require("../assets/addMusicBig.png")}
-                            />
-                            <Text onPress={() => setHide(false)} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
-                        </Box>
+                            <Box>
+                                <Image
+                                    style={{ marginRight: 10 }}
+                                    source={require("../assets/addMusicBig.png")}
+                                />
+                                <Text onPress={() => setHide(false)} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
+                            </Box>
+                        </>
                     )}
                 </Box>
             </Box>
 
             <ScrollView>
-                <Box style={{ marginTop: 25, marginLeft: 18 }}>
-                    <TouchableOpacity onPress={()=>navigation.navigate("PersonalViewScreen")}>
-                        <Image
-                            source={require("../assets/group.png")}
-                        />
-                    </TouchableOpacity>
+                <Box style={{ marginTop: 25, marginLeft: 18, width: "90%" }}>
+
+
                     <Text style={{ color: "black", fontSize: 18, marginTop: 5 }}>{user && user.name}</Text>
                     <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>{user && user.username}</Text>
                     <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>{user && user.bio}</Text>
@@ -240,10 +243,12 @@ const MyProfilePage = ({ navigation, route }) => {
 
 
                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25 }}>
+                        <TouchableOpacity onPress={() => { navigation.navigate("PersonalViewScreen", { userId: userId }) }}>
+                            <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>Partner & Gangs</Text>
+                            </Box>
+                        </TouchableOpacity>
 
-                        <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>View Gangs</Text>
-                        </Box>
                         <TouchableOpacity onPress={() => { navigation.navigate("EditProfileScreen", { userId: userId }) }}>
                             <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>Edit Profile</Text>
@@ -361,8 +366,9 @@ const MyProfilePage = ({ navigation, route }) => {
                             />
                         </Box>
                         <Box style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-                            {ListPost.length > 0 && ListPost.map((list) => (
+                            {ListPost.length > 0 && ListPost.map((list, i) => (
                                 <Image
+                                    key={i}
                                     style={{ width: 70, height: 70, margin: 2 }}
                                     source={{ "uri": list && list.myPostUrl }}
 

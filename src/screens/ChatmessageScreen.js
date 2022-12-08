@@ -17,7 +17,7 @@ const ChatmessageScreen = ({ navigation, route }) => {
             receiverId: userId,
             msg: message
         }, { headers: { "x-access-token": header } })
-        console.log(data.data)
+
 
         if (data.status) {
             listMessage()
@@ -31,7 +31,7 @@ const ChatmessageScreen = ({ navigation, route }) => {
             receiverId: userId
         }, { headers: { "x-access-token": header } })
         setListMsg(data.data)
-        console.log(data.data)
+
     }
 
     useEffect(() => {
@@ -44,6 +44,7 @@ const ChatmessageScreen = ({ navigation, route }) => {
                 <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                     <TouchableOpacity onPress={() => { navigation.goBack() }}>
                         <Box>
+
                             <Image
                                 style={{ width: 18, height: 18, marginLeft: 20 }}
                                 source={require("../assets/blackLeftArrow.png")}
@@ -51,6 +52,7 @@ const ChatmessageScreen = ({ navigation, route }) => {
 
                         </Box>
                     </TouchableOpacity>
+
                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", marginLeft: 20 }}>
                         <Image
                             style={{ width: 35, height: 35, borderRadius: 20 }}
@@ -63,17 +65,20 @@ const ChatmessageScreen = ({ navigation, route }) => {
                     </Box>
                 </Box>
                 <Box>
-                    <Image
-                        style={{ marginRight: 10 }}
-                        source={require("../assets/threeDot.png")}
-                    />
-                    <Text onPress={() => { navigation.navigate("SignInScreen") }} style={{ position: "absolute", marginLeft: 14, fontSize: 20, right: 10, color: "white", opacity: 0 }}>hi</Text>
+                    <TouchableOpacity onPress={() => { navigation.navigate("SignInScreen") }}>
+                        <Image
+                            style={{ marginRight: 10 }}
+                            source={require("../assets/threeDot.png")}
+                        />
+                    </TouchableOpacity>
+
+
                 </Box>
             </Box>
             <ScrollView>
                 {listMsg.length > 0 && listMsg.map((msg) => (
-                    msg.messages.length > 0 && msg.messages.map((msgs) => (
-                        <Box>
+                    msg.messages.length > 0 && msg.messages.map((msgs, i) => (
+                        <Box key={i}>
                             {msgs.receiverId !== userId ? (
                                 <Box style={{ marginLeft: 15, marginTop: 5, marginBottom: 5, flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
                                     <Image
@@ -85,7 +90,7 @@ const ChatmessageScreen = ({ navigation, route }) => {
                                     </Box>
                                 </Box>
                             ) : (
-                                <Box style={{ marginRight: 15, marginTop: 5, marginBottom: 5, flexDirection: "row", justifyContent: "flex-end" }}>
+                                <Box key={i} style={{ marginRight: 15, marginTop: 5, marginBottom: 5, flexDirection: "row", justifyContent: "flex-end" }}>
                                     <Box style={{ backgroundColor: "#D9D9D9", maxWidth: 280, borderRadius: 10 }}>
                                         <Text style={{ fontSize: 18, color: "black", margin: 7 }}>{msgs.message}</Text>
                                     </Box>

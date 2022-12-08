@@ -79,8 +79,8 @@ const SearchUserPage = ({ navigation }) => {
                 </Box>
                 {search.length > 0 &&
                     <Box style={{ marginTop: 20 }}>
-                        {user.length > 0 && user.map((ele) => (
-                            <TouchableOpacity onPress={() => navigation.navigate("MyProfileScreen", {
+                        {user.length > 0 && user.map((ele, i) => (
+                            <TouchableOpacity key={i} onPress={() => navigation.navigate("MyProfileScreen", {
                                 userId: ele._id
                             })}>
                                 <Box w={"100%"} style={{ height: 45, borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }}>
