@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { createPostRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute, checkFanRoute, partnerRequestRoute } from '../apiutils/apiutils';
 import { TouchableOpacity } from 'react-native'
 import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
+import NewGang from '../components/NewGang'
 
 const axios = require("axios").default
 
@@ -17,6 +18,7 @@ const MyProfilePage = ({ navigation, route }) => {
     const [user, setUser] = useState("")
     const [hide, setHide] = useState(true)
     const [fan, setFan] = useState(false)
+    const [newGang, setnewGang] = useState(false)
     const [postCount, setPostCount] = useState(0)
     const [followingCount, setfollowingCount] = useState(0)
     const [likesCount, setlikesCount] = useState(0)
@@ -167,270 +169,279 @@ const MyProfilePage = ({ navigation, route }) => {
     }
     return (
         <Box w={"100%"} h={"100%"} bg={"white"}>
-            <Box w={"100%"} style={{ position: "relative", height: 90, borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                <Box>
-                    <TouchableOpacity onPress={() => { navigation.navigate("PostScreen") }}>
-                        <Image
-                            style={{ width: 18, height: 18, margin: 18 }}
-                            source={require("../assets/blackLeftArrow.png")}
-                        />
-                    </TouchableOpacity>
+            {newGang ? (
+                <NewGang />
+            ) : (
+                <>
 
-
-                </Box>
-                <Box style={{ position: "absolute", top: 25, left: 150, display: "flex", alignItems: "center" }}>
-                    {user && user._id === signinUserId ? (
-                        <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}>Your Profile</Text>
-                    ) : (
-                        <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}></Text>
-                    )}
-                    {user.image ? (
-                        <Image
-                            style={{ width: 75, height: 75, borderRadius: 50 }}
-                            source={{ "uri": user.image }}
-                        />
-                    ) : (
-                        <Image
-                            style={{ width: 75, height: 75, borderRadius: 50 }}
-                            source={require("../assets/hacker.png")}
-                        />
-                    )}
-                </Box>
-                <Box style={{ display: "flex", flexDirection: "row" }}>
-
-
-                    {user && user._id === signinUserId && (
-                        <>
-                            <TouchableOpacity onPress={() => { AsyncStorage.removeItem("userId"); navigation.navigate("LoginScreen") }} >
-                                <Box>
-                                    <Image
-                                        style={{ marginRight: 13 }}
-                                        source={require("../assets/settings.png")}
-                                    />
-                                </Box>
+                    <Box w={"100%"} style={{ position: "relative", height: 90, borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                        <Box>
+                            <TouchableOpacity onPress={() => { navigation.navigate("PostScreen") }}>
+                                <Image
+                                    style={{ width: 18, height: 18, margin: 18 }}
+                                    source={require("../assets/blackLeftArrow.png")}
+                                />
                             </TouchableOpacity>
 
-                            <Box>
+
+                        </Box>
+
+
+                        <Box style={{ position: "absolute", top: 25, left: 150, display: "flex", alignItems: "center" }}>
+                            {user && user._id === signinUserId ? (
+                                <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}>Your Profile</Text>
+                            ) : (
+                                <Text style={{ color: "black", fontSize: 20, marginBottom: 5, fontWeight: "bold" }}></Text>
+                            )}
+                            {user.image ? (
+                                <Image
+                                    style={{ width: 75, height: 75, borderRadius: 50 }}
+                                    source={{ "uri": user.image }}
+                                />
+                            ) : (
+                                <Image
+                                    style={{ width: 75, height: 75, borderRadius: 50 }}
+                                    source={require("../assets/hacker.png")}
+                                />
+                            )}
+                        </Box>
+                        <Box style={{ display: "flex", flexDirection: "row" }}>
+
+
+                            {user && user._id === signinUserId && (
+                                <>
+                                    <TouchableOpacity onPress={() => { AsyncStorage.removeItem("userId"); navigation.navigate("LoginScreen") }} >
+                                        <Box>
+                                            <Image
+                                                style={{ marginRight: 13 }}
+                                                source={require("../assets/settings.png")}
+                                            />
+                                        </Box>
+                                    </TouchableOpacity>
+
+                                    <Box>
+                                        <Image
+                                            style={{ marginRight: 10 }}
+                                            source={require("../assets/addMusicBig.png")}
+                                        />
+                                        <Text onPress={() => setHide(!hide)} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
+                                    </Box>
+                                </>
+                            )}
+                        </Box>
+                    </Box>
+
+
+                    <ScrollView>
+                        <Box style={{ marginTop: 25, marginLeft: 18, width: "90%" }}>
+
+
+                            <Text style={{ color: "black", fontSize: 18, marginTop: 5 }}>{user && user.name}</Text>
+                            <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>{user && user.username}</Text>
+                            <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>{user && user.bio}</Text>
+                            <Text style={{ color: "black", fontSize: 15, fontWeight: "bold", marginTop: 2 }}>...More</Text>
+                            <Box style={{ displa: "flex", flexDirection: "row" }}>
                                 <Image
                                     style={{ marginRight: 10 }}
-                                    source={require("../assets/addMusicBig.png")}
+                                    source={require("../assets/link.png")}
                                 />
-                                <Text onPress={() => setHide(false)} style={{ position: "absolute", marginLeft: 5, opacity: 0, fontSize: 30 }}>hi</Text>
+                                <Text>bit.ly/43484</Text>
                             </Box>
-                        </>
-                    )}
-                </Box>
-            </Box>
+                        </Box>
 
-            <ScrollView>
-                <Box style={{ marginTop: 25, marginLeft: 18, width: "90%" }}>
+                        {user && user._id === signinUserId ? (
 
 
-                    <Text style={{ color: "black", fontSize: 18, marginTop: 5 }}>{user && user.name}</Text>
-                    <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>{user && user.username}</Text>
-                    <Text style={{ color: "black", fontSize: 15, marginTop: 2 }}>{user && user.bio}</Text>
-                    <Text style={{ color: "black", fontSize: 15, fontWeight: "bold", marginTop: 2 }}>...More</Text>
-                    <Box style={{ displa: "flex", flexDirection: "row" }}>
-                        <Image
-                            style={{ marginRight: 10 }}
-                            source={require("../assets/link.png")}
-                        />
-                        <Text>bit.ly/43484</Text>
-                    </Box>
-                </Box>
+                            <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25 }}>
+                                <TouchableOpacity onPress={() => { navigation.navigate("PersonalViewScreen", { userId: userId }) }}>
+                                    <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>Partner & Gangs</Text>
+                                    </Box>
+                                </TouchableOpacity>
 
-                {user && user._id === signinUserId ? (
-
-
-                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25 }}>
-                        <TouchableOpacity onPress={() => { navigation.navigate("PersonalViewScreen", { userId: userId }) }}>
-                            <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>Partner & Gangs</Text>
+                                <TouchableOpacity onPress={() => { navigation.navigate("EditProfileScreen", { userId: userId }) }}>
+                                    <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>Edit Profile</Text>
+                                    </Box>
+                                </TouchableOpacity>
                             </Box>
-                        </TouchableOpacity>
+                        ) : (
+                            <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25 }}>
+                                {
+                                    fan ? (
+                                        <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                            <Text onPress={() => unfollowRequest()} style={{ fontSize: 18, color: "black" }}>Fan</Text>
+                                        </Box>
+                                    ) : (
 
-                        <TouchableOpacity onPress={() => { navigation.navigate("EditProfileScreen", { userId: userId }) }}>
-                            <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>Edit Profile</Text>
+                                        <Box style={{ backgroundColor: "#0093E5", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                            <Text onPress={() => followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
+                                        </Box>
+                                    )
+                                }
+                                <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen", { userId: user._id })}>
+                                    <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <Text style={{ fontSize: 18, color: "black" }}>Message</Text>
+                                    </Box>
+                                </TouchableOpacity>
                             </Box>
-                        </TouchableOpacity>
-                    </Box>
-                ) : (
-                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25 }}>
-                        {
-                            fan ? (
-                                <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    <Text onPress={() => unfollowRequest()} style={{ fontSize: 18, color: "black" }}>Fan</Text>
-                                </Box>
-                            ) : (
-
-                                <Box style={{ backgroundColor: "#0093E5", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    <Text onPress={() => followRequest()} style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
-                                </Box>
-                            )
+                        )
                         }
-                        <TouchableOpacity onPress={() => navigation.navigate("ChatmessageScreen", { userId: user._id })}>
-                            <Box style={{ backgroundColor: "#D9D9D9", width: 150, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text style={{ fontSize: 18, color: "black" }}>Message</Text>
-                            </Box>
-                        </TouchableOpacity>
-                    </Box>
-                )
-                }
 
-                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 20 }}>
-                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{postCount && postCount}</Text>
-                        <Text style={{ fontSize: 16, color: "gray" }}>Posts</Text>
-                    </Box>
-                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{followingCount && followingCount}</Text>
-                        <Text style={{ fontSize: 16, color: "gray" }}>Fans</Text>
-                    </Box>
-                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{likesCount}</Text>
-                        <Text style={{ fontSize: 16, color: "gray" }}>Likes</Text>
-                    </Box>
-                    <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{dislikesCount && dislikesCount}</Text>
-                        <Text style={{ fontSize: 16, color: "gray" }}>Dislikes</Text>
-                    </Box>
-                </Box>
-
-                {user && user._id === signinUserId ? (null) : (
-                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25, marginBottom: 15 }}>
-                        {toggle === "View Partner" ? (
-                            <Box style={{ flexDirection: "row", backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text onPress={() => navigation.navigate("PartnerProfileScreen", { userId: userId })} style={{ fontSize: 16, color: "black" }}>View Partner</Text>
-                                <Menu
-                                    style={{ height: 50, marginLeft: -125, marginTop: 25, width: 175 }}
-                                    visible={visible}
-                                    anchor={
-                                        <TouchableOpacity onPress={showMenu}>
-                                            <Image
-                                                style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2, transform: [{ rotate: '90deg' }] }}
-                                                source={require("../assets/next.png")}
-                                            />
-                                        </TouchableOpacity>
-                                    }
-                                    onRequestClose={hideMenu}
-                                >
-                                    <MenuItem style={{ height: 20, marginTop: 12 }} onPress={() => { setToggle("View Gang"); hideMenu() }}>View Gang</MenuItem>
-                                </Menu>
+                        <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 20 }}>
+                            <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{postCount && postCount}</Text>
+                                <Text style={{ fontSize: 16, color: "gray" }}>Posts</Text>
                             </Box>
-                        ) : (
-                            <Box style={{ flexDirection: "row", backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text style={{ fontSize: 16, color: "black" }}>View Gang</Text>
-                                <Menu
-                                    style={{ height: 50, marginLeft: -125, marginTop: 25, width: 175 }}
-                                    visible={visible}
-                                    anchor={
-                                        <TouchableOpacity onPress={showMenu}>
-                                            <Image
-                                                style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2, transform: [{ rotate: '90deg' }] }}
-                                                source={require("../assets/next.png")}
-                                            />
-                                        </TouchableOpacity>
-                                    }
-                                    onRequestClose={hideMenu}
-                                >
-                                    <MenuItem style={{ height: 20, marginTop: 12 }} onPress={() => { setToggle("View Partner"); hideMenu() }}>View Partner</MenuItem>
-                                </Menu>
+                            <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{followingCount && followingCount}</Text>
+                                <Text style={{ fontSize: 16, color: "gray" }}>Fans</Text>
+                            </Box>
+                            <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{likesCount}</Text>
+                                <Text style={{ fontSize: 16, color: "gray" }}>Likes</Text>
+                            </Box>
+                            <Box style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                <Text style={{ fontSize: 16, color: "black", fontWeight: "bold" }}>{dislikesCount && dislikesCount}</Text>
+                                <Text style={{ fontSize: 16, color: "gray" }}>Dislikes</Text>
+                            </Box>
+                        </Box>
+
+                        {user && user._id === signinUserId ? (null) : (
+                            <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 25, marginBottom: 15 }}>
+                                {toggle === "View Partner" ? (
+                                    <Box style={{ flexDirection: "row", backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <Text onPress={() => navigation.navigate("PartnerProfileScreen", { userId: userId })} style={{ fontSize: 16, color: "black" }}>View Partner</Text>
+                                        <Menu
+                                            style={{ height: 50, marginLeft: -125, marginTop: 25, width: 175 }}
+                                            visible={visible}
+                                            anchor={
+                                                <TouchableOpacity onPress={showMenu}>
+                                                    <Image
+                                                        style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2, transform: [{ rotate: '90deg' }] }}
+                                                        source={require("../assets/next.png")}
+                                                    />
+                                                </TouchableOpacity>
+                                            }
+                                            onRequestClose={hideMenu}
+                                        >
+                                            <MenuItem style={{ height: 20, marginTop: 12 }} onPress={() => { setToggle("View Gang"); hideMenu() }}>View Gang</MenuItem>
+                                        </Menu>
+                                    </Box>
+                                ) : (
+                                    <Box style={{ flexDirection: "row", backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <Text style={{ fontSize: 16, color: "black" }}>View Gang</Text>
+                                        <Menu
+                                            style={{ height: 50, marginLeft: -125, marginTop: 25, width: 175 }}
+                                            visible={visible}
+                                            anchor={
+                                                <TouchableOpacity onPress={showMenu}>
+                                                    <Image
+                                                        style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2, transform: [{ rotate: '90deg' }] }}
+                                                        source={require("../assets/next.png")}
+                                                    />
+                                                </TouchableOpacity>
+                                            }
+                                            onRequestClose={hideMenu}
+                                        >
+                                            <MenuItem style={{ height: 20, marginTop: 12 }} onPress={() => { setToggle("View Partner"); hideMenu() }}>View Partner</MenuItem>
+                                        </Menu>
+                                    </Box>
+                                )}
+
+                                {toggle === "View Partner" ? (
+                                    user.partner === signinUserId ? (
+                                        <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                            <Text style={{ fontSize: 16, color: "black" }}> Partner</Text>
+                                        </Box>
+                                    ) : (
+                                        <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                            <Text onPress={() => handlePartnerRequest()} style={{ fontSize: 16, color: "black" }}>Request to Partner</Text>
+                                        </Box>
+                                    )
+
+                                ) : (
+                                    <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <Text style={{ fontSize: 16, color: "black" }}>Request to Gang</Text>
+                                    </Box>
+                                )}
                             </Box>
                         )}
-
-                        {toggle === "View Partner" ? (
-                            user.partner === signinUserId ? (
-                                <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 16, color: "black" }}> Partner</Text>
-                                </Box>
-                            ) : (
-                                <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    <Text onPress={() => handlePartnerRequest()} style={{ fontSize: 16, color: "black" }}>Request to Partner</Text>
-                                </Box>
-                            )
-
-                        ) : (
-                            <Box style={{ backgroundColor: "#D9D9D9", width: 175, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text style={{ fontSize: 16, color: "black" }}>Request to Gang</Text>
-                            </Box>
-                        )}
-                    </Box>
-                )}
-                <Box>
-                    <Box style={{ marginLeft: 10 }}>
                         <Box>
-                            <Image
-                                style={{ width: 25, height: 25, marginTop: 10, marginBottom: 10 }}
-                                source={require("../assets/image.png")}
-                            />
-                        </Box>
-                        <Box style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-                            {ListPost.length > 0 && ListPost.map((list, i) => (
-                                <Image
-                                    key={i}
-                                    style={{ width: 70, height: 70, margin: 2 }}
-                                    source={{ "uri": list && list.myPostUrl }}
+                            <Box style={{ marginLeft: 10 }}>
+                                <Box>
+                                    <Image
+                                        style={{ width: 25, height: 25, marginTop: 10, marginBottom: 10 }}
+                                        source={require("../assets/image.png")}
+                                    />
+                                </Box>
+                                <Box style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+                                    {ListPost.length > 0 && ListPost.map((list, i) => (
+                                        <Image
+                                            key={i}
+                                            style={{ width: 70, height: 70, margin: 2 }}
+                                            source={{ "uri": list && list.myPostUrl }}
 
-                                />
-                            ))}
-                            <Box style={{ width: 70, height: 70, margin: 2, backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text style={{ color: "black", textAlign: "center", fontWeight: "bold" }}>View All Photo</Text>
+                                        />
+                                    ))}
+                                    <Box style={{ width: 70, height: 70, margin: 2, backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <Text style={{ color: "black", textAlign: "center", fontWeight: "bold" }}>View All Photo</Text>
+                                    </Box>
+                                </Box>
+                            </Box>
+                            <Box style={{ marginLeft: 10 }}>
+                                <Box>
+                                    <Image
+                                        style={{ width: 25, height: 25, marginTop: 10, marginBottom: 10 }}
+                                        source={require("../assets/video.png")}
+                                    />
+                                </Box>
+                                <Box style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+                                    <Image
+                                        style={{ width: 70, height: 70, margin: 2 }}
+                                        source={require("../assets/avatar.jpg")}
+                                    />
+                                    <Image
+                                        style={{ width: 70, height: 70, margin: 2 }}
+                                        source={require("../assets/avatar.jpg")}
+                                    />
+                                    <Image
+                                        style={{ width: 70, height: 70, margin: 2 }}
+                                        source={require("../assets/avatar.jpg")}
+                                    />
+                                    <Image
+                                        style={{ width: 70, height: 70, margin: 2 }}
+                                        source={require("../assets/avatar.jpg")}
+                                    />
+                                    <Image
+                                        style={{ width: 70, height: 70, margin: 2 }}
+                                        source={require("../assets/avatar.jpg")}
+                                    />
+                                    <Image
+                                        style={{ width: 70, height: 70, margin: 2 }}
+                                        source={require("../assets/avatar.jpg")}
+                                    />
+                                    <Image
+                                        style={{ width: 70, height: 70, margin: 2 }}
+                                        source={require("../assets/avatar.jpg")}
+                                    />
+                                    <Image
+                                        style={{ width: 70, height: 70, margin: 2 }}
+                                        source={require("../assets/avatar.jpg")}
+                                    />
+                                    <Image
+                                        style={{ width: 70, height: 70, margin: 2 }}
+                                        source={require("../assets/avatar.jpg")}
+                                    />
+                                    <Box style={{ width: 70, height: 70, margin: 2, backgroundColor: "#D9D9D9", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <Text style={{ color: "black", textAlign: "center" }}>View All Video</Text>
+                                    </Box>
+                                </Box>
                             </Box>
                         </Box>
-                    </Box>
-                    <Box style={{ marginLeft: 10 }}>
-                        <Box>
-                            <Image
-                                style={{ width: 25, height: 25, marginTop: 10, marginBottom: 10 }}
-                                source={require("../assets/video.png")}
-                            />
-                        </Box>
-                        <Box style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-                            <Image
-                                style={{ width: 70, height: 70, margin: 2 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Image
-                                style={{ width: 70, height: 70, margin: 2 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Image
-                                style={{ width: 70, height: 70, margin: 2 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Image
-                                style={{ width: 70, height: 70, margin: 2 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Image
-                                style={{ width: 70, height: 70, margin: 2 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Image
-                                style={{ width: 70, height: 70, margin: 2 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Image
-                                style={{ width: 70, height: 70, margin: 2 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Image
-                                style={{ width: 70, height: 70, margin: 2 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Image
-                                style={{ width: 70, height: 70, margin: 2 }}
-                                source={require("../assets/avatar.jpg")}
-                            />
-                            <Box style={{ width: 70, height: 70, margin: 2, backgroundColor: "#D9D9D9", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <Text style={{ color: "black", textAlign: "center" }}>View All Video</Text>
-                            </Box>
-                        </Box>
-                    </Box>
-                </Box>
-            </ScrollView >
-
+                    </ScrollView >
+                </>
+            )}
             <Box h={"8%"} w={"100%"} style={{ borderTopWidth: 1, borderTopColor: "#D9D9D9", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-around" }}>
                 <Box>
                     <Image
@@ -462,10 +473,15 @@ const MyProfilePage = ({ navigation, route }) => {
                 </TouchableOpacity>
             </Box>
 
+
             <Box w={"100%"} style={{ position: "absolute", bottom: 0, transform: hide ? [{ translateY: 350 }] : [{ translateY: 0 }], height: 350, backgroundColor: "white", borderTopLeftRadius: 25, borderTopRightRadius: 25 }}>
                 <Box style={{ width: 35, height: 5, borderRadius: 10, backgroundColor: "grey", marginTop: 10, marginLeft: 180 }}><Text>  </Text></Box>
-                <Text onPress={() => { setHide(true); openImage() }} style={{ fontSize: 25, color: "black", marginLeft: 30, marginTop: 30 }}>Post</Text>
+                <Text onPress={() => { setHide(true); openImage() }} style={{ fontSize: 20, color: "black", marginLeft: 30, marginTop: 30 }}>Post</Text>
+                <Text onPress={() => { setHide(true); setnewGang(true); }} style={{ fontSize: 20, color: "black", marginLeft: 30, marginTop: 30 }}>Create Gang</Text>
+
             </Box>
+
+
         </Box >
     )
 }
