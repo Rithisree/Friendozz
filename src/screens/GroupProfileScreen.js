@@ -4,7 +4,7 @@ import { Box } from '@react-native-material/core'
 import * as ImagePicker from "react-native-image-picker"
 import storage from '@react-native-firebase/storage'
 import { useEffect } from 'react'
-import { createPostRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute, checkFanRoute } from '../apiutils/apiutils';
+import { createPostRoute, listGangByIdRoute, listPostBasedOnUserRoute, followRequestRoute, unfollowRequestRoute, checkFanRoute } from '../apiutils/apiutils';
 import { TouchableOpacity } from 'react-native'
 
 const axios = require("axios").default
@@ -21,7 +21,33 @@ const GroupProfileScreen = ({ navigation, route }) => {
     const [likesCount, setlikesCount] = useState(0)
     const [dislikesCount, setdislikesCount] = useState(0)
     const [signinUserId, setSigninUserId] = useState("")
+    const [gang, setGang] = useState("")
+
+    const {gangId} = route.params
+    console.log("gangId",gangId)
     
+    const displayGang = async() => {
+        try {
+            const { data } = await axios.post(listGangByIdRoute,{
+                gangId:gangId
+            }, {
+                headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
+            })
+            if (data.status) {
+                setGang(data.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        if(gangId!==""){
+            displayGang()
+        }
+    }, [gangId])
+    
+    console.log(gang)
+
     return (
         <Box w={"100%"} h={"100%"} bg={"white"}>
             <Box w={"100%"} style={{ position: "relative", height: 60, borderBottomWidth: 1, borderBottomColor: "#D9D9D9", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -50,15 +76,15 @@ const GroupProfileScreen = ({ navigation, route }) => {
                     <Box>
                         <Image
                             style={{ width: 60, height: 60, borderRadius: 50, backgroundColor:"pink" }}
-                            source={{  }}
+                            source={{ uri:gang && gang.userId.image }}
                         />
                         <Image
                             style={{ width: 60, height: 60, borderRadius: 50, marginLeft:20, marginTop:-28, backgroundColor:"green" }}
-                            source={{  }}
+                            source={{ uri:gang && gang.members[0].image }}
                         />
                         <Image
                             style={{ width: 60, height: 60, borderRadius: 50, marginLeft:-18,  marginTop:-55, backgroundColor:"grey" }}
-                            source={{  }}
+                            source={{ uri:gang && gang.members[1].image }}
                         />
                     </Box>
                     <Image
@@ -66,7 +92,7 @@ const GroupProfileScreen = ({ navigation, route }) => {
                     />
                 </Box>
                 <Box style={{ marginTop:10, display:"flex", alignItems:"center", justifyContent:"center"}}>
-                    <Text>Gang since 2022 July</Text>
+                    <Text>{gang && gang.gangName}</Text>
                     <Box style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
                         <Box style={{ marginTop:15, marginRight: 10, backgroundColor: "#0093E5", width: 120, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <Text style={{ fontSize: 18, color: "white" }}>Be a Fan</Text>
@@ -96,12 +122,12 @@ const GroupProfileScreen = ({ navigation, route }) => {
                         <Box style={{display:"flex", flexDirection:"row"}}>
                             <Image
                                 style={{ width: 45, height: 45, borderRadius: 50, backgroundColor:"pink" }}
-                                source={{  }}
+                                source={{ uri:gang && gang.userId.image }}
                             />
                             <Box style={{marginLeft:15}}>
                                 <Text style={{color:"gray"}}>Controller</Text>
-                                <Text style={{fontWeight:"bold"}}>Rithi</Text>
-                                <Text>@Rithi</Text>
+                                <Text style={{fontWeight:"bold"}}>{gang && gang.userId.name}</Text>
+                                <Text>{gang && gang.userId.username}</Text>
                             </Box>
                         </Box>
                         <Box style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center"}}>

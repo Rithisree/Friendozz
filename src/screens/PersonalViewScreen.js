@@ -4,7 +4,7 @@ import { Image } from 'react-native'
 import { Box } from '@react-native-material/core'
 
 import MaterialTabs from 'react-native-material-tabs';
-import { listPartnerRoute } from '../apiutils/apiutils';
+import { listPartnerRoute, listGangRoute } from '../apiutils/apiutils';
 
 const axios = require("axios").default
 
@@ -16,6 +16,7 @@ const PersonalViewScreen = ({ navigation, route }) => {
     }
     const [partnerId, setPartnerId] = useState()
     const [partnerData, setPartnerData] = useState()
+    const [gang, setGang] = useState([])
     useEffect(() => {
         const getPartner = async () => {
             try {
@@ -38,7 +39,24 @@ const PersonalViewScreen = ({ navigation, route }) => {
             getPartner()
         }
     }, [userId])
+    
 
+    useEffect(() => {
+        const getGangs = async () => {
+            try {
+                const { data } = await axios.get(listGangRoute, {
+                    headers: { "x-access-token": await AsyncStorage.getItem("x-access-token") }
+                })
+                if (data.status) {
+                    setGang(data.data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getGangs()
+    }, [])
+    console.log(gang)
     return (
         <Box w={"100%"} h={"100%"} style={{ backgroundColor: "white" }}>
             <Box w={"100%"} h={"8%"} style={{ flexDirection: "row", backgroundColor: "white", alignItems: "center" }}>
@@ -84,61 +102,36 @@ const PersonalViewScreen = ({ navigation, route }) => {
                     </Box>
                 ) : (
                     <Box w={"100%"}>
-                        <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", margin: 10 }}>
-                            <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                <Box style={{ marginLeft: 10 }}>
-                                    <Image
-                                        style={{ width: 45, height: 45, borderRadius: 50, backgroundColor: "pink", marginLeft: 6 }}
-                                        source={{}}
-                                    />
-                                    <Image
-                                        style={{ width: 45, height: 45, borderRadius: 50, marginLeft: 20, marginTop: -17, backgroundColor: "green" }}
-                                        source={{}}
-                                    />
-                                    <Image
-                                        style={{ width: 45, height: 45, borderRadius: 50, marginLeft: -13, marginTop: -46, backgroundColor: "grey" }}
-                                        source={{}}
-                                    />
-                                </Box>
-                                <Box style={{ marginLeft: 15 }}>
-                                    <Text style={{ fontWeight: "bold", fontSize: 18 }}>rithi</Text>
-                                </Box>
-                            </Box>
-                            <Box>
-                                <TouchableOpacity onPress={() => { navigation.navigate("GroupProfileScreen") }}>
-                                    <Box style={{ backgroundColor: "#0093E5", width: 120, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                        <Text style={{ fontSize: 18, color: "white" }}>View Gang</Text>
+                        {gang.map((ele,i)=>(    
+                            <Box key={i} style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", margin: 10 }}>
+                                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                                    <Box style={{ marginLeft: 10 }}>
+                                        <Image
+                                            style={{ width: 45, height: 45, borderRadius: 50, backgroundColor: "pink", marginLeft: 6 }}
+                                            source={{}}
+                                        />
+                                        <Image
+                                            style={{ width: 45, height: 45, borderRadius: 50, marginLeft: 20, marginTop: -17, backgroundColor: "green" }}
+                                            source={{}}
+                                        />
+                                        <Image
+                                            style={{ width: 45, height: 45, borderRadius: 50, marginLeft: -13, marginTop: -46, backgroundColor: "grey" }}
+                                            source={{}}
+                                        />
                                     </Box>
-                                </TouchableOpacity>
-                            </Box>
-                        </Box>
-
-                        <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", margin: 10 }}>
-                            <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                <Box style={{ marginLeft: 10 }}>
-                                    <Image
-                                        style={{ width: 45, height: 45, borderRadius: 50, backgroundColor: "pink", marginLeft: 6 }}
-                                        source={{}}
-                                    />
-                                    <Image
-                                        style={{ width: 45, height: 45, borderRadius: 50, marginLeft: 20, marginTop: -17, backgroundColor: "green" }}
-                                        source={{}}
-                                    />
-                                    <Image
-                                        style={{ width: 45, height: 45, borderRadius: 50, marginLeft: -13, marginTop: -46, backgroundColor: "grey" }}
-                                        source={{}}
-                                    />
+                                    <Box style={{ marginLeft: 15 }}>
+                                        <Text style={{ fontWeight: "bold", fontSize: 18 }}>{ele.gangName}</Text>
+                                    </Box>
                                 </Box>
-                                <Box style={{ marginLeft: 15 }}>
-                                    <Text style={{ fontWeight: "bold", fontSize: 18 }}>rithi</Text>
+                                <Box>
+                                    <TouchableOpacity onPress={() => { navigation.navigate("GroupProfileScreen",{gangId:ele._id}) }}>
+                                        <Box style={{ backgroundColor: "#0093E5", width: 120, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                            <Text style={{ fontSize: 18, color: "white" }}>View Gang</Text>
+                                        </Box>
+                                    </TouchableOpacity>
                                 </Box>
                             </Box>
-                            <Box>
-                                <Box style={{ backgroundColor: "#0093E5", width: 120, height: 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 18, color: "white" }}>View Gang</Text>
-                                </Box>
-                            </Box>
-                        </Box>
+                        ))}
                     </Box>
                 )}
             </Box>

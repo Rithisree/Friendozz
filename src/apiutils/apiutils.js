@@ -39,3 +39,8 @@ export const partnerDeclineRoute = `${host}/auth/partnerDecline`
 export const listPartnerRoute = `${host}/auth/listPartner`
 
 export const listNotificationRoute = `${host}/notification/listNotification`
+
+export const createGangRoute = `${host}/gang/create`
+export const listGangRoute = `${host}/gang/`
+export const listGangByIdRoute = `${host}/gang/listGangById`
+export const searchUserExceptOwnerRoute = `${host}/post/searchUserExceptOwner`
